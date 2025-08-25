@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ['3.2', '3.3']
+        gemfile:
+          - rails_7.x_active_admin_4.x
+          - rails_8.x_active_admin_4.x
+
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
+      RAILS_ENV: test
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/ms-playwright
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      # Cache APT packages for Playwright dependencies
+      - name: Cache APT packages
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libdbus-1-3 libatspi2.0-0 libx11-6 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libgbm1 libxcb1 libxkbcommon0 libpango-1.0-0 libcairo2 libasound2
+          version: 1.0
+
+      # Get Playwright version for cache key
+      - name: Get Playwright version
+        id: playwright-version
+        run: |
+          PLAYWRIGHT_VERSION=$(npm ls @playwright/test 2>/dev/null | grep @playwright/test | sed 's/.*@//' | head -1)
+          if [ -z "$PLAYWRIGHT_VERSION" ]; then
+            PLAYWRIGHT_VERSION=$(npx playwright --version | sed 's/Version //')
+          fi
+          echo "version=$PLAYWRIGHT_VERSION" >> $GITHUB_OUTPUT
+
+      # Cache Playwright browsers
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}-
+            ${{ runner.os }}-playwright-
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium
+
+      - name: Setup test database
+        run: |
+          echo "Database setup will be handled by test suite"
+
+      - name: Run tests
+        run: |
+          bundle exec rspec
+
+      - name: Upload coverage reports
+        if: matrix.ruby == '3.3' && matrix.gemfile == 'rails_7.x_active_admin_4.x'
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage/coverage.xml
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Run RuboCop
+        run: bundle exec rubocop --force-exclusion
+
+  build-npm:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build npm package
+        run: npm run prepublishOnly
+
+      - name: Check package
+        run: npm pack --dry-run

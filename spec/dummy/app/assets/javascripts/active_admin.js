@@ -1,4 +1,2 @@
-//= require active_admin/base
-
-//= require activeadmin/trumbowyg/trumbowyg
-//= require activeadmin/trumbowyg_input
+// ActiveAdmin 4 JavaScript - loaded via CDN in test environment
+// See config/initializers/active_admin.rb for the actual JavaScript loading

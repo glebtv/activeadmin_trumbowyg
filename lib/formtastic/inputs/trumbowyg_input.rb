@@ -5,7 +5,13 @@ module Formtastic
     class TrumbowygInput < Formtastic::Inputs::TextInput
       def to_html
         input_wrapping do
-          label_html << builder.text_area(method, input_html_options.merge('data-aa-trumbowyg': '1'))
+          label_html << builder.text_area(method, input_html_options.merge(class: 'trumbowyg-input'))
+        end
+      end
+      
+      def input_html_options
+        super.tap do |options|
+          options[:class] = [options[:class], 'trumbowyg-input'].compact.join(' ')
         end
       end
     end

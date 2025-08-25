@@ -2,8 +2,8 @@
 [![gem version](https://badge.fury.io/rb/activeadmin_trumbowyg.svg)](https://badge.fury.io/rb/activeadmin_trumbowyg)
 [![gem downloads](https://badgen.net/rubygems/dt/activeadmin_trumbowyg)](https://rubygems.org/gems/activeadmin_trumbowyg)
 [![linters](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml)
-[![specs Rails 6.1](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails61.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails61.yml)
-[![specs Rails 7.0](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails70.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails70.yml)
+[![specs Rails 7.x](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails7x.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails7x.yml)
+[![specs Rails 8.x](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails8x.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails8x.yml)
 
 An *Active Admin* plugin to use [Trumbowyg](https://alex-d.github.io/Trumbowyg/) as WYSIWYG editor in form inputs.
 
@@ -16,30 +16,143 @@ Features:
 
 Please :star: if you like it.
 
+## Version 2.0 - ActiveAdmin 4 Support
+
+This version supports **ActiveAdmin 4.x only**. For ActiveAdmin 1.x - 3.x support, please use version 1.x of this gem.
+
+### Requirements
+
+- Ruby >= 3.2
+- Rails >= 7.0
+- ActiveAdmin ~> 4.0.0.beta
+
 ## Install
 
-*NOTE*: if you are using Ruby < 3.0, please use Activeadmin Trumbowyg 1.0.0
+### Step 1: Add the gem
 
-- Add a SASS/SCSS gem to your Gemfile (ex. `gem 'sassc'`)
-- After installing Active Admin, add to your Gemfile: `gem 'activeadmin_trumbowyg'` (and execute *bundle*)
-- Add at the end of your Active Admin styles (_app/assets/stylesheets/active_admin.scss_):
-```css
-@import 'activeadmin/trumbowyg/trumbowyg';
-@import 'activeadmin/trumbowyg_input';
-```
-- Add at the end of your Active Admin javascripts (_app/assets/javascripts/active_admin.js_):
-```js
-//= require activeadmin/trumbowyg/trumbowyg
-//= require activeadmin/trumbowyg_input
-```
-- Use the input with `as: :trumbowyg` in Active Admin model conf
-- To fix icons in production environment execute the task: `rails trumbowyg:nondigest`
+Add to your Gemfile:
 
-> **UPDATE FROM VERSION < 2.0**: please change the Trumbowyg line in your _app/assets/stylesheets/active_admin.scss_ to: `@import 'activeadmin/trumbowyg/trumbowyg';`
+```ruby
+gem 'activeadmin_trumbowyg', '~> 2.0'
+```
+
+Then run `bundle install`.
+
+### Step 2: Configure JavaScript
+
+ActiveAdmin 4 uses modern JavaScript bundlers. Run the installation generator based on your setup:
+
+#### For esbuild (recommended)
+
+```bash
+rails generate active_admin:trumbowyg:install --bundler=esbuild
+```
+
+This will:
+- Install the npm packages (`@activeadmin/trumbowyg`, `jquery`, `trumbowyg`)
+- Update your `app/javascript/active_admin.js` file
+- Add Trumbowyg styles to your ActiveAdmin stylesheet
+
+#### For importmap
+
+```bash
+rails generate active_admin:trumbowyg:install --bundler=importmap
+```
+
+This will:
+- Add pins to your `config/importmap.rb`
+- Copy vendor JavaScript files
+- Add Trumbowyg styles to your ActiveAdmin stylesheet
+
+#### For webpack
+
+```bash
+rails generate active_admin:trumbowyg:install --bundler=webpack
+```
+
+This will:
+- Install the npm packages
+- Update your webpack configuration
+- Add Trumbowyg styles to your ActiveAdmin stylesheet
+
+### Step 3: Use in your forms
+
+```ruby
+ActiveAdmin.register Article do
+  form do |f|
+    f.inputs 'Article' do
+      f.input :title
+      f.input :description, as: :trumbowyg
+      f.input :published
+    end
+    f.actions
+  end
+end
+```
+
+### Step 4: Production setup
+
+For production environments with asset precompilation, run:
+
+```bash
+rails trumbowyg:nondigest
+```
+
+This ensures icon assets are available in production.
+
+## Manual Installation (Alternative)
+
+If you prefer manual setup or need custom configuration:
+
+### For esbuild
+
+1. Install npm packages:
+```bash
+npm install @activeadmin/trumbowyg jquery trumbowyg
+```
+
+2. In `app/javascript/active_admin.js`:
+```javascript
+import $ from 'jquery';
+import 'trumbowyg';
+
+// Ensure jQuery is globally available
+window.$ = window.jQuery = $;
+
+// Import Trumbowyg initialization
+import '@activeadmin/trumbowyg';
+```
+
+3. In `app/assets/stylesheets/active_admin.scss`:
+```scss
+// Trumbowyg Editor
+@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
+```
+
+### For importmap
+
+1. In `config/importmap.rb`:
+```ruby
+pin "jquery", to: "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
+pin "trumbowyg", to: "https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js"
+pin "activeadmin-trumbowyg", to: "activeadmin-trumbowyg.js"
+```
+
+2. Copy the vendor file:
+```bash
+cp vendor/assets/javascripts/activeadmin-trumbowyg.js app/assets/javascripts/
+```
+
+3. In `app/javascript/application.js`:
+```javascript
+import "jquery"
+import "trumbowyg"
+import "activeadmin-trumbowyg"
+```
 
 ## Usage
 
-Form config (example model Article):
+### Basic usage
 
 ```ruby
 form do |f|
@@ -52,39 +165,61 @@ form do |f|
 end
 ```
 
-## Notes
+### With custom options
 
-- **data-options** permits to set *Trumbowyg editor* options directly; some examples below. For reference see [options list](https://alex-d.github.io/Trumbowyg/documentation/).
--  Why 2 separated scripts/style files? To allow to include different versions of *Trumbowyg editor* if needed.
-- To use this plugins with *Active Admin 1.x* please use the version [0.1.8](https://github.com/blocknotes/activeadmin_trumbowyg/releases/tag/v0.1.8)
-
-## Examples
-
-### Toolbar buttons configuration
+The **data-options** attribute allows you to pass Trumbowyg configuration directly. For reference see [options list](https://alex-d.github.io/Trumbowyg/documentation/).
 
 ```ruby
-f.input :description, as: :trumbowyg, input_html: { data: { options: { btns: [['bold', 'italic'], ['superscript', 'subscript'], ['link'], ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'], ['unorderedList', 'orderedList'], ['horizontalRule'], ['removeformat']] } } }
+f.input :description, as: :trumbowyg, input_html: { 
+  data: { 
+    options: { 
+      btns: [
+        ['bold', 'italic'], 
+        ['superscript', 'subscript'], 
+        ['link'], 
+        ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'], 
+        ['unorderedList', 'orderedList'], 
+        ['horizontalRule'], 
+        ['removeformat']
+      ] 
+    } 
+  } 
+}
 ```
 
-### Trumbowyg upload plugin
+## Plugins
+
+### Upload plugin
 
 Plugin reference [here](https://alex-d.github.io/Trumbowyg/documentation/plugins/#plugin-upload).
 
-Add to *active_admin.js* (after *trumbowyg* require):
+Add to your JavaScript file (after importing trumbowyg):
 
-```js
-//= require activeadmin/trumbowyg/plugins/upload/trumbowyg.upload
+```javascript
+import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';
 ```
 
-Form field config (example model Article):
+Form field config:
 
 ```ruby
 unless resource.new_record?
-  f.input :description, as: :trumbowyg, input_html: { data: { options: { btns: [['bold', 'italic'], ['link'], ['upload']], plugins: { upload: { serverPath: upload_admin_post_path(resource.id), fileFieldName: 'file_upload' } } } } }
+  f.input :description, as: :trumbowyg, input_html: { 
+    data: { 
+      options: { 
+        btns: [['bold', 'italic'], ['link'], ['upload']], 
+        plugins: { 
+          upload: { 
+            serverPath: upload_admin_post_path(resource.id), 
+            fileFieldName: 'file_upload' 
+          } 
+        } 
+      } 
+    } 
+  }
 end
 ```
 
-Upload method (using ActiveStorage):
+Upload action (using ActiveStorage):
 
 ```ruby
 member_action :upload, method: [:post] do
@@ -94,15 +229,44 @@ member_action :upload, method: [:post] do
 end
 ```
 
-For the relevant files of this upload example see [here](examples/upload_plugin_using_activestorage/). Consider that this is just a basic example: images are uploaded as soon as they are attached to the editor (regardless of the form submit), it shows the editor only for an existing record (because of the *upload_admin_post_path*) and it doesn't provide a way to remove images (just deleting them from the editor will not destroy them, you'll need to implement a purge logic for that).
+For a complete upload example, see [examples/upload_plugin_using_activestorage/](examples/upload_plugin_using_activestorage/).
+
+## Migration from version 1.x
+
+If upgrading from version 1.x:
+
+1. Update Ruby to >= 3.2 and Rails to >= 7.0
+2. Update to ActiveAdmin 4.x
+3. Remove old asset pipeline configurations:
+   - Remove `//= require activeadmin/trumbowyg/trumbowyg` from `active_admin.js`
+   - Remove `//= require activeadmin/trumbowyg_input` from `active_admin.js`
+   - Remove `@import 'activeadmin/trumbowyg/trumbowyg';` from `active_admin.scss`
+   - Remove `@import 'activeadmin/trumbowyg_input';` from `active_admin.scss`
+4. Run the installation generator for your bundler (see Step 2 above)
+
+## Troubleshooting
+
+### Trumbowyg not initializing
+
+Make sure jQuery and Trumbowyg are loaded before the initialization script. Check your browser console for errors.
+
+### Icons not showing in production
+
+Run `rails trumbowyg:nondigest` to copy icon assets for production use.
+
+### Custom plugins not working
+
+Ensure you're importing the plugin JavaScript files after the main Trumbowyg library.
 
 ## Changelog
 
 The changelog is available [here](CHANGELOG.md).
 
-## Development
+## Contributing
 
-Project created by [Mattia Roccoberton](http://blocknot.es), thanks also to the good guys that opened issues and pull requests from time to time.
+Bug reports and pull requests are welcome on GitHub at https://github.com/blocknotes/activeadmin_trumbowyg.
+
+## Development
 
 For development information please check [this document](extra/development.md).
 

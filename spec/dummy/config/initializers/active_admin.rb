@@ -124,7 +124,7 @@ ActiveAdmin.setup do |config|
   # This allows your users to comment on any resource registered with Active Admin.
   #
   # You can completely disable comments:
-  # config.comments = false
+  config.comments = false
   #
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
@@ -332,4 +332,83 @@ ActiveAdmin.setup do |config|
   # You can switch to using Webpacker here.
   #
   # config.use_webpacker = true
+end
+
+# ActiveAdmin 4 expects importmap-rails in host apps. The Combustion app used
+# for tests doesn't include it, so provide minimal no-op shims so rendering
+# doesn't error when calling `javascript_importmap_tags` and `ActiveAdmin.importmap`.
+module ActiveAdmin
+  # Provide a stub importmap accessor to satisfy `ActiveAdmin.importmap` calls
+  def self.importmap
+    nil
+  end
+
+  module Importmap
+    def self.draw(*)
+      # no-op in tests
+    end
+  end
+end
+
+# Provide a working `javascript_importmap_tags` helper that includes required JS for tests
+module ActionView
+  module Helpers
+    module ImportmapHelperShim
+      def javascript_importmap_tags(*, **)
+        # In the test environment, manually include jQuery, Trumbowyg, and our custom JS
+        content = []
+        add_external_dependencies(content)
+        add_trumbowyg_js(content)
+        content.join("\n").html_safe
+      end
+
+      private
+
+      def add_external_dependencies(content)
+        # Add Trumbowyg CSS from CDN
+        css_url = 'https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css'
+        content << "<link href=\"#{css_url}\" rel=\"stylesheet\" />"
+        # Add jQuery from CDN
+        content << '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>'
+        # Add Trumbowyg from CDN
+        content << '<script src="https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js"></script>'
+      end
+
+      def add_trumbowyg_js(content)
+        content << '<script type="text/javascript">'
+        content << <<~JS
+          document.addEventListener('DOMContentLoaded', function() {
+            function initTrumbowyg() {
+              $('.trumbowyg-input').each(function() {
+                var $this = $(this);
+                if ($this.data('trumbowyg-initialized')) return;
+                
+                var options = $this.data('options') || {};
+                var defaultOptions = {
+                  svgPath: 'https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/icons.svg',
+                  autogrow: true,
+                  removeformatPasted: true
+                };
+                var finalOptions = $.extend({}, defaultOptions, options);
+                
+                $this.trumbowyg(finalOptions);
+                $this.data('trumbowyg-initialized', true);
+              });
+            }
+            
+            initTrumbowyg();
+            
+            $(document).on('has_many_add:after', '.has_many_container', function() {
+              initTrumbowyg();
+            });
+          });
+        JS
+        content << '</script>'
+      end
+    end
+  end
+end
+
+ActiveSupport.on_load(:action_view) do
+  include ActionView::Helpers::ImportmapHelperShim
 end

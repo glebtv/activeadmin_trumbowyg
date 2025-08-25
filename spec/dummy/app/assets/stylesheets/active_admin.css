@@ -1,0 +1,5 @@
+// ActiveAdmin 4 styles
+// For the test environment, we'll use minimal styles since ActiveAdmin provides its own
+
+// Import any custom styles for testing
+// The Trumbowyg styles are loaded via CDN in the test environment (see active_admin.rb initializer)

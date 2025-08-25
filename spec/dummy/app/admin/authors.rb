@@ -33,7 +33,8 @@ ActiveAdmin.register Author do
       row :profile
       row :posts
     end
-    active_admin_comments
+    # Comments are disabled in test environment
+    # active_admin_comments
   end
 
   form do |f|

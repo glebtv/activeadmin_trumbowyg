@@ -2,6 +2,31 @@
 
 An Active Admin plugin to use Trumbowyg Editor.
 
+## v2.0.0 - TBD
+
+### Breaking Changes
+- **DROPPED SUPPORT** for ActiveAdmin < 4.0
+- **DROPPED SUPPORT** for Ruby < 3.2
+- **DROPPED SUPPORT** for Rails < 7.0
+- Complete rewrite for ActiveAdmin 4.x compatibility
+
+### New Features
+- Added support for ActiveAdmin 4.x with modern JavaScript bundlers
+- Added installation generator for esbuild, importmap, and webpack
+- Created NPM package `@activeadmin/trumbowyg` for easier JavaScript management
+- Added ESM modules for modern JavaScript bundlers
+- Improved initialization with support for Turbo and dynamic content
+
+### Migration Required
+- Users of version 1.x should continue using that version for ActiveAdmin 1.x - 3.x
+- See README for detailed migration instructions from version 1.x
+
+### Technical Changes
+- Updated CSS class from `data-aa-trumbowyg` to `trumbowyg-input`
+- Moved from asset pipeline to modern JavaScript bundlers
+- Added GitHub Actions CI workflow for Rails 7.x and 8.x
+- Created vendor JavaScript file for importmap support
+
 ## v1.2.0 - 2025-04-13
 
 - Update Trumbowyg to version 2.31.0

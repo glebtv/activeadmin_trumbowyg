@@ -29,7 +29,8 @@ ActiveAdmin.register Post do
       row :created_at
       row :updated_at
     end
-    active_admin_comments
+    # Comments are disabled in test environment
+    # active_admin_comments
   end
 
   form do |f|

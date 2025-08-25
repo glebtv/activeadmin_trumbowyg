@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails/generators'
 
 module ActiveAdmin
@@ -93,11 +95,11 @@ module ActiveAdmin
             end
 
             # With custom options:
-            f.input :description, as: :trumbowyg, input_html: { 
-              data: { 
-                options: { 
+            f.input :description, as: :trumbowyg, input_html: {#{' '}
+              data: {#{' '}
+                options: {#{' '}
                   btns: [
-                    ['bold', 'italic'], 
+                    ['bold', 'italic'],#{' '}
                     ['link'],
                     ['upload']
                   ],
@@ -132,13 +134,13 @@ module ActiveAdmin
                 // ActiveAdmin Trumbowyg Editor
                 import $ from 'jquery';
                 import 'trumbowyg';
-                
+
                 // Import jQuery plugins for Trumbowyg
                 import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';
-                
+
                 // Ensure jQuery is globally available
                 window.$ = window.jQuery = $;
-                
+
                 // Import Trumbowyg initialization
                 import '@activeadmin/trumbowyg';
               JS
@@ -152,14 +154,14 @@ module ActiveAdmin
                 // ActiveAdmin Trumbowyg Editor
                 import $ from 'jquery';
                 import 'trumbowyg';
-                
+
                 // Import jQuery plugins for Trumbowyg (optional)
                 // import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';
                 // import 'trumbowyg/dist/plugins/base64/trumbowyg.base64.js';
-                
+
                 // Ensure jQuery is globally available
                 window.$ = window.jQuery = $;
-                
+
                 // Import Trumbowyg initialization
                 import '@activeadmin/trumbowyg';
               JS
@@ -218,10 +220,10 @@ module ActiveAdmin
                 // ActiveAdmin Trumbowyg Editor
                 import $ from 'jquery';
                 import 'trumbowyg';
-                
+
                 // Ensure jQuery is globally available
                 window.$ = window.jQuery = $;
-                
+
                 import '@activeadmin/trumbowyg';
               JS
             end

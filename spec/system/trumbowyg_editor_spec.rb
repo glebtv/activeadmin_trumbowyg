@@ -16,7 +16,7 @@ RSpec.describe 'Trumbowyg editor' do
       Admin::Posts::EditPage.new(path: path)
     end
     let(:editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
-    let(:input_field) { find('#post_description.trumbowyg-input', visible: :hidden) }
+    let(:input_field) { find_by_id('post_description', class: 'trumbowyg-input', visible: :hidden) }
 
     before do
       edit_page.load
@@ -63,8 +63,8 @@ RSpec.describe 'Trumbowyg editor' do
     end
     let(:first_editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
     let(:second_editor) { edit_page.lookup_editor(editor_container: '#post_summary_input') }
-    let(:first_field) { find('#post_description.trumbowyg-input', visible: :hidden) }
-    let(:second_field) { find('#post_summary.trumbowyg-input', visible: :hidden) }
+    let(:first_field) { find_by_id('post_description', class: 'trumbowyg-input', visible: :hidden) }
+    let(:second_field) { find_by_id('post_summary', class: 'trumbowyg-input', visible: :hidden) }
 
     before do
       edit_page.load
@@ -110,7 +110,7 @@ RSpec.describe 'Trumbowyg editor' do
 
     it 'updates some HTML content of a new nested resource', :aggregate_failures do
       click_on 'Add New Post'
-      ensure_trumbowyg_loaded  # Re-initialize for dynamically added fields
+      ensure_trumbowyg_loaded # Re-initialize for dynamically added fields
 
       first_editor = edit_page.lookup_editor(editor_container: '#author_posts_attributes_0_description_input')
       expect(first_editor.content).to eq('<p>Some content</p>')

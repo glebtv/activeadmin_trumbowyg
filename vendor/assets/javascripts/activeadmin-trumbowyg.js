@@ -28,6 +28,7 @@
 
     $('.trumbowyg-input').each(function() {
       const $this = $(this);
+      console.log("init input:", $this);
       
       if ($this.data('trumbowyg-initialized')) {
         return;

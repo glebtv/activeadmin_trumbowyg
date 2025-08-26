@@ -21,6 +21,6 @@ module Shared
 
     def toggle_italic = find("#{editor_selector} .trumbowyg-em-button").click
 
-    def toggle_underline = find("#{editor_selector} .trumbowyg-underline-button").click
+    def toggle_strikethrough = find("#{editor_selector} .trumbowyg-del-button").click
   end
 end

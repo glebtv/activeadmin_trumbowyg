@@ -36,14 +36,20 @@ gem 'concurrent-ruby', '1.3.4'
 
 gem 'bigdecimal'
 gem 'csv'
+gem 'jquery-rails'
 gem 'mutex_m'
 gem 'puma'
 gem 'sassc'
 gem 'sprockets-rails'
+gem 'importmap-rails', '~> 2.0'
+gem 'tailwindcss-rails'
 
 # Testing
 gem 'capybara'
+gem 'capybara-playwright-driver'
+gem 'combustion'
 gem 'cuprite'
+gem 'database_cleaner-active_record'
 gem 'rspec_junit_formatter'
 gem 'rspec-rails'
 gem 'simplecov', require: false

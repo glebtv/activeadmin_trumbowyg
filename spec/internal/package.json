@@ -1,0 +1,27 @@
+{
+  "name": "internal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build:js": "esbuild app/js/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --inject:./inject-jquery.js --public-path=/assets --loader:.css=file",
+    "build:css": "tailwindcss -c ./config/tailwind-active_admin.config.js -i ./app/assets/stylesheets/active_admin_source.css -o ./app/assets/builds/active_admin.css",
+    "build": "npm run build:js && npm run build:css",
+    "watch:js": "npm run build:js -- --watch",
+    "watch:css": "npm run build:css -- --watch",
+    "watch": "npm run build:js -- --watch & npm run build:css -- --watch",
+    "start": "npm run watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "esbuild": "^0.24.2",
+    "jquery": "^3.7.1",
+    "trumbowyg": "^2.28.0"
+  },
+  "devDependencies": {
+    "@activeadmin/activeadmin": "^3.3.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

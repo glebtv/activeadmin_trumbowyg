@@ -1,0 +1,1 @@
+//= require ./trumbowyg_loader

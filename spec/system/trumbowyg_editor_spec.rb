@@ -3,14 +3,14 @@
 using StringCleanMultiline
 
 RSpec.describe 'Trumbowyg editor' do
-  let(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe', age: 30) }
-  let(:post) do
-    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', summary: '<p>Post summary</p>')
+  let!(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe') }
+  let!(:post) do
+    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', body: '<p>Post body</p>')
   end
 
   let(:submit_button) { find('#post_submit_action [type="submit"]') }
 
-  context 'with a Trumbowyg editor' do
+  context 'with a Trumbowyg editor', :js do
     let(:edit_page) do
       path = edit_admin_post_path(post)
       Admin::Posts::EditPage.new(path: path)
@@ -35,12 +35,12 @@ RSpec.describe 'Trumbowyg editor' do
       editor << 'Some bold'
       editor.toggle_italic
       editor << 'Some italic'
-      editor.toggle_underline
-      editor << 'Some underline'
+      editor.toggle_strikethrough
+      editor << 'Some strikethrough'
 
       expect(editor.content).to eq <<~HTML.clean_multiline
-        <p>Some content</p>
-        <p>More content<strong>Some bold<em>Some italic<u>Some underline</u></em></strong></p>
+        <p><br></p>
+        <p>More content<strong>Some bold<em>Some italic<del>Some strikethrough</del></em></strong>Some content</p>
       HTML
     end
 
@@ -56,7 +56,7 @@ RSpec.describe 'Trumbowyg editor' do
     end
   end
 
-  context 'with 2 Trumbowyg editors' do
+  context 'with 2 Trumbowyg editors', :js do
     let(:edit_page) do
       path = edit_admin_post_path(post)
       Admin::Posts::EditPage.new(path: path)
@@ -95,7 +95,7 @@ RSpec.describe 'Trumbowyg editor' do
     end
   end
 
-  context 'with a Trumbowyg editor in a nested resource' do
+  context 'with a Trumbowyg editor in a nested resource', :js do
     let(:edit_page) do
       path = edit_admin_author_path(author)
       Admin::Authors::EditPage.new(path: path)

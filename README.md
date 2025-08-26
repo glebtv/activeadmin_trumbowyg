@@ -1,4 +1,10 @@
 # Active Admin Trumbowyg
+
+> **⚠️ WARNING: ActiveAdmin 4 support is currently broken**  
+> The gem is being updated for ActiveAdmin 4.0+ but asset pipeline integration is not working correctly yet.  
+> CSS and JavaScript assets are not loading properly. See `docs/asset-failure-proceed.md` for details.  
+> Use version 1.x for ActiveAdmin 3.x applications.
+
 [![gem version](https://badge.fury.io/rb/activeadmin_trumbowyg.svg)](https://badge.fury.io/rb/activeadmin_trumbowyg)
 [![gem downloads](https://badgen.net/rubygems/dt/activeadmin_trumbowyg)](https://rubygems.org/gems/activeadmin_trumbowyg)
 [![linters](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml)

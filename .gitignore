@@ -13,3 +13,7 @@
 /spec/dummy/log/
 /spec/dummy/storage/
 /spec/dummy/tmp/
+combustion_test.sqlite
+*combustion_test.sqlite*
+/spec/internal/tmp/cache/
+spec/internal/db/combustion_test.sqlite

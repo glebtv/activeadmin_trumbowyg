@@ -65,6 +65,12 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
+      - name: Build test app assets
+        run: |
+          cd spec/internal
+          npm install
+          npm run build
+
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install chromium

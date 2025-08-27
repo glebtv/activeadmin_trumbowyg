@@ -51,12 +51,14 @@ function initTrumbowygEditors() {
       };
       options = $.extend({}, options, $(this).data('options'));
       
-      // Wrap the editor in a div for dark mode if needed
-      const $wrapper = $('<div class="trumbowyg-wrapper"></div>');
-      if (isDarkMode()) {
-        $wrapper.addClass('trumbowyg-dark');
+      // Only wrap if not already wrapped
+      if (!$(this).parent().hasClass('trumbowyg-wrapper')) {
+        const $wrapper = $('<div class="trumbowyg-wrapper"></div>');
+        if (isDarkMode()) {
+          $wrapper.addClass('trumbowyg-dark');
+        }
+        $(this).wrap($wrapper);
       }
-      $(this).wrap($wrapper);
       
       // Initialize the editor
       $(this).trumbowyg(options);
@@ -101,9 +103,14 @@ $(document).ready(function() {
   updateEditorsTheme();
 });
 
-$(document).on('has_many_add:after', '.has_many_container', function() {
-  initTrumbowygEditors();
-  updateEditorsTheme();
+// Listen for has_many add button clicks (ActiveAdmin 4 doesn't fire has_many_add:after anymore)
+$(document).on('click', '.has-many-add', function(event) {
+  // Let ActiveAdmin's handler run first to insert the new fields
+  setTimeout(function() {
+    console.log('Initializing Trumbowyg for newly added has_many fields');
+    initTrumbowygEditors();
+    updateEditorsTheme();
+  }, 10);
 });
 
 $(document).on('turbo:load turbolinks:load', function() {

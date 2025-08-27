@@ -13294,11 +13294,13 @@ function initTrumbowygEditors() {
         svgPath: "/assets/trumbowyg/icons.svg"
       };
       options = import_jquery3.default.extend({}, options, (0, import_jquery3.default)(this).data("options"));
-      const $wrapper = (0, import_jquery3.default)('<div class="trumbowyg-wrapper"></div>');
-      if (isDarkMode()) {
-        $wrapper.addClass("trumbowyg-dark");
+      if (!(0, import_jquery3.default)(this).parent().hasClass("trumbowyg-wrapper")) {
+        const $wrapper = (0, import_jquery3.default)('<div class="trumbowyg-wrapper"></div>');
+        if (isDarkMode()) {
+          $wrapper.addClass("trumbowyg-dark");
+        }
+        (0, import_jquery3.default)(this).wrap($wrapper);
       }
-      (0, import_jquery3.default)(this).wrap($wrapper);
       (0, import_jquery3.default)(this).trumbowyg(options);
       (0, import_jquery3.default)(this).addClass("trumbowyg-textarea--active");
       if (isDarkMode()) {
@@ -13328,9 +13330,12 @@ window.addEventListener("storage", (event) => {
   initTrumbowygEditors();
   updateEditorsTheme();
 });
-(0, import_jquery3.default)(document).on("has_many_add:after", ".has_many_container", function() {
-  initTrumbowygEditors();
-  updateEditorsTheme();
+(0, import_jquery3.default)(document).on("click", ".has-many-add", function(event) {
+  setTimeout(function() {
+    console.log("Initializing Trumbowyg for newly added has_many fields");
+    initTrumbowygEditors();
+    updateEditorsTheme();
+  }, 10);
 });
 (0, import_jquery3.default)(document).on("turbo:load turbolinks:load", function() {
   initTrumbowygEditors();

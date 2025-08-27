@@ -2,17 +2,14 @@
   "name": "@activeadmin/trumbowyg",
   "version": "2.0.0",
   "description": "Trumbowyg WYSIWYG editor integration for ActiveAdmin",
-  "main": "src/index.js",
-  "module": "src/index.js",
-  "style": "src/trumbowyg.css",
+  "main": "app/assets/javascripts/activeadmin_trumbowyg.js",
+  "module": "app/assets/javascripts/activeadmin_trumbowyg.js",
   "exports": {
     ".": {
-      "import": "./src/index.js",
-      "require": "./src/index.js",
-      "default": "./src/index.js"
-    },
-    "./css": "./src/trumbowyg.css",
-    "./style": "./src/trumbowyg.css"
+      "import": "./app/assets/javascripts/activeadmin_trumbowyg.js",
+      "require": "./app/assets/javascripts/activeadmin_trumbowyg.js",
+      "default": "./app/assets/javascripts/activeadmin_trumbowyg.js"
+    }
   },
   "repository": {
     "type": "git",
@@ -38,13 +35,7 @@
     "trumbowyg": "^2.0.0"
   },
   "files": [
-    "src/**/*",
     "app/assets/**/*",
     "vendor/assets/**/*"
-  ],
-  "scripts": {
-    "prepare_javascripts_src": "rm -rf src && mkdir -p src && cp app/assets/javascripts/activeadmin/trumbowyg_pack.js src/index.js && cp app/assets/javascripts/activeadmin/trumbowyg_input_esm.js src/trumbowyg_input.js",
-    "prepare_stylesheets_src": "cp app/assets/stylesheets/activeadmin/trumbowyg/trumbowyg.css src/trumbowyg.css 2>/dev/null || echo 'No CSS to copy'",
-    "prepublishOnly": "npm run prepare_javascripts_src && npm run prepare_stylesheets_src"
-  }
+  ]
 }

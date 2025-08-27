@@ -2,6 +2,22 @@
 
 This guide shows how to set up a new Rails gem for ActiveAdmin 4 with Combustion testing, exactly as configured in the working activeadmin_trumbowyg gem.
 
+## CRITICAL: JavaScript Architecture for Gem Distribution
+
+**Your gem's JavaScript code must live in the gem, NOT be copied to user apps!**
+
+✅ **Correct approach:**
+- Main JS module in `app/assets/javascripts/your_gem.js`
+- Generator adds single import: `import 'your_gem_name'`
+- Users get updates when they update your gem
+- Code is maintainable and reusable
+
+❌ **Wrong approach:**
+- Generator copies large code blocks to user's app
+- Users never get updates without re-running generator
+- Code duplication across all installations
+- Maintenance nightmare
+
 ## 1. Create Gem Structure
 
 ```bash
@@ -177,9 +193,9 @@ npm install \
   "version": "1.0.0",
   "scripts": {
     "build:css": "node ./build_css.js",
-    "build:js": "esbuild app/js/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --inject:./inject-jquery.js --public-path=/assets",
+    "build:js": "node esbuild.config.js",
     "build": "npm run build:js && npm run build:css",
-    "watch": "npm run build:js -- --watch & npm run build:css -- --watch"
+    "watch": "npm run build:js --watch & npm run build:css -- --watch"
   },
   "dependencies": {
     "esbuild": "^0.24.2",
@@ -316,22 +332,35 @@ export { default as jQuery } from 'jquery/dist/jquery.js'
 
 ```javascript
 // spec/internal/app/js/active_admin.js
-import $ from 'jquery';
+import '@activeadmin/activeadmin';
 
-// Import your vendor libraries
-// import 'your-jquery-plugin';
+// Import your gem's JavaScript module - users will use this exact import
+// NOTE: In development, this needs to be resolved via esbuild alias to your local gem
+import 'your_gem_name';
+```
 
-// Ensure jQuery is global
-window.$ = window.jQuery = $;
+For development testing, create an esbuild config:
 
-// Your initialization code
-function initYourFeature() {
-  // Initialize your feature
-  console.log('ActiveAdmin extension loaded');
-}
+```javascript
+// spec/internal/esbuild.config.js
+const esbuild = require('esbuild');
+const path = require('path');
 
-$(document).ready(initYourFeature);
-$(document).on('turbo:load turbolinks:load', initYourFeature);
+const config = {
+  entryPoints: ['app/js/active_admin.js'],
+  bundle: true,
+  sourcemap: true,
+  format: 'esm',
+  outdir: 'app/assets/builds',
+  publicPath: '/assets',
+  inject: ['./inject-jquery.js'],
+  alias: {
+    // Map your gem's module name to the actual file for development
+    'your_gem_name': path.resolve(__dirname, '../../app/assets/javascripts/your_gem_main.js')
+  }
+};
+
+// Build logic...
 ```
 
 ## 16. Create CSS Source

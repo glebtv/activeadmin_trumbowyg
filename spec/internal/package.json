@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build:js": "esbuild app/js/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --inject:./inject-jquery.js --public-path=/assets --loader:.css=file",
+    "build:js": "node esbuild.config.js",
     "build:css": "node ./build_css.js",
     "build": "npm run build:js && npm run build:css",
-    "watch:js": "npm run build:js -- --watch",
+    "watch:js": "node esbuild.config.js --watch",
     "watch:css": "npm run build:css -- --watch",
-    "watch": "npm run build:js -- --watch & npm run build:css -- --watch",
+    "watch": "npm run watch:js & npm run build:css -- --watch",
     "start": "npm run watch"
   },
   "keywords": [],

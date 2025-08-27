@@ -56,8 +56,8 @@ rails generate active_admin:trumbowyg:install --bundler=esbuild
 ```
 
 This will:
-- Install the npm packages (`@activeadmin/trumbowyg`, `jquery`, `trumbowyg`)
-- Update your `app/javascript/active_admin.js` file
+- Install the npm packages (`activeadmin_trumbowyg`, `jquery`, `trumbowyg`)
+- Add the necessary imports to your `app/javascript/active_admin.js` file
 - Add Trumbowyg styles to your ActiveAdmin stylesheet
 
 #### For importmap
@@ -115,19 +115,20 @@ If you prefer manual setup or need custom configuration:
 
 1. Install npm packages:
 ```bash
-npm install @activeadmin/trumbowyg jquery trumbowyg
+npm install activeadmin_trumbowyg jquery trumbowyg
 ```
 
 2. In `app/javascript/active_admin.js`:
 ```javascript
+// Import dependencies
 import $ from 'jquery';
 import 'trumbowyg';
 
 // Ensure jQuery is globally available
 window.$ = window.jQuery = $;
 
-// Import Trumbowyg initialization
-import '@activeadmin/trumbowyg';
+// Initialize Trumbowyg for ActiveAdmin
+import 'activeadmin_trumbowyg';
 ```
 
 3. In `app/assets/stylesheets/active_admin.scss`:
@@ -142,19 +143,13 @@ import '@activeadmin/trumbowyg';
 ```ruby
 pin "jquery", to: "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
 pin "trumbowyg", to: "https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js"
-pin "activeadmin-trumbowyg", to: "activeadmin-trumbowyg.js"
+pin "activeadmin_trumbowyg", to: "activeadmin_trumbowyg.js"
 ```
 
-2. Copy the vendor file:
-```bash
-cp vendor/assets/javascripts/activeadmin-trumbowyg.js app/assets/javascripts/
-```
-
-3. In `app/javascript/application.js`:
+2. In `app/javascript/application.js`:
 ```javascript
-import "jquery"
-import "trumbowyg"
-import "activeadmin-trumbowyg"
+// Import Trumbowyg initialization - single import loads everything
+import "activeadmin_trumbowyg"
 ```
 
 ## Usage

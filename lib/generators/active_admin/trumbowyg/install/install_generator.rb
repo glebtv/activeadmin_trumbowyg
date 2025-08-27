@@ -135,14 +135,11 @@ module ActiveAdmin
                 import $ from 'jquery';
                 import 'trumbowyg';
 
-                // Import jQuery plugins for Trumbowyg
-                import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';
-
                 // Ensure jQuery is globally available
                 window.$ = window.jQuery = $;
 
-                // Import Trumbowyg initialization
-                import '@activeadmin/trumbowyg';
+                // Initialize Trumbowyg for ActiveAdmin
+                import 'activeadmin_trumbowyg';
               JS
             end
           else
@@ -155,15 +152,11 @@ module ActiveAdmin
                 import $ from 'jquery';
                 import 'trumbowyg';
 
-                // Import jQuery plugins for Trumbowyg (optional)
-                // import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';
-                // import 'trumbowyg/dist/plugins/base64/trumbowyg.base64.js';
-
                 // Ensure jQuery is globally available
                 window.$ = window.jQuery = $;
 
-                // Import Trumbowyg initialization
-                import '@activeadmin/trumbowyg';
+                // Initialize Trumbowyg for ActiveAdmin
+                import 'activeadmin_trumbowyg';
               JS
             end
           end
@@ -182,27 +175,20 @@ module ActiveAdmin
                 # ActiveAdmin Trumbowyg Editor
                 pin "jquery", to: "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
                 pin "trumbowyg", to: "https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js"
-                pin "activeadmin-trumbowyg", to: "activeadmin-trumbowyg.js"
+                pin "activeadmin_trumbowyg", to: "activeadmin_trumbowyg.js"
               RUBY
             end
           end
 
-          # Copy the vendor JavaScript file
-          say 'Copying vendor JavaScript file...', :green
-          copy_file '../../../../vendor/assets/javascripts/activeadmin-trumbowyg.js',
-                    'app/assets/javascripts/activeadmin-trumbowyg.js'
-
           js_file = 'app/javascript/application.js'
           return unless File.exist?(js_file)
 
-          say "Adding imports to #{js_file}...", :green
+          say "Adding import to #{js_file}...", :green
           append_to_file js_file do
             <<~JS
 
-              // ActiveAdmin Trumbowyg Editor
-              import "jquery"
-              import "trumbowyg"
-              import "activeadmin-trumbowyg"
+              // ActiveAdmin Trumbowyg Editor - single import loads everything
+              import "activeadmin_trumbowyg"
             JS
           end
         end
@@ -217,18 +203,13 @@ module ActiveAdmin
             append_to_file js_file do
               <<~JS
 
-                // ActiveAdmin Trumbowyg Editor
-                import $ from 'jquery';
-                import 'trumbowyg';
-
-                // Ensure jQuery is globally available
-                window.$ = window.jQuery = $;
-
-                import '@activeadmin/trumbowyg';
+                // ActiveAdmin Trumbowyg Editor - single import loads everything
+                import 'activeadmin_trumbowyg';
               JS
             end
           else
             say 'Please manually add Trumbowyg import to your ActiveAdmin JavaScript pack', :yellow
+            say "Add this line: import 'activeadmin_trumbowyg';", :cyan
           end
         end
 

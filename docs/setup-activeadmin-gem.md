@@ -44,8 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-rails", "~> 6.0"
   spec.add_development_dependency "capybara", "~> 3.39"
   spec.add_development_dependency "importmap-rails", "~> 2.0"
-  spec.add_development_dependency "sprockets-rails"
-  spec.add_development_dependency "sassc-rails"
+  spec.add_development_dependency "propshaft"  # Required - Sprockets not supported
 end
 ```
 
@@ -63,8 +62,7 @@ gem "puma"
 
 # Required for ActiveAdmin 4
 gem "importmap-rails", "~> 2.0"
-gem "sprockets-rails"
-gem "sassc-rails"
+gem "propshaft"  # Required - Sprockets not supported
 
 group :development, :test do
   gem "combustion", "~> 1.3"
@@ -374,26 +372,17 @@ const config = {
 /* Your custom styles here */
 ```
 
-## 17. Set Up Asset Manifest
+## 17. Set Up Propshaft Assets
 
-```javascript
-// spec/internal/app/assets/config/manifest.js
-//= link_tree ../builds
-//= link active_admin.css
-//= link active_admin.js
-```
-
-## 18. Create Sprockets CSS Manifest
+With Propshaft, assets in `app/assets/builds` are automatically served. No manifest configuration needed.
 
 ```css
 /* spec/internal/app/assets/stylesheets/active_admin.css */
-/*
- * This imports the compiled Tailwind CSS with ActiveAdmin styles
- *= require ./active_admin_compiled
+/* 
+ * This file can be empty or include custom overrides
+ * The real CSS is in builds/active_admin.css
  */
 ```
-
-Note: Keep this file mostly empty - the real CSS is in builds/active_admin.css
 
 ## 19. Create Test Models
 
@@ -532,6 +521,9 @@ spec/internal/package-lock.json
 
 ### Issue: Vendor CSS not loading
 **Solution**: Use build_css.js to concatenate vendor CSS before Tailwind processing
+
+### Issue: Assets not loading / 404 errors
+**Solution**: Ensure you're using Propshaft, not Sprockets. Check that assets are in `app/assets/builds/`
 
 ## Success Indicators
 

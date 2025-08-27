@@ -22,7 +22,7 @@ ActiveAdmin.register Author do
       f.input :email
       f.has_many :posts, allow_destroy: true, new_record: true do |p|
         p.input :title
-        p.input :description, as: :text, input_html: { class: 'trumbowyg-input', 'data-aa-trumbowyg': true }
+        p.input :description, as: :trumbowyg
       end
     end
     f.actions

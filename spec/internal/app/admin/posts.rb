@@ -24,9 +24,9 @@ ActiveAdmin.register Post do
     f.inputs do
       f.input :title
       f.input :author
-      f.input :description, as: :text, input_html: { class: 'trumbowyg-input', 'data-aa-trumbowyg': true }
-      f.input :summary, as: :text, input_html: { class: 'trumbowyg-input', 'data-aa-trumbowyg': true }
-      f.input :body, as: :text, input_html: { class: 'trumbowyg-input', 'data-aa-trumbowyg': true }
+      f.input :description, as: :trumbowyg
+      f.input :summary, as: :trumbowyg
+      f.input :body, as: :trumbowyg
     end
     f.actions
   end

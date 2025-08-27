@@ -7,7 +7,7 @@ const config = {
   entryPoints: ['app/js/active_admin.js'],
   bundle: true,
   sourcemap: true,
-  format: 'esm',
+  format: 'iife',
   outdir: 'app/assets/builds',
   publicPath: '/assets',
   loader: { '.css': 'file' },

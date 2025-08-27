@@ -631,15 +631,13 @@ Use Appraisal gem to test against multiple versions:
 appraise 'rails-7.x-active-admin-4.x' do
   gem 'rails', '~> 7.0'
   gem 'activeadmin', '~> 4.0.0.beta16'
-  gem 'sassc-rails'
-  gem 'sprockets', '~> 4.0'
+  gem 'propshaft'  # Required - Sprockets not supported
 end
 
 appraise 'rails-8.x-active-admin-4.x' do
   gem 'rails', '~> 8.0'
   gem 'activeadmin', '~> 4.0.0.beta16'
-  gem 'sassc-rails'
-  gem 'propshaft'
+  # Rails 8 includes Propshaft by default
 end
 ```
 

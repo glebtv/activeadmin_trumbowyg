@@ -7,6 +7,7 @@ This guide provides a proven pattern for migrating ActiveAdmin extension gems to
 - [ ] Update Ruby requirement to >= 3.2
 - [ ] Update Rails requirement to >= 7.0  
 - [ ] Update ActiveAdmin dependency to support 4.x
+- [ ] Replace Sprockets with Propshaft (required)
 - [ ] Set up Combustion test app with proper loading order
 - [ ] Configure Tailwind with ActiveAdmin plugin and safelist
 - [ ] Build vendor CSS into Tailwind output
@@ -26,6 +27,7 @@ spec.add_runtime_dependency 'activeadmin', ['>= 1.x', '< 5']
 ```ruby
 gem 'combustion'
 gem 'importmap-rails', '~> 2.0'  # Required for ActiveAdmin 4
+gem 'propshaft'  # Required - Sprockets is not supported
 ```
 
 ## Step 2: Set Up Combustion Test App
@@ -345,10 +347,11 @@ jobs:
 
 ## Summary
 The key to successful ActiveAdmin 4 migration is:
-1. Proper Combustion loading order (config.ru)
-2. Tailwind safelist for dynamic classes
-3. Vendor CSS concatenation before Tailwind processing
-4. jQuery injection pattern for esbuild
-5. Updated CSS selectors
+1. Using Propshaft instead of Sprockets (mandatory)
+2. Proper Combustion loading order (config.ru)
+3. Tailwind safelist for dynamic classes
+4. Vendor CSS concatenation before Tailwind processing
+5. jQuery injection pattern for esbuild
+6. Updated CSS selectors
 
-This pattern has been proven on multiple gems and provides a reliable foundation for the remaining ~20 gems to be updated.
+This pattern has been proven on multiple gems and provides a reliable foundation for the remaining ~20 gems to be updated. Note that Sprockets is no longer supported - all ActiveAdmin 4 gems must use Propshaft for asset management.

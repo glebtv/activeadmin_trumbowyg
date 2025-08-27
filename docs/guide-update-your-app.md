@@ -8,6 +8,8 @@ Before upgrading, ensure you have:
 - Ruby >= 3.2
 - Rails >= 7.0
 - ActiveAdmin ~> 4.0.0.beta
+- Propshaft (Rails 7) or Rails 8 (includes Propshaft by default)
+- **Note:** Sprockets is not supported. This gem requires Propshaft for asset management.
 
 ## Step 1: Update the Gem
 
@@ -19,6 +21,9 @@ gem 'activeadmin_trumbowyg', '~> 1.0'
 
 # New
 gem 'activeadmin_trumbowyg', '~> 2.0'
+
+# For Rails 7, also add Propshaft (Rails 8 includes it by default):
+gem 'propshaft' # Required for Rails 7
 ```
 
 Run `bundle update activeadmin_trumbowyg`

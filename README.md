@@ -32,6 +32,8 @@ This version supports **ActiveAdmin 4.x only**. For ActiveAdmin 1.x - 3.x suppor
 - Ruby >= 3.2
 - Rails >= 7.0
 - ActiveAdmin ~> 4.0.0.beta
+- Propshaft (Rails 7) or Rails 8 (includes Propshaft by default)
+- **Note:** Sprockets is not supported. This gem requires Propshaft for asset management.
 
 ## Install
 
@@ -41,6 +43,9 @@ Add to your Gemfile:
 
 ```ruby
 gem 'activeadmin_trumbowyg', '~> 2.0'
+
+# For Rails 7, also add Propshaft (Rails 8 includes it by default):
+gem 'propshaft' # Required for Rails 7
 ```
 
 Then run `bundle install`.

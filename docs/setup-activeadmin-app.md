@@ -5,8 +5,11 @@ This guide shows how to create a new standalone ActiveAdmin 4 application with p
 ## 1. Create Rails Application
 
 ```bash
+# For Rails 8 (Propshaft included by default):
 rails new my_admin_app --css=tailwind --javascript=esbuild
 cd my_admin_app
+
+# For Rails 7, we'll add Propshaft in the next step
 ```
 
 ## 2. Add ActiveAdmin to Gemfile
@@ -14,8 +17,10 @@ cd my_admin_app
 ```ruby
 # Gemfile
 gem 'activeadmin', '~> 4.0.0.beta16'
-gem 'sassc-rails'  # Required for ActiveAdmin 4
 gem 'importmap-rails', '~> 2.0'  # Required for ActiveAdmin 4
+
+# For Rails 7, add Propshaft (Rails 8 includes it by default):
+gem 'propshaft'  # Required - Sprockets is not supported
 
 # Optional: Add your vendor packages
 # gem 'activeadmin_trumbowyg'  # Or other AA extensions

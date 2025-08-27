@@ -18,3 +18,4 @@ combustion_test.sqlite
 /spec/internal/tmp/cache/
 spec/internal/db/combustion_test.sqlite
 spec/internal/tmp/capybara/
+spec/internal/app/assets/builds/

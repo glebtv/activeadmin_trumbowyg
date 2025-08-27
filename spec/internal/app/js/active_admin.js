@@ -2,16 +2,9 @@
 import $ from 'jquery';
 import 'trumbowyg';
 
-// Import ActiveAdmin base (includes Rails UJS)
+// Import ActiveAdmin - this already includes all features and Rails UJS
+// DO NOT import Rails separately as it's already included and started in ActiveAdmin
 import '@activeadmin/activeadmin';
-
-// Import ActiveAdmin features
-import "@activeadmin/activeadmin/dist/active_admin/features/batch_actions";
-import "@activeadmin/activeadmin/dist/active_admin/features/dark_mode_toggle";
-import "@activeadmin/activeadmin/dist/active_admin/features/has_many";
-import "@activeadmin/activeadmin/dist/active_admin/features/filters";
-import "@activeadmin/activeadmin/dist/active_admin/features/main_menu";
-import "@activeadmin/activeadmin/dist/active_admin/features/per_page";
 
 // Ensure jQuery is available globally for other scripts
 window.$ = window.jQuery = $;

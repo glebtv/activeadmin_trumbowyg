@@ -4,7 +4,7 @@
 require 'formtastic/inputs/trumbowyg_input'
 
 ActiveAdmin.register Post do
-  permit_params :title, :description, :body, :author_id
+  permit_params :title, :description, :summary, :body, :author_id
 
   index do
     selectable_column
@@ -25,6 +25,7 @@ ActiveAdmin.register Post do
       f.input :title
       f.input :author
       f.input :description, as: :text, input_html: { class: 'trumbowyg-input', 'data-aa-trumbowyg': true }
+      f.input :summary, as: :text, input_html: { class: 'trumbowyg-input', 'data-aa-trumbowyg': true }
       f.input :body, as: :text, input_html: { class: 'trumbowyg-input', 'data-aa-trumbowyg': true }
     end
     f.actions

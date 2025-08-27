@@ -306,14 +306,14 @@ var require_jquery = __commonJS({
           return first;
         },
         grep: function(elems, callback, invert) {
-          var callbackInverse, matches = [], i = 0, length = elems.length, callbackExpect = !invert;
+          var callbackInverse, matches3 = [], i = 0, length = elems.length, callbackExpect = !invert;
           for (; i < length; i++) {
             callbackInverse = !callback(elems[i], i);
             if (callbackInverse !== callbackExpect) {
-              matches.push(elems[i]);
+              matches3.push(elems[i]);
             }
           }
-          return matches;
+          return matches3;
         },
         // arg is for internal usage only
         map: function(elems, callback, arg) {
@@ -390,7 +390,7 @@ var require_jquery = __commonJS({
       };
       var preferredDoc = document2, pushNative = push;
       (function() {
-        var i, Expr, outermostContext, sortInput, hasDuplicate, push2 = pushNative, document3, documentElement2, documentIsHTML, rbuggyQSA, matches, expando = jQuery.expando, dirruns = 0, done = 0, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), nonnativeSelectorCache = createCache(), sortOrder = function(a, b) {
+        var i, Expr, outermostContext, sortInput, hasDuplicate, push2 = pushNative, document3, documentElement2, documentIsHTML, rbuggyQSA, matches3, expando = jQuery.expando, dirruns = 0, done = 0, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), nonnativeSelectorCache = createCache(), sortOrder = function(a, b) {
           if (a === b) {
             hasDuplicate = true;
           }
@@ -448,7 +448,7 @@ var require_jquery = __commonJS({
           };
         }
         function find(selector, context, results, seed) {
-          var m, i2, elem, nid, match, groups, newSelector, newContext = context && context.ownerDocument, nodeType = context ? context.nodeType : 9;
+          var m3, i2, elem, nid, match, groups, newSelector, newContext = context && context.ownerDocument, nodeType = context ? context.nodeType : 9;
           results = results || [];
           if (typeof selector !== "string" || !selector || nodeType !== 1 && nodeType !== 9 && nodeType !== 11) {
             return results;
@@ -458,10 +458,10 @@ var require_jquery = __commonJS({
             context = context || document3;
             if (documentIsHTML) {
               if (nodeType !== 11 && (match = rquickExpr2.exec(selector))) {
-                if (m = match[1]) {
+                if (m3 = match[1]) {
                   if (nodeType === 9) {
-                    if (elem = context.getElementById(m)) {
-                      if (elem.id === m) {
+                    if (elem = context.getElementById(m3)) {
+                      if (elem.id === m3) {
                         push2.call(results, elem);
                         return results;
                       }
@@ -469,7 +469,7 @@ var require_jquery = __commonJS({
                       return results;
                     }
                   } else {
-                    if (newContext && (elem = newContext.getElementById(m)) && find.contains(context, elem) && elem.id === m) {
+                    if (newContext && (elem = newContext.getElementById(m3)) && find.contains(context, elem) && elem.id === m3) {
                       push2.call(results, elem);
                       return results;
                     }
@@ -477,8 +477,8 @@ var require_jquery = __commonJS({
                 } else if (match[2]) {
                   push2.apply(results, context.getElementsByTagName(selector));
                   return results;
-                } else if ((m = match[3]) && context.getElementsByClassName) {
-                  push2.apply(results, context.getElementsByClassName(m));
+                } else if ((m3 = match[3]) && context.getElementsByClassName) {
+                  push2.apply(results, context.getElementsByClassName(m3));
                   return results;
                 }
               }
@@ -580,11 +580,11 @@ var require_jquery = __commonJS({
         function createPositionalPseudo(fn) {
           return markFunction(function(argument) {
             argument = +argument;
-            return markFunction(function(seed, matches2) {
+            return markFunction(function(seed, matches4) {
               var j, matchIndexes = fn([], seed.length, argument), i2 = matchIndexes.length;
               while (i2--) {
                 if (seed[j = matchIndexes[i2]]) {
-                  seed[j] = !(matches2[j] = seed[j]);
+                  seed[j] = !(matches4[j] = seed[j]);
                 }
               }
             });
@@ -601,7 +601,7 @@ var require_jquery = __commonJS({
           document3 = doc;
           documentElement2 = document3.documentElement;
           documentIsHTML = !jQuery.isXMLDoc(document3);
-          matches = documentElement2.matches || documentElement2.webkitMatchesSelector || documentElement2.msMatchesSelector;
+          matches3 = documentElement2.matches || documentElement2.webkitMatchesSelector || documentElement2.msMatchesSelector;
           if (documentElement2.msMatchesSelector && // Support: IE 11+, Edge 17 - 18+
           // IE/Edge sometimes throw a "Permission denied" error when strict-comparing
           // two documents; shallow comparisons work.
@@ -614,7 +614,7 @@ var require_jquery = __commonJS({
             return !document3.getElementsByName || !document3.getElementsByName(jQuery.expando).length;
           });
           support.disconnectedMatch = assert(function(el) {
-            return matches.call(el, "*");
+            return matches3.call(el, "*");
           });
           support.scope = assert(function() {
             return document3.querySelectorAll(":scope");
@@ -748,7 +748,7 @@ var require_jquery = __commonJS({
           setDocument(elem);
           if (documentIsHTML && !nonnativeSelectorCache[expr + " "] && (!rbuggyQSA || !rbuggyQSA.test(expr))) {
             try {
-              var ret = matches.call(elem, expr);
+              var ret = matches3.call(elem, expr);
               if (ret || support.disconnectedMatch || // As well, disconnected nodes are said to be in a document
               // fragment in IE 9
               elem.document && elem.document.nodeType !== 11) {
@@ -910,7 +910,7 @@ var require_jquery = __commonJS({
                   return !!elem.parentNode;
                 }
               ) : function(elem, _context, xml) {
-                var cache, outerCache, node, nodeIndex, start, dir2 = simple !== forward ? "nextSibling" : "previousSibling", parent = elem.parentNode, name = ofType && elem.nodeName.toLowerCase(), useCache = !xml && !ofType, diff = false;
+                var cache, outerCache, node, nodeIndex, start3, dir2 = simple !== forward ? "nextSibling" : "previousSibling", parent = elem.parentNode, name = ofType && elem.nodeName.toLowerCase(), useCache = !xml && !ofType, diff = false;
                 if (parent) {
                   if (simple) {
                     while (dir2) {
@@ -920,11 +920,11 @@ var require_jquery = __commonJS({
                           return false;
                         }
                       }
-                      start = dir2 = type === "only" && !start && "nextSibling";
+                      start3 = dir2 = type === "only" && !start3 && "nextSibling";
                     }
                     return true;
                   }
-                  start = [forward ? parent.firstChild : parent.lastChild];
+                  start3 = [forward ? parent.firstChild : parent.lastChild];
                   if (forward && useCache) {
                     outerCache = parent[expando] || (parent[expando] = {});
                     cache = outerCache[type] || [];
@@ -932,7 +932,7 @@ var require_jquery = __commonJS({
                     diff = nodeIndex && cache[2];
                     node = nodeIndex && parent.childNodes[nodeIndex];
                     while (node = ++nodeIndex && node && node[dir2] || // Fallback to seeking `elem` from the start
-                    (diff = nodeIndex = 0) || start.pop()) {
+                    (diff = nodeIndex = 0) || start3.pop()) {
                       if (node.nodeType === 1 && ++diff && node === elem) {
                         outerCache[type] = [dirruns, nodeIndex, diff];
                         break;
@@ -946,7 +946,7 @@ var require_jquery = __commonJS({
                       diff = nodeIndex;
                     }
                     if (diff === false) {
-                      while (node = ++nodeIndex && node && node[dir2] || (diff = nodeIndex = 0) || start.pop()) {
+                      while (node = ++nodeIndex && node && node[dir2] || (diff = nodeIndex = 0) || start3.pop()) {
                         if ((ofType ? nodeName(node, name) : node.nodeType === 1) && ++diff) {
                           if (useCache) {
                             outerCache = node[expando] || (node[expando] = {});
@@ -971,11 +971,11 @@ var require_jquery = __commonJS({
               }
               if (fn.length > 1) {
                 args = [pseudo, pseudo, "", argument];
-                return Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ? markFunction(function(seed, matches2) {
+                return Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ? markFunction(function(seed, matches4) {
                   var idx, matched = fn(seed, argument), i2 = matched.length;
                   while (i2--) {
                     idx = indexOf.call(seed, matched[i2]);
-                    seed[idx] = !(matches2[idx] = matched[i2]);
+                    seed[idx] = !(matches4[idx] = matched[i2]);
                   }
                 }) : function(elem) {
                   return fn(elem, 0, args);
@@ -988,11 +988,11 @@ var require_jquery = __commonJS({
             // Potentially complex pseudos
             not: markFunction(function(selector) {
               var input = [], results = [], matcher = compile(selector.replace(rtrimCSS, "$1"));
-              return matcher[expando] ? markFunction(function(seed, matches2, _context, xml) {
+              return matcher[expando] ? markFunction(function(seed, matches4, _context, xml) {
                 var elem, unmatched = matcher(seed, null, xml, []), i2 = seed.length;
                 while (i2--) {
                   if (elem = unmatched[i2]) {
-                    seed[i2] = !(matches2[i2] = elem);
+                    seed[i2] = !(matches4[i2] = elem);
                   }
                 }
               }) : function(elem, _context, xml) {
@@ -1822,7 +1822,7 @@ var require_jquery = __commonJS({
       }
       jQuery.Callbacks = function(options) {
         options = typeof options === "string" ? createOptions(options) : jQuery.extend({}, options);
-        var firing, memory, fired, locked, list = [], queue = [], firingIndex = -1, fire = function() {
+        var firing, memory, fired, locked, list = [], queue = [], firingIndex = -1, fire3 = function() {
           locked = locked || options.once;
           fired = firing = true;
           for (; queue.length; firingIndex = -1) {
@@ -1865,7 +1865,7 @@ var require_jquery = __commonJS({
                 });
               })(arguments);
               if (memory && !firing) {
-                fire();
+                fire3();
               }
             }
             return this;
@@ -1926,7 +1926,7 @@ var require_jquery = __commonJS({
               args = [context, args.slice ? args.slice() : args];
               queue.push(args);
               if (!firing) {
-                fire();
+                fire3();
               }
             }
             return this;
@@ -2373,7 +2373,7 @@ var require_jquery = __commonJS({
       var dataPriv = new Data();
       var dataUser = new Data();
       var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/, rmultiDash = /[A-Z]/g;
-      function getData(data) {
+      function getData3(data) {
         if (data === "true") {
           return true;
         }
@@ -2398,7 +2398,7 @@ var require_jquery = __commonJS({
           data = elem.getAttribute(name);
           if (typeof data === "string") {
             try {
-              data = getData(data);
+              data = getData3(data);
             } catch (e) {
             }
             dataUser.set(elem, key, data);
@@ -2496,7 +2496,7 @@ var require_jquery = __commonJS({
         },
         dequeue: function(elem, type) {
           type = type || "fx";
-          var queue = jQuery.queue(elem, type), startLength = queue.length, fn = queue.shift(), hooks = jQuery._queueHooks(elem, type), next = function() {
+          var queue = jQuery.queue(elem, type), startLength = queue.length, fn = queue.shift(), hooks = jQuery._queueHooks(elem, type), next2 = function() {
             jQuery.dequeue(elem, type);
           };
           if (fn === "inprogress") {
@@ -2508,7 +2508,7 @@ var require_jquery = __commonJS({
               queue.unshift("inprogress");
             }
             delete hooks.stop;
-            fn.call(elem, next, hooks);
+            fn.call(elem, next2, hooks);
           }
           if (!startLength && hooks) {
             hooks.empty.fire();
@@ -3819,10 +3819,10 @@ var require_jquery = __commonJS({
         fontWeight: "400"
       };
       function setPositiveNumber(_elem, value, subtract) {
-        var matches = rcssNum.exec(value);
-        return matches ? (
+        var matches3 = rcssNum.exec(value);
+        return matches3 ? (
           // Guard against undefined "subtract", e.g., when used as in cssHooks
-          Math.max(0, matches[2] - (subtract || 0)) + (matches[3] || "px")
+          Math.max(0, matches3[2] - (subtract || 0)) + (matches3[3] || "px")
         ) : value;
       }
       function boxModelAdjustment(elem, dimension, box, isBorderBox, styles, computedVal) {
@@ -4018,7 +4018,7 @@ var require_jquery = __commonJS({
             }
           },
           set: function(elem, value, extra) {
-            var matches, styles = getStyles(elem), scrollboxSizeBuggy = !support.scrollboxSize() && styles.position === "absolute", boxSizingNeeded = scrollboxSizeBuggy || extra, isBorderBox = boxSizingNeeded && jQuery.css(elem, "boxSizing", false, styles) === "border-box", subtract = extra ? boxModelAdjustment(
+            var matches3, styles = getStyles(elem), scrollboxSizeBuggy = !support.scrollboxSize() && styles.position === "absolute", boxSizingNeeded = scrollboxSizeBuggy || extra, isBorderBox = boxSizingNeeded && jQuery.css(elem, "boxSizing", false, styles) === "border-box", subtract = extra ? boxModelAdjustment(
               elem,
               dimension,
               extra,
@@ -4030,7 +4030,7 @@ var require_jquery = __commonJS({
                 elem["offset" + dimension[0].toUpperCase() + dimension.slice(1)] - parseFloat(styles[dimension]) - boxModelAdjustment(elem, dimension, "border", false, styles) - 0.5
               );
             }
-            if (subtract && (matches = rcssNum.exec(value)) && (matches[3] || "px") !== "px") {
+            if (subtract && (matches3 = rcssNum.exec(value)) && (matches3[3] || "px") !== "px") {
               elem.style[dimension] = value;
               value = jQuery.css(elem, dimension);
             }
@@ -4633,8 +4633,8 @@ var require_jquery = __commonJS({
       jQuery.fn.delay = function(time, type) {
         time = jQuery.fx ? jQuery.fx.speeds[time] || time : time;
         type = type || "fx";
-        return this.queue(type, function(next, hooks) {
-          var timeout = window2.setTimeout(next, time);
+        return this.queue(type, function(next2, hooks) {
+          var timeout = window2.setTimeout(next2, time);
           hooks.stop = function() {
             window2.clearTimeout(timeout);
           };
@@ -5057,8 +5057,8 @@ var require_jquery = __commonJS({
           };
         }
       });
-      var location = window2.location;
-      var nonce = { guid: Date.now() };
+      var location2 = window2.location;
+      var nonce3 = { guid: Date.now() };
       var rquery = /\?/;
       jQuery.parseXML = function(data) {
         var xml, parserErrorElem;
@@ -5259,7 +5259,7 @@ var require_jquery = __commonJS({
         }
       });
       var r20 = /%20/g, rhash = /#.*$/, rantiCache = /([?&])_=[^&]*/, rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg, rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/, rnoContent = /^(?:GET|HEAD)$/, rprotocol = /^\/\//, prefilters = {}, transports = {}, allTypes = "*/".concat("*"), originAnchor = document2.createElement("a");
-      originAnchor.href = location.href;
+      originAnchor.href = location2.href;
       function addToPrefiltersOrTransports(structure) {
         return function(dataTypeExpression, func) {
           if (typeof dataTypeExpression !== "string") {
@@ -5412,9 +5412,9 @@ var require_jquery = __commonJS({
         lastModified: {},
         etag: {},
         ajaxSettings: {
-          url: location.href,
+          url: location2.href,
           type: "GET",
-          isLocal: rlocalProtocol.test(location.protocol),
+          isLocal: rlocalProtocol.test(location2.protocol),
           global: true,
           processData: true,
           async: true,
@@ -5549,7 +5549,7 @@ var require_jquery = __commonJS({
             }
           };
           deferred.promise(jqXHR);
-          s.url = ((url || s.url || location.href) + "").replace(rprotocol, location.protocol + "//");
+          s.url = ((url || s.url || location2.href) + "").replace(rprotocol, location2.protocol + "//");
           s.type = options.method || options.type || s.method || s.type;
           s.dataTypes = (s.dataType || "*").toLowerCase().match(rnothtmlwhite) || [""];
           if (s.crossDomain == null) {
@@ -5584,7 +5584,7 @@ var require_jquery = __commonJS({
             }
             if (s.cache === false) {
               cacheURL = cacheURL.replace(rantiCache, "$1");
-              uncached = (rquery.test(cacheURL) ? "&" : "?") + "_=" + nonce.guid++ + uncached;
+              uncached = (rquery.test(cacheURL) ? "&" : "?") + "_=" + nonce3.guid++ + uncached;
             }
             s.url = cacheURL + uncached;
           } else if (s.data && s.processData && (s.contentType || "").indexOf("application/x-www-form-urlencoded") === 0) {
@@ -5981,7 +5981,7 @@ var require_jquery = __commonJS({
       jQuery.ajaxSetup({
         jsonp: "callback",
         jsonpCallback: function() {
-          var callback = oldCallbacks.pop() || jQuery.expando + "_" + nonce.guid++;
+          var callback = oldCallbacks.pop() || jQuery.expando + "_" + nonce3.guid++;
           this[callback] = true;
           return callback;
         }
@@ -6495,21 +6495,21 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
   enumerable: true,
   configurable: false
 });
-(function(navigator2, window2, document2, $2) {
+(function(navigator2, window2, document2, $4) {
   "use strict";
   var CONFIRM_EVENT = "tbwconfirm", CANCEL_EVENT = "tbwcancel";
-  $2.fn.trumbowyg = function(options, params) {
+  $4.fn.trumbowyg = function(options, params) {
     var trumbowygDataName = "trumbowyg";
     if (options === Object(options) || !options) {
       return this.each(function() {
-        if (!$2(this).data(trumbowygDataName)) {
-          $2(this).data(trumbowygDataName, new Trumbowyg(this, options));
+        if (!$4(this).data(trumbowygDataName)) {
+          $4(this).data(trumbowygDataName, new Trumbowyg(this, options));
         }
       });
     }
     if (this.length === 1) {
       try {
-        var t = $2(this).data(trumbowygDataName);
+        var t = $4(this).data(trumbowygDataName);
         switch (options) {
           // Exec command
           case "execCmd":
@@ -6554,27 +6554,27 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     return false;
   };
   var Trumbowyg = function(editorElem, options) {
-    var t = this, trumbowygIconsId = "trumbowyg-icons", $trumbowyg = $2.trumbowyg;
+    var t = this, trumbowygIconsId = "trumbowyg-icons", $trumbowyg = $4.trumbowyg;
     t.doc = editorElem.ownerDocument || document2;
-    t.$ta = $2(editorElem);
-    t.$c = $2(editorElem);
+    t.$ta = $4(editorElem);
+    t.$c = $4(editorElem);
     options = options || {};
     if (options.lang != null || $trumbowyg.langs[options.lang] != null) {
-      t.lang = $2.extend(true, {}, $trumbowyg.langs.en, $trumbowyg.langs[options.lang]);
+      t.lang = $4.extend(true, {}, $trumbowyg.langs.en, $trumbowyg.langs[options.lang]);
     } else {
       t.lang = $trumbowyg.langs.en;
     }
     t.hideButtonTexts = $trumbowyg.hideButtonTexts != null ? $trumbowyg.hideButtonTexts : options.hideButtonTexts;
     var svgPathOption = $trumbowyg.svgPath != null ? $trumbowyg.svgPath : options.svgPath;
     t.hasSvg = svgPathOption !== false;
-    if (svgPathOption !== false && ($trumbowyg.svgAbsoluteUseHref || $2("#" + trumbowygIconsId, t.doc).length === 0)) {
+    if (svgPathOption !== false && ($trumbowyg.svgAbsoluteUseHref || $4("#" + trumbowygIconsId, t.doc).length === 0)) {
       if (svgPathOption == null) {
-        var $scriptElements = $2("script[src]");
+        var $scriptElements = $4("script[src]");
         $scriptElements.each(function(i, scriptElement) {
           var source = scriptElement.src;
-          var matches = source.match("trumbowyg(.min)?.js");
-          if (matches != null) {
-            svgPathOption = source.substring(0, source.indexOf(matches[0])) + "ui/icons.svg";
+          var matches3 = source.match("trumbowyg(.min)?.js");
+          if (matches3 != null) {
+            svgPathOption = source.substring(0, source.indexOf(matches3[0])) + "ui/icons.svg";
           }
         });
       }
@@ -6729,7 +6729,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         dropdown: ["createLink", "unlink"]
       }
     };
-    t.o = $2.extend(true, {}, $trumbowyg.defaultOptions, options);
+    t.o = $4.extend(true, {}, $trumbowyg.defaultOptions, options);
     if (!t.o.hasOwnProperty("imgDblClickHandler")) {
       t.o.imgDblClickHandler = t.getDefaultImgDblClickHandler();
     }
@@ -6740,7 +6740,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     } else if (!t.o.semantic) {
       t.o.btns[3] = ["bold", "italic", "underline", "strikethrough"];
     }
-    $2.each(t.o.btnsDef, function(btnName, btnDef) {
+    $4.each(t.o.btnsDef, function(btnName, btnDef) {
       t.addBtnDef(btnName, btnDef);
     });
     t.eventNamespace = "trumbowyg-event";
@@ -6781,7 +6781,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       });
     },
     addBtnDef: function(btnName, btnDef) {
-      this.btnsDef[btnName] = $2.extend(btnDef, this.btnsDef[btnName] || {});
+      this.btnsDef[btnName] = $4.extend(btnDef, this.btnsDef[btnName] || {});
     },
     setupUrlPrefix: function() {
       var protocol = this.o.urlProtocol;
@@ -6795,21 +6795,21 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     },
     buildEditor: function() {
       var t = this, prefix = t.o.prefix, html = "";
-      t.$box = $2("<div/>", {
+      t.$box = $4("<div/>", {
         class: prefix + "box " + prefix + "editor-visible " + prefix + t.o.lang + " trumbowyg"
       });
-      t.$edBox = $2("<div/>", {
+      t.$edBox = $4("<div/>", {
         class: prefix + "editor-box"
       });
       t.isTextarea = t.$ta.is("textarea");
       if (t.isTextarea) {
         html = t.$ta.val();
-        t.$ed = $2("<div/>").appendTo(t.$edBox);
+        t.$ed = $4("<div/>").appendTo(t.$edBox);
         t.$box.insertAfter(t.$ta).append(t.$edBox, t.$ta);
       } else {
         t.$ed = t.$ta;
         html = t.$ed.html();
-        t.$ta = $2("<textarea/>", {
+        t.$ta = $4("<textarea/>", {
           name: t.$ta.attr("id"),
           height: t.height
         }).val(html);
@@ -6957,7 +6957,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
             t.execCmd("insertText", (e.originalEvent || e).clipboardData.getData("text/plain"));
           }
         }
-        $2.each(t.pasteHandlers, function(i, pasteHandler) {
+        $4.each(t.pasteHandlers, function(i, pasteHandler) {
           pasteHandler(e);
         });
         setTimeout(function() {
@@ -6973,8 +6973,8 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
           t.$c.trigger("tbwchange");
         }, 0);
       });
-      $2(t.doc.body).on("keydown." + t.eventNamespace, function(e) {
-        if (e.which === 27 && $2("." + prefix + "modal-box").length >= 1) {
+      $4(t.doc.body).on("keydown." + t.eventNamespace, function(e) {
+        if (e.which === 27 && $4("." + prefix + "modal-box").length >= 1) {
           t.closeModal();
           return false;
         }
@@ -6999,17 +6999,17 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     // Build button pane, use o.btns option
     buildBtnPane: function() {
       var t = this, prefix = t.o.prefix;
-      var $btnPane = t.$btnPane = $2("<div/>", {
+      var $btnPane = t.$btnPane = $4("<div/>", {
         class: prefix + "button-pane"
       });
-      $2.each(t.o.btns, function(i, btnGrp) {
+      $4.each(t.o.btns, function(i, btnGrp) {
         if (!Array.isArray(btnGrp)) {
           btnGrp = [btnGrp];
         }
-        var $btnGroup = $2("<div/>", {
+        var $btnGroup = $4("<div/>", {
           class: prefix + "button-group " + (btnGrp.indexOf("fullscreen") >= 0 ? prefix + "right" : "")
         });
-        $2.each(btnGrp, function(i2, btn) {
+        $4.each(btnGrp, function(i2, btn) {
           try {
             if (t.isSupportedBtn(btn)) {
               $btnGroup.append(t.buildBtn(btn));
@@ -7026,17 +7026,17 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     // Build a button and his action
     // @param btnName The name of the button
     buildBtn: function(btnName) {
-      var t = this, prefix = t.o.prefix, btn = t.btnsDef[btnName], isDropdown = btn.dropdown, hasIcon = btn.hasIcon != null ? btn.hasIcon : true, textDef = t.lang[btnName] || btnName, $btn = $2("<button/>", {
+      var t = this, prefix = t.o.prefix, btn = t.btnsDef[btnName], isDropdown = btn.dropdown, hasIcon = btn.hasIcon != null ? btn.hasIcon : true, textDef = t.lang[btnName] || btnName, $btn = $4("<button/>", {
         type: "button",
         class: prefix + btnName + "-button " + (btn.class || "") + (!hasIcon ? " " + prefix + "textual-button" : ""),
         html: t.hasSvg && hasIcon ? '<svg><use xlink:href="' + t.svgPath + "#" + prefix + (btn.ico || btnName).replace(/([A-Z]+)/g, "-$1").toLowerCase() + '"/></svg>' : t.hideButtonTexts ? "" : btn.text || btn.title || t.lang[btnName] || btnName,
         title: (btn.title || btn.text || textDef) + (btn.key ? " (" + (t.isMac ? "Cmd" : "Ctrl") + " + " + btn.key + ")" : ""),
         tabindex: -1,
         mousedown: function() {
-          if (!isDropdown || $2("." + btnName + "-" + prefix + "dropdown", t.$box).is(":hidden")) {
-            $2("body", t.doc).trigger("mousedown");
+          if (!isDropdown || $4("." + btnName + "-" + prefix + "dropdown", t.$box).is(":hidden")) {
+            $4("body", t.doc).trigger("mousedown");
           }
-          if ((t.$btnPane.hasClass(prefix + "disable") || t.$box.hasClass(prefix + "disabled")) && !$2(this).hasClass(prefix + "active") && !$2(this).hasClass(prefix + "not-disable")) {
+          if ((t.$btnPane.hasClass(prefix + "disable") || t.$box.hasClass(prefix + "disabled")) && !$4(this).hasClass(prefix + "active") && !$4(this).hasClass(prefix + "not-disable")) {
             return false;
           }
           t.execCmd((isDropdown ? "dropdown" : false) || btn.fn || btnName, btn.param || btnName, btn.forceCss);
@@ -7050,8 +7050,8 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
           class: dropdownPrefix + "-" + btnName + " " + dropdownPrefix + " " + prefix + "fixed-top " + (btn.dropdownClass || "")
         };
         dropdownOptions["data-" + dropdownPrefix] = btnName;
-        var $dropdown = $2("<div/>", dropdownOptions);
-        $2.each(isDropdown, function(i, def) {
+        var $dropdown = $4("<div/>", dropdownOptions);
+        $4.each(isDropdown, function(i, def) {
           if (t.btnsDef[def] && t.isSupportedBtn(def)) {
             $dropdown.append(t.buildSubBtn(def));
           }
@@ -7079,14 +7079,14 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         };
       }
       t.tagToButton[(btn.tag || btnName).toLowerCase()] = btnName;
-      return $2("<button/>", {
+      return $4("<button/>", {
         type: "button",
         class: prefix + btnName + "-dropdown-button " + (btn.class || "") + (btn.ico ? " " + prefix + btn.ico + "-button" : ""),
         html: t.hasSvg && hasIcon ? '<svg><use xlink:href="' + t.svgPath + "#" + prefix + (btn.ico || btnName).replace(/([A-Z]+)/g, "-$1").toLowerCase() + '"/></svg>' + (btn.text || btn.title || t.lang[btnName] || btnName) : btn.text || btn.title || t.lang[btnName] || btnName,
         title: btn.key ? "(" + (t.isMac ? "Cmd" : "Ctrl") + " + " + btn.key + ")" : null,
         style: btn.style || null,
         mousedown: function() {
-          $2("body", t.doc).trigger("mousedown");
+          $4("body", t.doc).trigger("mousedown");
           t.execCmd(btn.fn || btnName, btn.param || btnName, btn.forceCss);
           return false;
         }
@@ -7103,14 +7103,14 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     // Build overlay for modal box
     buildOverlay: function() {
       var t = this;
-      t.$overlay = $2("<div/>", {
+      t.$overlay = $4("<div/>", {
         class: t.o.prefix + "overlay"
       }).appendTo(t.$box);
       return t.$overlay;
     },
     showOverlay: function() {
       var t = this;
-      $2(window2).trigger("scroll");
+      $4(window2).trigger("scroll");
       t.$overlay.fadeIn(200);
       t.$box.addClass(t.o.prefix + "box-blur");
     },
@@ -7126,12 +7126,12 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         return;
       }
       t.isFixed = false;
-      $2(window2).on("scroll." + t.eventNamespace + " resize." + t.eventNamespace, function() {
+      $4(window2).on("scroll." + t.eventNamespace + " resize." + t.eventNamespace, function() {
         if (!$box) {
           return;
         }
         t.syncCode();
-        var scrollTop = $2(window2).scrollTop(), offset = $box.offset().top + 1, $buttonPane = t.$btnPane, buttonPaneOuterHeight = $buttonPane.outerHeight() - 2;
+        var scrollTop = $4(window2).scrollTop(), offset = $box.offset().top + 1, $buttonPane = t.$btnPane, buttonPaneOuterHeight = $buttonPane.outerHeight() - 2;
         if (scrollTop - offset > 0 && scrollTop - offset - t.height < 0) {
           if (!t.isFixed) {
             t.isFixed = true;
@@ -7146,7 +7146,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
           $buttonPane.css({
             width: fixedFullWidth ? "100%" : $box.width() - 1
           });
-          $2("." + t.o.prefix + "fixed-top", $box).css({
+          $4("." + t.o.prefix + "fixed-top", $box).css({
             position: fixedFullWidth ? "fixed" : "absolute",
             top: fixedFullWidth ? buttonPaneOuterHeight : buttonPaneOuterHeight + (scrollTop - offset),
             zIndex: 15
@@ -7155,7 +7155,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
           t.isFixed = false;
           $buttonPane.removeAttr("style");
           t.$box.css({ paddingTop: 0 });
-          $2("." + t.o.prefix + "fixed-top", $box).css({
+          $4("." + t.o.prefix + "fixed-top", $box).css({
             position: "absolute",
             top: buttonPaneOuterHeight
           });
@@ -7190,10 +7190,10 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       t.destroyPlugins();
       t.$box.remove();
       t.$c.removeData("trumbowyg");
-      $2("body").removeClass(prefix + "body-fullscreen");
+      $4("body").removeClass(prefix + "body-fullscreen");
       t.$c.trigger("tbwclose");
-      $2(window2).off("scroll." + t.eventNamespace + " resize." + t.eventNamespace);
-      $2(t.doc.body).off("keydown." + t.eventNamespace);
+      $4(window2).off("scroll." + t.eventNamespace + " resize." + t.eventNamespace);
+      $4(t.doc.body).off("keydown." + t.eventNamespace);
     },
     // Empty the editor
     empty: function() {
@@ -7213,7 +7213,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         t.doc.activeElement.blur();
         t.$box.toggleClass(prefix + "editor-hidden " + prefix + "editor-visible");
         t.$btnPane.toggleClass(prefix + "disable");
-        $2("." + prefix + "viewHTML-button", t.$btnPane).toggleClass(prefix + "active");
+        $4("." + prefix + "viewHTML-button", t.$btnPane).toggleClass(prefix + "active");
         if (t.$box.hasClass(prefix + "editor-visible")) {
           t.$ta.attr("tabindex", -1);
         } else {
@@ -7229,19 +7229,19 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       var t = this;
       t.$ed.find("span").each(function() {
         if (addFlag === true) {
-          $2(this).attr("data-tbw-flag", true);
+          $4(this).attr("data-tbw-flag", true);
         } else {
-          if ($2(this).attr("data-tbw-flag")) {
-            $2(this).removeAttr("data-tbw-flag");
+          if ($4(this).attr("data-tbw-flag")) {
+            $4(this).removeAttr("data-tbw-flag");
           } else {
-            $2(this).contents().unwrap();
+            $4(this).contents().unwrap();
           }
         }
       });
     },
     // Open dropdown when click on a button which open that
     dropdown: function(name) {
-      var t = this, $body = $2("body", t.doc), prefix = t.o.prefix, $dropdown = $2("[data-" + prefix + "dropdown=" + name + "]", t.$box), $btn = $2("." + prefix + name + "-button", t.$btnPane), show = $dropdown.is(":hidden");
+      var t = this, $body = $4("body", t.doc), prefix = t.o.prefix, $dropdown = $4("[data-" + prefix + "dropdown=" + name + "]", t.$box), $btn = $4("." + prefix + name + "-button", t.$btnPane), show = $dropdown.is(":hidden");
       $body.trigger("mousedown");
       if (show) {
         var btnOffsetLeft = $btn.offset().left;
@@ -7251,11 +7251,11 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
           top: $btn.offset().top - t.$btnPane.offset().top + $btn.outerHeight(),
           left: t.o.fixedFullWidth && t.isFixed ? btnOffsetLeft : btnOffsetLeft - t.$btnPane.offset().left
         }).show();
-        $2(window2).trigger("scroll");
+        $4(window2).trigger("scroll");
         $body.on("mousedown." + t.eventNamespace, function(e) {
           if (!$dropdown.is(e.target)) {
-            $2("." + prefix + "dropdown", t.$box).hide();
-            $2("." + prefix + "active", t.$btnPane).removeClass(prefix + "active");
+            $4("." + prefix + "dropdown", t.$box).hide();
+            $4("." + prefix + "active", t.$btnPane).removeClass(prefix + "active");
             $body.off("mousedown." + t.eventNamespace);
           }
         });
@@ -7281,9 +7281,9 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       if (!force && t.$ed.is(":visible")) {
         t.syncTextarea();
       } else {
-        var html = $2("<div>").html(t.$ta.val());
-        var safe = $2("<div>").append(html);
-        $2(t.o.tagsToRemove.join(","), safe).remove();
+        var html = $4("<div>").html(t.$ta.val());
+        var safe = $4("<div>").append(html);
+        $4(t.o.tagsToRemove.join(","), safe).remove();
         t.$ed.html(safe.contents().html());
       }
       if (t.o.autogrow) {
@@ -7333,7 +7333,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
           };
           wrapInlinesInParagraphsFrom(t.$ed.children(inlineElementsSelector).first());
           t.semanticTag("div", true);
-          $2("[data-tbw]", t.$ed).contents().unwrap();
+          $4("[data-tbw]", t.$ed).contents().unwrap();
           t.$ed.find("p:empty").remove();
         }
         if (!keepRange && restoreRange) {
@@ -7356,19 +7356,19 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         oldTag = newTag;
         newTag = tmpTag;
       }
-      $2(oldTag, this.$ed).each(function() {
+      $4(oldTag, this.$ed).each(function() {
         var resetRange = false;
-        var $oldTag = $2(this);
+        var $oldTag = $4(this);
         if ($oldTag.contents().length === 0) {
           return false;
         }
         if (t.range && t.range.startContainer.parentNode === this) {
           resetRange = true;
         }
-        var $newTag = $2("<" + newTag + "/>");
+        var $newTag = $4("<" + newTag + "/>");
         $newTag.insertBefore($oldTag);
         if (copyAttributes) {
-          $2.each($oldTag.prop("attributes"), function() {
+          $4.each($oldTag.prop("attributes"), function() {
             $newTag.attr(this.name, this.value);
           });
         }
@@ -7387,7 +7387,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         node = node.parentNode;
       }
       if (node && node.nodeName === "A") {
-        var $a = $2(node);
+        var $a = $4(node);
         text = $a.text();
         url = $a.attr("href");
         if (!t.o.minimalLinks) {
@@ -7416,7 +7416,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
           options2[optionValue] = t.lang[optionValue];
           return options2;
         }, {});
-        $2.extend(options, {
+        $4.extend(options, {
           title: {
             label: t.lang.title,
             value: title
@@ -7433,7 +7433,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         if (!url2.length) {
           return false;
         }
-        var link = $2(['<a href="', url2, '">', v.text || v.url, "</a>"].join(""));
+        var link = $4(['<a href="', url2, '">', v.text || v.url, "</a>"].join(""));
         if (v.title) {
           link.attr("title", v.title);
         }
@@ -7495,7 +7495,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       }
       t.openModalInsert(t.lang.insertImage, options, function(v) {
         t.execCmd("insertImage", v.url, false, true);
-        var $img = $2('img[src="' + v.url + '"]:not([alt])', t.$box);
+        var $img = $4('img[src="' + v.url + '"]:not([alt])', t.$box);
         $img.attr("alt", v.alt);
         if (t.o.imageWidthModalEdit) {
           $img.attr({
@@ -7513,23 +7513,23 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       isFullscreen = t.$box.hasClass(fullscreenCssClass);
       if (isFullscreen) {
         t.$box.before(
-          $2("<div/>", {
+          $4("<div/>", {
             class: fullscreenPlaceholderClass
           }).css({
             height: editorHeight
           })
         );
       } else {
-        $2("." + fullscreenPlaceholderClass).remove();
+        $4("." + fullscreenPlaceholderClass).remove();
       }
-      $2("body").toggleClass(prefix + "body-fullscreen", isFullscreen);
-      $2(window2).trigger("scroll");
+      $4("body").toggleClass(prefix + "body-fullscreen", isFullscreen);
+      $4(window2).trigger("scroll");
       t.$c.trigger("tbw" + (isFullscreen ? "open" : "close") + "fullscreen");
     },
     applyTagClasses: function() {
       var t = this;
       for (const tag of Object.keys(t.o.tagClasses)) {
-        $2(tag, t.$ed).addClass(t.o.tagClasses[tag]);
+        $4(tag, t.$ed).addClass(t.o.tagClasses[tag]);
       }
       t.syncCode();
     },
@@ -7580,7 +7580,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     openModal: function(title, content, buildForm) {
       var t = this, prefix = t.o.prefix;
       buildForm = buildForm !== false;
-      if ($2("." + prefix + "modal-box", t.$box).length > 0) {
+      if ($4("." + prefix + "modal-box", t.$box).length > 0) {
         return false;
       }
       if (t.o.autogrowOnEnter) {
@@ -7589,12 +7589,12 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       t.saveRange();
       t.showOverlay();
       t.$btnPane.addClass(prefix + "disable");
-      var $modal = $2("<div/>", {
+      var $modal = $4("<div/>", {
         class: prefix + "modal " + prefix + "fixed-top"
       }).css({
         top: t.$box.offset().top + t.$btnPane.height(),
         zIndex: 99999
-      }).appendTo($2(t.doc.body));
+      }).appendTo($4(t.doc.body));
       var darkClass = prefix + "dark";
       if (t.$c.parents("." + darkClass).length !== 0) {
         $modal.addClass(darkClass);
@@ -7605,7 +7605,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       });
       var formOrContent;
       if (buildForm) {
-        formOrContent = $2("<form/>", {
+        formOrContent = $4("<form/>", {
           action: "",
           html: content
         }).on("submit", function() {
@@ -7622,7 +7622,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       } else {
         formOrContent = content;
       }
-      var $box = $2("<div/>", {
+      var $box = $4("<div/>", {
         class: prefix + "modal-box",
         html: formOrContent
       }).css({
@@ -7634,29 +7634,29 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         opacity: 1
       }, 100);
       if (title) {
-        $2("<span/>", {
+        $4("<span/>", {
           text: title,
           class: prefix + "modal-title"
         }).prependTo($box);
       }
       if (buildForm) {
-        $2(":input:first", $box).focus();
+        $4(":input:first", $box).focus();
         t.buildModalBtn("submit", $box);
         t.buildModalBtn("reset", $box);
         $modal.height($box.outerHeight() + 10);
       }
-      $2(window2).trigger("scroll");
+      $4(window2).trigger("scroll");
       t.$c.trigger("tbwmodalopen");
       return $modal;
     },
     // @param n is name of modal
     buildModalBtn: function(n, $modal) {
       var t = this, prefix = t.o.prefix;
-      return $2("<button/>", {
+      return $4("<button/>", {
         class: prefix + "modal-button " + prefix + "modal-" + n,
         type: n,
         text: t.lang[n] || n
-      }).appendTo($2("form", $modal));
+      }).appendTo($4("form", $modal));
     },
     // close current modal box
     closeModal: function() {
@@ -7666,7 +7666,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       }
       t.$btnPane.removeClass(prefix + "disable");
       t.$overlay.off();
-      var $modalBox = $2("." + prefix + "modal-box", $2(t.doc.body));
+      var $modalBox = $4("." + prefix + "modal-box", $4(t.doc.body));
       $modalBox.animate({
         top: "-" + $modalBox.height()
       }, 100, function() {
@@ -7679,7 +7679,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     // Pre-formatted build and management modal
     openModalInsert: function(title, fields, cmd) {
       var t = this, prefix = t.o.prefix, lg = t.lang, html = "", idPrefix = prefix + "form-" + Date.now() + "-";
-      $2.each(fields, function(fieldName, field) {
+      $4.each(fields, function(fieldName, field) {
         var l = field.label || fieldName, n = field.name || fieldName, a = field.attributes || {}, fieldId = idPrefix + fieldName;
         var attr = Object.keys(a).map(function(prop) {
           return prop + '="' + a[prop] + '"';
@@ -7694,7 +7694,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         html += '<div class="' + prefix + 'input-row">';
         html += '<div class="' + prefix + 'input-infos"><label for="' + fieldId + '"><span>' + (lg[l] ? lg[l] : l) + "</span></label></div>";
         html += '<div class="' + prefix + 'input-html">';
-        if ($2.isPlainObject(field.options)) {
+        if ($4.isPlainObject(field.options)) {
           html += '<select id="' + fieldId + '" name="' + n + '">';
           html += Object.keys(field.options).map((optionValue) => {
             return '<option value="' + optionValue + '" ' + (optionValue === field.value ? "selected" : "") + ">" + field.options[optionValue] + "</option>";
@@ -7707,10 +7707,10 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
         html += "</div></div>";
       });
       return t.openModal(title, html).on(CONFIRM_EVENT, function() {
-        var $form = $2("form", $2(this)), valid = true, values = {};
-        $2.each(fields, function(fieldName, field) {
+        var $form = $4("form", $4(this)), valid = true, values = {};
+        $4.each(fields, function(fieldName, field) {
           var n = field.name || fieldName;
-          var $field = $2(':input[name="' + n + '"]', $form), inputType = $field[0].type;
+          var $field = $4(':input[name="' + n + '"]', $form), inputType = $field[0].type;
           switch (inputType.toLowerCase()) {
             case "checkbox":
               values[n] = $field.is(":checked");
@@ -7736,11 +7736,11 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
             t.syncCode();
             t.$c.trigger("tbwchange");
             t.closeModal();
-            $2(this).off(CONFIRM_EVENT);
+            $4(this).off(CONFIRM_EVENT);
           }
         }
       }).one(CANCEL_EVENT, function() {
-        $2(this).off(CONFIRM_EVENT);
+        $4(this).off(CONFIRM_EVENT);
         t.closeModal();
       });
     },
@@ -7751,7 +7751,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       });
       $row.find("." + spanErrorClass).remove();
       $row.addClass(prefix + "input-error").find("." + prefix + "input-infos label").append(
-        $2("<span/>", {
+        $4("<span/>", {
           class: spanErrorClass,
           text: err
         })
@@ -7760,7 +7760,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     getDefaultImgDblClickHandler: function() {
       var t = this;
       return function() {
-        var $img = $2(this), src = $img.attr("src"), base64 = "(Base64)";
+        var $img = $4(this), src = $img.attr("src"), base64 = "(Base64)";
         if (src.indexOf("data:image") === 0) {
           src = base64;
         }
@@ -7859,22 +7859,22 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     },
     clearButtonPaneStatus: function() {
       var t = this, prefix = t.o.prefix, activeClasses = prefix + "active-button " + prefix + "active", originalIconClass = prefix + "original-icon";
-      $2("." + prefix + "active-button", t.$btnPane).removeClass(activeClasses);
-      $2("." + originalIconClass, t.$btnPane).each(function() {
-        $2(this).find("svg use").attr("xlink:href", $2(this).data(originalIconClass));
+      $4("." + prefix + "active-button", t.$btnPane).removeClass(activeClasses);
+      $4("." + originalIconClass, t.$btnPane).each(function() {
+        $4(this).find("svg use").attr("xlink:href", $4(this).data(originalIconClass));
       });
     },
     updateButtonPaneStatus: function() {
       var t = this, prefix = t.o.prefix, activeClasses = prefix + "active-button " + prefix + "active", originalIconClass = prefix + "original-icon", tags = t.getTagsRecursive(t.doc.getSelection().anchorNode);
       t.clearButtonPaneStatus();
-      $2.each(tags, function(i, tag) {
-        var btnName = t.tagToButton[tag.toLowerCase()], $btn = $2("." + prefix + btnName + "-button", t.$btnPane);
+      $4.each(tags, function(i, tag) {
+        var btnName = t.tagToButton[tag.toLowerCase()], $btn = $4("." + prefix + btnName + "-button", t.$btnPane);
         if ($btn.length > 0) {
           $btn.addClass(activeClasses);
         } else {
           try {
-            $btn = $2("." + prefix + "dropdown ." + prefix + btnName + "-dropdown-button", t.$box);
-            var $btnSvgUse = $btn.find("svg use"), dropdownBtnName = $btn.parent().data(prefix + "dropdown"), $dropdownBtn = $2("." + prefix + dropdownBtnName + "-button", t.$box), $dropdownBtnSvgUse = $dropdownBtn.find("svg use");
+            $btn = $4("." + prefix + "dropdown ." + prefix + btnName + "-dropdown-button", t.$box);
+            var $btnSvgUse = $btn.find("svg use"), dropdownBtnName = $btn.parent().data(prefix + "dropdown"), $dropdownBtn = $4("." + prefix + dropdownBtnName + "-button", t.$box), $dropdownBtnSvgUse = $dropdownBtn.find("svg use");
             $dropdownBtn.addClass(activeClasses);
             if (t.o.changeActiveDropdownIcon && $btnSvgUse.length > 0) {
               $dropdownBtn.addClass(originalIconClass).data(originalIconClass, $dropdownBtnSvgUse.attr("xlink:href"));
@@ -7902,7 +7902,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
       if (tag === "P" && element.style.textAlign !== "") {
         tags.push(element.style.textAlign);
       }
-      $2.each(t.tagHandlers, function(i, tagHandler) {
+      $4.each(t.tagHandlers, function(i, tagHandler) {
         tags = tags.concat(tagHandler(element, t));
       });
       tags.push(tag);
@@ -7914,7 +7914,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     initPlugins: function() {
       var t = this;
       t.loadedPlugins = [];
-      $2.each($2.trumbowyg.plugins, function(name, plugin) {
+      $4.each($4.trumbowyg.plugins, function(name, plugin) {
         if (!plugin.shouldInit || plugin.shouldInit(t)) {
           plugin.init(t);
           if (plugin.tagHandler) {
@@ -7926,7 +7926,7 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
     },
     destroyPlugins: function() {
       var t = this;
-      $2.each(this.loadedPlugins, function(i, plugin) {
+      $4.each(this.loadedPlugins, function(i, plugin) {
         if (plugin.destroy) {
           plugin.destroy(t);
         }
@@ -7935,8 +7935,1438 @@ Object.defineProperty(import_jquery2.default.trumbowyg, "defaultOptions", {
   };
 })(navigator, window, document, import_jquery2.default);
 
+// node_modules/@rails/ujs/app/assets/javascripts/rails-ujs.esm.js
+init_inject_jquery();
+var linkClickSelector = "a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]";
+var buttonClickSelector = {
+  selector: "button[data-remote]:not([form]), button[data-confirm]:not([form])",
+  exclude: "form button"
+};
+var inputChangeSelector = "select[data-remote], input[data-remote], textarea[data-remote]";
+var formSubmitSelector = "form:not([data-turbo=true])";
+var formInputClickSelector = "form:not([data-turbo=true]) input[type=submit], form:not([data-turbo=true]) input[type=image], form:not([data-turbo=true]) button[type=submit], form:not([data-turbo=true]) button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])";
+var formDisableSelector = "input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled";
+var formEnableSelector = "input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled";
+var fileInputSelector = "input[name][type=file]:not([disabled])";
+var linkDisableSelector = "a[data-disable-with], a[data-disable]";
+var buttonDisableSelector = "button[data-remote][data-disable-with], button[data-remote][data-disable]";
+var nonce = null;
+var loadCSPNonce = () => {
+  const metaTag = document.querySelector("meta[name=csp-nonce]");
+  return nonce = metaTag && metaTag.content;
+};
+var cspNonce = () => nonce || loadCSPNonce();
+var m = Element.prototype.matches || Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector;
+var matches = function(element, selector) {
+  if (selector.exclude) {
+    return m.call(element, selector.selector) && !m.call(element, selector.exclude);
+  } else {
+    return m.call(element, selector);
+  }
+};
+var EXPANDO = "_ujsData";
+var getData = (element, key) => element[EXPANDO] ? element[EXPANDO][key] : void 0;
+var setData = function(element, key, value) {
+  if (!element[EXPANDO]) {
+    element[EXPANDO] = {};
+  }
+  return element[EXPANDO][key] = value;
+};
+var $ = (selector) => Array.prototype.slice.call(document.querySelectorAll(selector));
+var isContentEditable = function(element) {
+  var isEditable = false;
+  do {
+    if (element.isContentEditable) {
+      isEditable = true;
+      break;
+    }
+    element = element.parentElement;
+  } while (element);
+  return isEditable;
+};
+var csrfToken = () => {
+  const meta = document.querySelector("meta[name=csrf-token]");
+  return meta && meta.content;
+};
+var csrfParam = () => {
+  const meta = document.querySelector("meta[name=csrf-param]");
+  return meta && meta.content;
+};
+var CSRFProtection = (xhr) => {
+  const token = csrfToken();
+  if (token) {
+    return xhr.setRequestHeader("X-CSRF-Token", token);
+  }
+};
+var refreshCSRFTokens = () => {
+  const token = csrfToken();
+  const param = csrfParam();
+  if (token && param) {
+    return $('form input[name="' + param + '"]').forEach((input) => input.value = token);
+  }
+};
+var AcceptHeaders = {
+  "*": "*/*",
+  text: "text/plain",
+  html: "text/html",
+  xml: "application/xml, text/xml",
+  json: "application/json, text/javascript",
+  script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
+};
+var ajax = (options) => {
+  options = prepareOptions(options);
+  var xhr = createXHR(options, function() {
+    const response = processResponse(xhr.response != null ? xhr.response : xhr.responseText, xhr.getResponseHeader("Content-Type"));
+    if (Math.floor(xhr.status / 100) === 2) {
+      if (typeof options.success === "function") {
+        options.success(response, xhr.statusText, xhr);
+      }
+    } else {
+      if (typeof options.error === "function") {
+        options.error(response, xhr.statusText, xhr);
+      }
+    }
+    return typeof options.complete === "function" ? options.complete(xhr, xhr.statusText) : void 0;
+  });
+  if (options.beforeSend && !options.beforeSend(xhr, options)) {
+    return false;
+  }
+  if (xhr.readyState === XMLHttpRequest.OPENED) {
+    return xhr.send(options.data);
+  }
+};
+var prepareOptions = function(options) {
+  options.url = options.url || location.href;
+  options.type = options.type.toUpperCase();
+  if (options.type === "GET" && options.data) {
+    if (options.url.indexOf("?") < 0) {
+      options.url += "?" + options.data;
+    } else {
+      options.url += "&" + options.data;
+    }
+  }
+  if (!(options.dataType in AcceptHeaders)) {
+    options.dataType = "*";
+  }
+  options.accept = AcceptHeaders[options.dataType];
+  if (options.dataType !== "*") {
+    options.accept += ", */*; q=0.01";
+  }
+  return options;
+};
+var createXHR = function(options, done) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(options.type, options.url, true);
+  xhr.setRequestHeader("Accept", options.accept);
+  if (typeof options.data === "string") {
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+  }
+  if (!options.crossDomain) {
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    CSRFProtection(xhr);
+  }
+  xhr.withCredentials = !!options.withCredentials;
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      return done(xhr);
+    }
+  };
+  return xhr;
+};
+var processResponse = function(response, type) {
+  if (typeof response === "string" && typeof type === "string") {
+    if (type.match(/\bjson\b/)) {
+      try {
+        response = JSON.parse(response);
+      } catch (error) {
+      }
+    } else if (type.match(/\b(?:java|ecma)script\b/)) {
+      const script = document.createElement("script");
+      script.setAttribute("nonce", cspNonce());
+      script.text = response;
+      document.head.appendChild(script).parentNode.removeChild(script);
+    } else if (type.match(/\b(xml|html|svg)\b/)) {
+      const parser = new DOMParser();
+      type = type.replace(/;.+/, "");
+      try {
+        response = parser.parseFromString(response, type);
+      } catch (error1) {
+      }
+    }
+  }
+  return response;
+};
+var href = (element) => element.href;
+var isCrossDomain = function(url) {
+  const originAnchor = document.createElement("a");
+  originAnchor.href = location.href;
+  const urlAnchor = document.createElement("a");
+  try {
+    urlAnchor.href = url;
+    return !((!urlAnchor.protocol || urlAnchor.protocol === ":") && !urlAnchor.host || originAnchor.protocol + "//" + originAnchor.host === urlAnchor.protocol + "//" + urlAnchor.host);
+  } catch (e) {
+    return true;
+  }
+};
+var preventDefault;
+var { CustomEvent } = window;
+if (typeof CustomEvent !== "function") {
+  CustomEvent = function(event, params) {
+    const evt = document.createEvent("CustomEvent");
+    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+    return evt;
+  };
+  CustomEvent.prototype = window.Event.prototype;
+  ({ preventDefault } = CustomEvent.prototype);
+  CustomEvent.prototype.preventDefault = function() {
+    const result = preventDefault.call(this);
+    if (this.cancelable && !this.defaultPrevented) {
+      Object.defineProperty(this, "defaultPrevented", {
+        get() {
+          return true;
+        }
+      });
+    }
+    return result;
+  };
+}
+var fire = (obj, name, data) => {
+  const event = new CustomEvent(name, {
+    bubbles: true,
+    cancelable: true,
+    detail: data
+  });
+  obj.dispatchEvent(event);
+  return !event.defaultPrevented;
+};
+var stopEverything = (e) => {
+  fire(e.target, "ujs:everythingStopped");
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+};
+var delegate = (element, selector, eventType, handler) => element.addEventListener(eventType, function(e) {
+  let { target } = e;
+  while (!!(target instanceof Element) && !matches(target, selector)) {
+    target = target.parentNode;
+  }
+  if (target instanceof Element && handler.call(target, e) === false) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
+var toArray = (e) => Array.prototype.slice.call(e);
+var serializeElement = (element, additionalParam) => {
+  let inputs = [element];
+  if (matches(element, "form")) {
+    inputs = toArray(element.elements);
+  }
+  const params = [];
+  inputs.forEach(function(input) {
+    if (!input.name || input.disabled) {
+      return;
+    }
+    if (matches(input, "fieldset[disabled] *")) {
+      return;
+    }
+    if (matches(input, "select")) {
+      toArray(input.options).forEach(function(option) {
+        if (option.selected) {
+          params.push({
+            name: input.name,
+            value: option.value
+          });
+        }
+      });
+    } else if (input.checked || ["radio", "checkbox", "submit"].indexOf(input.type) === -1) {
+      params.push({
+        name: input.name,
+        value: input.value
+      });
+    }
+  });
+  if (additionalParam) {
+    params.push(additionalParam);
+  }
+  return params.map(function(param) {
+    if (param.name) {
+      return `${encodeURIComponent(param.name)}=${encodeURIComponent(param.value)}`;
+    } else {
+      return param;
+    }
+  }).join("&");
+};
+var formElements = (form, selector) => {
+  if (matches(form, "form")) {
+    return toArray(form.elements).filter((el) => matches(el, selector));
+  } else {
+    return toArray(form.querySelectorAll(selector));
+  }
+};
+var handleConfirmWithRails = (rails) => function(e) {
+  if (!allowAction(this, rails)) {
+    stopEverything(e);
+  }
+};
+var confirm = (message, element) => window.confirm(message);
+var allowAction = function(element, rails) {
+  let callback;
+  const message = element.getAttribute("data-confirm");
+  if (!message) {
+    return true;
+  }
+  let answer = false;
+  if (fire(element, "confirm")) {
+    try {
+      answer = rails.confirm(message, element);
+    } catch (error) {
+    }
+    callback = fire(element, "confirm:complete", [answer]);
+  }
+  return answer && callback;
+};
+var handleDisabledElement = function(e) {
+  const element = this;
+  if (element.disabled) {
+    stopEverything(e);
+  }
+};
+var enableElement = (e) => {
+  let element;
+  if (e instanceof Event) {
+    if (isXhrRedirect(e)) {
+      return;
+    }
+    element = e.target;
+  } else {
+    element = e;
+  }
+  if (isContentEditable(element)) {
+    return;
+  }
+  if (matches(element, linkDisableSelector)) {
+    return enableLinkElement(element);
+  } else if (matches(element, buttonDisableSelector) || matches(element, formEnableSelector)) {
+    return enableFormElement(element);
+  } else if (matches(element, formSubmitSelector)) {
+    return enableFormElements(element);
+  }
+};
+var disableElement = (e) => {
+  const element = e instanceof Event ? e.target : e;
+  if (isContentEditable(element)) {
+    return;
+  }
+  if (matches(element, linkDisableSelector)) {
+    return disableLinkElement(element);
+  } else if (matches(element, buttonDisableSelector) || matches(element, formDisableSelector)) {
+    return disableFormElement(element);
+  } else if (matches(element, formSubmitSelector)) {
+    return disableFormElements(element);
+  }
+};
+var disableLinkElement = function(element) {
+  if (getData(element, "ujs:disabled")) {
+    return;
+  }
+  const replacement = element.getAttribute("data-disable-with");
+  if (replacement != null) {
+    setData(element, "ujs:enable-with", element.innerHTML);
+    element.innerHTML = replacement;
+  }
+  element.addEventListener("click", stopEverything);
+  return setData(element, "ujs:disabled", true);
+};
+var enableLinkElement = function(element) {
+  const originalText = getData(element, "ujs:enable-with");
+  if (originalText != null) {
+    element.innerHTML = originalText;
+    setData(element, "ujs:enable-with", null);
+  }
+  element.removeEventListener("click", stopEverything);
+  return setData(element, "ujs:disabled", null);
+};
+var disableFormElements = (form) => formElements(form, formDisableSelector).forEach(disableFormElement);
+var disableFormElement = function(element) {
+  if (getData(element, "ujs:disabled")) {
+    return;
+  }
+  const replacement = element.getAttribute("data-disable-with");
+  if (replacement != null) {
+    if (matches(element, "button")) {
+      setData(element, "ujs:enable-with", element.innerHTML);
+      element.innerHTML = replacement;
+    } else {
+      setData(element, "ujs:enable-with", element.value);
+      element.value = replacement;
+    }
+  }
+  element.disabled = true;
+  return setData(element, "ujs:disabled", true);
+};
+var enableFormElements = (form) => formElements(form, formEnableSelector).forEach((element) => enableFormElement(element));
+var enableFormElement = function(element) {
+  const originalText = getData(element, "ujs:enable-with");
+  if (originalText != null) {
+    if (matches(element, "button")) {
+      element.innerHTML = originalText;
+    } else {
+      element.value = originalText;
+    }
+    setData(element, "ujs:enable-with", null);
+  }
+  element.disabled = false;
+  return setData(element, "ujs:disabled", null);
+};
+var isXhrRedirect = function(event) {
+  const xhr = event.detail ? event.detail[0] : void 0;
+  return xhr && xhr.getResponseHeader("X-Xhr-Redirect");
+};
+var handleMethodWithRails = (rails) => function(e) {
+  const link = this;
+  const method = link.getAttribute("data-method");
+  if (!method) {
+    return;
+  }
+  if (isContentEditable(this)) {
+    return;
+  }
+  const href3 = rails.href(link);
+  const csrfToken$1 = csrfToken();
+  const csrfParam$1 = csrfParam();
+  const form = document.createElement("form");
+  let formContent = `<input name='_method' value='${method}' type='hidden' />`;
+  if (csrfParam$1 && csrfToken$1 && !isCrossDomain(href3)) {
+    formContent += `<input name='${csrfParam$1}' value='${csrfToken$1}' type='hidden' />`;
+  }
+  formContent += '<input type="submit" />';
+  form.method = "post";
+  form.action = href3;
+  form.target = link.target;
+  form.innerHTML = formContent;
+  form.style.display = "none";
+  document.body.appendChild(form);
+  form.querySelector('[type="submit"]').click();
+  stopEverything(e);
+};
+var isRemote = function(element) {
+  const value = element.getAttribute("data-remote");
+  return value != null && value !== "false";
+};
+var handleRemoteWithRails = (rails) => function(e) {
+  let data, method, url;
+  const element = this;
+  if (!isRemote(element)) {
+    return true;
+  }
+  if (!fire(element, "ajax:before")) {
+    fire(element, "ajax:stopped");
+    return false;
+  }
+  if (isContentEditable(element)) {
+    fire(element, "ajax:stopped");
+    return false;
+  }
+  const withCredentials = element.getAttribute("data-with-credentials");
+  const dataType = element.getAttribute("data-type") || "script";
+  if (matches(element, formSubmitSelector)) {
+    const button = getData(element, "ujs:submit-button");
+    method = getData(element, "ujs:submit-button-formmethod") || element.getAttribute("method") || "get";
+    url = getData(element, "ujs:submit-button-formaction") || element.getAttribute("action") || location.href;
+    if (method.toUpperCase() === "GET") {
+      url = url.replace(/\?.*$/, "");
+    }
+    if (element.enctype === "multipart/form-data") {
+      data = new FormData(element);
+      if (button != null) {
+        data.append(button.name, button.value);
+      }
+    } else {
+      data = serializeElement(element, button);
+    }
+    setData(element, "ujs:submit-button", null);
+    setData(element, "ujs:submit-button-formmethod", null);
+    setData(element, "ujs:submit-button-formaction", null);
+  } else if (matches(element, buttonClickSelector) || matches(element, inputChangeSelector)) {
+    method = element.getAttribute("data-method");
+    url = element.getAttribute("data-url");
+    data = serializeElement(element, element.getAttribute("data-params"));
+  } else {
+    method = element.getAttribute("data-method");
+    url = rails.href(element);
+    data = element.getAttribute("data-params");
+  }
+  ajax({
+    type: method || "GET",
+    url,
+    data,
+    dataType,
+    beforeSend(xhr, options) {
+      if (fire(element, "ajax:beforeSend", [xhr, options])) {
+        return fire(element, "ajax:send", [xhr]);
+      } else {
+        fire(element, "ajax:stopped");
+        return false;
+      }
+    },
+    success(...args) {
+      return fire(element, "ajax:success", args);
+    },
+    error(...args) {
+      return fire(element, "ajax:error", args);
+    },
+    complete(...args) {
+      return fire(element, "ajax:complete", args);
+    },
+    crossDomain: isCrossDomain(url),
+    withCredentials: withCredentials != null && withCredentials !== "false"
+  });
+  stopEverything(e);
+};
+var formSubmitButtonClick = function(e) {
+  const button = this;
+  const { form } = button;
+  if (!form) {
+    return;
+  }
+  if (button.name) {
+    setData(form, "ujs:submit-button", {
+      name: button.name,
+      value: button.value
+    });
+  }
+  setData(form, "ujs:formnovalidate-button", button.formNoValidate);
+  setData(form, "ujs:submit-button-formaction", button.getAttribute("formaction"));
+  return setData(form, "ujs:submit-button-formmethod", button.getAttribute("formmethod"));
+};
+var preventInsignificantClick = function(e) {
+  const link = this;
+  const method = (link.getAttribute("data-method") || "GET").toUpperCase();
+  const data = link.getAttribute("data-params");
+  const metaClick = e.metaKey || e.ctrlKey;
+  const insignificantMetaClick = metaClick && method === "GET" && !data;
+  const nonPrimaryMouseClick = e.button != null && e.button !== 0;
+  if (nonPrimaryMouseClick || insignificantMetaClick) {
+    e.stopImmediatePropagation();
+  }
+};
+var Rails = {
+  $,
+  ajax,
+  buttonClickSelector,
+  buttonDisableSelector,
+  confirm,
+  cspNonce,
+  csrfToken,
+  csrfParam,
+  CSRFProtection,
+  delegate,
+  disableElement,
+  enableElement,
+  fileInputSelector,
+  fire,
+  formElements,
+  formEnableSelector,
+  formDisableSelector,
+  formInputClickSelector,
+  formSubmitButtonClick,
+  formSubmitSelector,
+  getData,
+  handleDisabledElement,
+  href,
+  inputChangeSelector,
+  isCrossDomain,
+  linkClickSelector,
+  linkDisableSelector,
+  loadCSPNonce,
+  matches,
+  preventInsignificantClick,
+  refreshCSRFTokens,
+  serializeElement,
+  setData,
+  stopEverything
+};
+var handleConfirm = handleConfirmWithRails(Rails);
+Rails.handleConfirm = handleConfirm;
+var handleMethod = handleMethodWithRails(Rails);
+Rails.handleMethod = handleMethod;
+var handleRemote = handleRemoteWithRails(Rails);
+Rails.handleRemote = handleRemote;
+var start = function() {
+  if (window._rails_loaded) {
+    throw new Error("rails-ujs has already been loaded!");
+  }
+  window.addEventListener("pageshow", function() {
+    $(formEnableSelector).forEach(function(el) {
+      if (getData(el, "ujs:disabled")) {
+        enableElement(el);
+      }
+    });
+    $(linkDisableSelector).forEach(function(el) {
+      if (getData(el, "ujs:disabled")) {
+        enableElement(el);
+      }
+    });
+  });
+  delegate(document, linkDisableSelector, "ajax:complete", enableElement);
+  delegate(document, linkDisableSelector, "ajax:stopped", enableElement);
+  delegate(document, buttonDisableSelector, "ajax:complete", enableElement);
+  delegate(document, buttonDisableSelector, "ajax:stopped", enableElement);
+  delegate(document, linkClickSelector, "click", preventInsignificantClick);
+  delegate(document, linkClickSelector, "click", handleDisabledElement);
+  delegate(document, linkClickSelector, "click", handleConfirm);
+  delegate(document, linkClickSelector, "click", disableElement);
+  delegate(document, linkClickSelector, "click", handleRemote);
+  delegate(document, linkClickSelector, "click", handleMethod);
+  delegate(document, buttonClickSelector, "click", preventInsignificantClick);
+  delegate(document, buttonClickSelector, "click", handleDisabledElement);
+  delegate(document, buttonClickSelector, "click", handleConfirm);
+  delegate(document, buttonClickSelector, "click", disableElement);
+  delegate(document, buttonClickSelector, "click", handleRemote);
+  delegate(document, inputChangeSelector, "change", handleDisabledElement);
+  delegate(document, inputChangeSelector, "change", handleConfirm);
+  delegate(document, inputChangeSelector, "change", handleRemote);
+  delegate(document, formSubmitSelector, "submit", handleDisabledElement);
+  delegate(document, formSubmitSelector, "submit", handleConfirm);
+  delegate(document, formSubmitSelector, "submit", handleRemote);
+  delegate(document, formSubmitSelector, "submit", (e) => setTimeout(() => disableElement(e), 13));
+  delegate(document, formSubmitSelector, "ajax:send", disableElement);
+  delegate(document, formSubmitSelector, "ajax:complete", enableElement);
+  delegate(document, formInputClickSelector, "click", preventInsignificantClick);
+  delegate(document, formInputClickSelector, "click", handleDisabledElement);
+  delegate(document, formInputClickSelector, "click", handleConfirm);
+  delegate(document, formInputClickSelector, "click", formSubmitButtonClick);
+  document.addEventListener("DOMContentLoaded", refreshCSRFTokens);
+  document.addEventListener("DOMContentLoaded", loadCSPNonce);
+  return window._rails_loaded = true;
+};
+Rails.start = start;
+if (typeof import_jquery2.default !== "undefined" && import_jquery2.default && import_jquery2.default.ajax) {
+  if (import_jquery2.default.rails) {
+    throw new Error("If you load both jquery_ujs and rails-ujs, use rails-ujs only.");
+  }
+  import_jquery2.default.rails = Rails;
+  import_jquery2.default.ajaxPrefilter(function(options, originalOptions, xhr) {
+    if (!options.crossDomain) {
+      return CSRFProtection(xhr);
+    }
+  });
+}
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/batch_actions.js
+init_inject_jquery();
+
+// node_modules/@activeadmin/activeadmin/node_modules/@rails/ujs/app/assets/javascripts/rails-ujs.esm.js
+init_inject_jquery();
+var linkClickSelector2 = "a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]";
+var buttonClickSelector2 = {
+  selector: "button[data-remote]:not([form]), button[data-confirm]:not([form])",
+  exclude: "form button"
+};
+var inputChangeSelector2 = "select[data-remote], input[data-remote], textarea[data-remote]";
+var formSubmitSelector2 = "form:not([data-turbo=true])";
+var formInputClickSelector2 = "form:not([data-turbo=true]) input[type=submit], form:not([data-turbo=true]) input[type=image], form:not([data-turbo=true]) button[type=submit], form:not([data-turbo=true]) button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])";
+var formDisableSelector2 = "input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled";
+var formEnableSelector2 = "input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled";
+var fileInputSelector2 = "input[name][type=file]:not([disabled])";
+var linkDisableSelector2 = "a[data-disable-with], a[data-disable]";
+var buttonDisableSelector2 = "button[data-remote][data-disable-with], button[data-remote][data-disable]";
+var nonce2 = null;
+var loadCSPNonce2 = () => {
+  const metaTag = document.querySelector("meta[name=csp-nonce]");
+  return nonce2 = metaTag && metaTag.content;
+};
+var cspNonce2 = () => nonce2 || loadCSPNonce2();
+var m2 = Element.prototype.matches || Element.prototype.matchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.msMatchesSelector || Element.prototype.oMatchesSelector || Element.prototype.webkitMatchesSelector;
+var matches2 = function(element, selector) {
+  if (selector.exclude) {
+    return m2.call(element, selector.selector) && !m2.call(element, selector.exclude);
+  } else {
+    return m2.call(element, selector);
+  }
+};
+var EXPANDO2 = "_ujsData";
+var getData2 = (element, key) => element[EXPANDO2] ? element[EXPANDO2][key] : void 0;
+var setData2 = function(element, key, value) {
+  if (!element[EXPANDO2]) {
+    element[EXPANDO2] = {};
+  }
+  return element[EXPANDO2][key] = value;
+};
+var $2 = (selector) => Array.prototype.slice.call(document.querySelectorAll(selector));
+var isContentEditable2 = function(element) {
+  var isEditable = false;
+  do {
+    if (element.isContentEditable) {
+      isEditable = true;
+      break;
+    }
+    element = element.parentElement;
+  } while (element);
+  return isEditable;
+};
+var csrfToken2 = () => {
+  const meta = document.querySelector("meta[name=csrf-token]");
+  return meta && meta.content;
+};
+var csrfParam2 = () => {
+  const meta = document.querySelector("meta[name=csrf-param]");
+  return meta && meta.content;
+};
+var CSRFProtection2 = (xhr) => {
+  const token = csrfToken2();
+  if (token) {
+    return xhr.setRequestHeader("X-CSRF-Token", token);
+  }
+};
+var refreshCSRFTokens2 = () => {
+  const token = csrfToken2();
+  const param = csrfParam2();
+  if (token && param) {
+    return $2('form input[name="' + param + '"]').forEach((input) => input.value = token);
+  }
+};
+var AcceptHeaders2 = {
+  "*": "*/*",
+  text: "text/plain",
+  html: "text/html",
+  xml: "application/xml, text/xml",
+  json: "application/json, text/javascript",
+  script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
+};
+var ajax2 = (options) => {
+  options = prepareOptions2(options);
+  var xhr = createXHR2(options, function() {
+    const response = processResponse2(xhr.response != null ? xhr.response : xhr.responseText, xhr.getResponseHeader("Content-Type"));
+    if (Math.floor(xhr.status / 100) === 2) {
+      if (typeof options.success === "function") {
+        options.success(response, xhr.statusText, xhr);
+      }
+    } else {
+      if (typeof options.error === "function") {
+        options.error(response, xhr.statusText, xhr);
+      }
+    }
+    return typeof options.complete === "function" ? options.complete(xhr, xhr.statusText) : void 0;
+  });
+  if (options.beforeSend && !options.beforeSend(xhr, options)) {
+    return false;
+  }
+  if (xhr.readyState === XMLHttpRequest.OPENED) {
+    return xhr.send(options.data);
+  }
+};
+var prepareOptions2 = function(options) {
+  options.url = options.url || location.href;
+  options.type = options.type.toUpperCase();
+  if (options.type === "GET" && options.data) {
+    if (options.url.indexOf("?") < 0) {
+      options.url += "?" + options.data;
+    } else {
+      options.url += "&" + options.data;
+    }
+  }
+  if (!(options.dataType in AcceptHeaders2)) {
+    options.dataType = "*";
+  }
+  options.accept = AcceptHeaders2[options.dataType];
+  if (options.dataType !== "*") {
+    options.accept += ", */*; q=0.01";
+  }
+  return options;
+};
+var createXHR2 = function(options, done) {
+  const xhr = new XMLHttpRequest();
+  xhr.open(options.type, options.url, true);
+  xhr.setRequestHeader("Accept", options.accept);
+  if (typeof options.data === "string") {
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+  }
+  if (!options.crossDomain) {
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    CSRFProtection2(xhr);
+  }
+  xhr.withCredentials = !!options.withCredentials;
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      return done(xhr);
+    }
+  };
+  return xhr;
+};
+var processResponse2 = function(response, type) {
+  if (typeof response === "string" && typeof type === "string") {
+    if (type.match(/\bjson\b/)) {
+      try {
+        response = JSON.parse(response);
+      } catch (error) {
+      }
+    } else if (type.match(/\b(?:java|ecma)script\b/)) {
+      const script = document.createElement("script");
+      script.setAttribute("nonce", cspNonce2());
+      script.text = response;
+      document.head.appendChild(script).parentNode.removeChild(script);
+    } else if (type.match(/\b(xml|html|svg)\b/)) {
+      const parser = new DOMParser();
+      type = type.replace(/;.+/, "");
+      try {
+        response = parser.parseFromString(response, type);
+      } catch (error1) {
+      }
+    }
+  }
+  return response;
+};
+var href2 = (element) => element.href;
+var isCrossDomain2 = function(url) {
+  const originAnchor = document.createElement("a");
+  originAnchor.href = location.href;
+  const urlAnchor = document.createElement("a");
+  try {
+    urlAnchor.href = url;
+    return !((!urlAnchor.protocol || urlAnchor.protocol === ":") && !urlAnchor.host || originAnchor.protocol + "//" + originAnchor.host === urlAnchor.protocol + "//" + urlAnchor.host);
+  } catch (e) {
+    return true;
+  }
+};
+var preventDefault2;
+var { CustomEvent: CustomEvent2 } = window;
+if (typeof CustomEvent2 !== "function") {
+  CustomEvent2 = function(event, params) {
+    const evt = document.createEvent("CustomEvent");
+    evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+    return evt;
+  };
+  CustomEvent2.prototype = window.Event.prototype;
+  ({ preventDefault: preventDefault2 } = CustomEvent2.prototype);
+  CustomEvent2.prototype.preventDefault = function() {
+    const result = preventDefault2.call(this);
+    if (this.cancelable && !this.defaultPrevented) {
+      Object.defineProperty(this, "defaultPrevented", {
+        get() {
+          return true;
+        }
+      });
+    }
+    return result;
+  };
+}
+var fire2 = (obj, name, data) => {
+  const event = new CustomEvent2(name, {
+    bubbles: true,
+    cancelable: true,
+    detail: data
+  });
+  obj.dispatchEvent(event);
+  return !event.defaultPrevented;
+};
+var stopEverything2 = (e) => {
+  fire2(e.target, "ujs:everythingStopped");
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+};
+var delegate2 = (element, selector, eventType, handler) => element.addEventListener(eventType, function(e) {
+  let { target } = e;
+  while (!!(target instanceof Element) && !matches2(target, selector)) {
+    target = target.parentNode;
+  }
+  if (target instanceof Element && handler.call(target, e) === false) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
+var toArray2 = (e) => Array.prototype.slice.call(e);
+var serializeElement2 = (element, additionalParam) => {
+  let inputs = [element];
+  if (matches2(element, "form")) {
+    inputs = toArray2(element.elements);
+  }
+  const params = [];
+  inputs.forEach(function(input) {
+    if (!input.name || input.disabled) {
+      return;
+    }
+    if (matches2(input, "fieldset[disabled] *")) {
+      return;
+    }
+    if (matches2(input, "select")) {
+      toArray2(input.options).forEach(function(option) {
+        if (option.selected) {
+          params.push({
+            name: input.name,
+            value: option.value
+          });
+        }
+      });
+    } else if (input.checked || ["radio", "checkbox", "submit"].indexOf(input.type) === -1) {
+      params.push({
+        name: input.name,
+        value: input.value
+      });
+    }
+  });
+  if (additionalParam) {
+    params.push(additionalParam);
+  }
+  return params.map(function(param) {
+    if (param.name) {
+      return `${encodeURIComponent(param.name)}=${encodeURIComponent(param.value)}`;
+    } else {
+      return param;
+    }
+  }).join("&");
+};
+var formElements2 = (form, selector) => {
+  if (matches2(form, "form")) {
+    return toArray2(form.elements).filter((el) => matches2(el, selector));
+  } else {
+    return toArray2(form.querySelectorAll(selector));
+  }
+};
+var handleConfirmWithRails2 = (rails) => function(e) {
+  if (!allowAction2(this, rails)) {
+    stopEverything2(e);
+  }
+};
+var confirm2 = (message, element) => window.confirm(message);
+var allowAction2 = function(element, rails) {
+  let callback;
+  const message = element.getAttribute("data-confirm");
+  if (!message) {
+    return true;
+  }
+  let answer = false;
+  if (fire2(element, "confirm")) {
+    try {
+      answer = rails.confirm(message, element);
+    } catch (error) {
+    }
+    callback = fire2(element, "confirm:complete", [answer]);
+  }
+  return answer && callback;
+};
+var handleDisabledElement2 = function(e) {
+  const element = this;
+  if (element.disabled) {
+    stopEverything2(e);
+  }
+};
+var enableElement2 = (e) => {
+  let element;
+  if (e instanceof Event) {
+    if (isXhrRedirect2(e)) {
+      return;
+    }
+    element = e.target;
+  } else {
+    element = e;
+  }
+  if (isContentEditable2(element)) {
+    return;
+  }
+  if (matches2(element, linkDisableSelector2)) {
+    return enableLinkElement2(element);
+  } else if (matches2(element, buttonDisableSelector2) || matches2(element, formEnableSelector2)) {
+    return enableFormElement2(element);
+  } else if (matches2(element, formSubmitSelector2)) {
+    return enableFormElements2(element);
+  }
+};
+var disableElement2 = (e) => {
+  const element = e instanceof Event ? e.target : e;
+  if (isContentEditable2(element)) {
+    return;
+  }
+  if (matches2(element, linkDisableSelector2)) {
+    return disableLinkElement2(element);
+  } else if (matches2(element, buttonDisableSelector2) || matches2(element, formDisableSelector2)) {
+    return disableFormElement2(element);
+  } else if (matches2(element, formSubmitSelector2)) {
+    return disableFormElements2(element);
+  }
+};
+var disableLinkElement2 = function(element) {
+  if (getData2(element, "ujs:disabled")) {
+    return;
+  }
+  const replacement = element.getAttribute("data-disable-with");
+  if (replacement != null) {
+    setData2(element, "ujs:enable-with", element.innerHTML);
+    element.innerHTML = replacement;
+  }
+  element.addEventListener("click", stopEverything2);
+  return setData2(element, "ujs:disabled", true);
+};
+var enableLinkElement2 = function(element) {
+  const originalText = getData2(element, "ujs:enable-with");
+  if (originalText != null) {
+    element.innerHTML = originalText;
+    setData2(element, "ujs:enable-with", null);
+  }
+  element.removeEventListener("click", stopEverything2);
+  return setData2(element, "ujs:disabled", null);
+};
+var disableFormElements2 = (form) => formElements2(form, formDisableSelector2).forEach(disableFormElement2);
+var disableFormElement2 = function(element) {
+  if (getData2(element, "ujs:disabled")) {
+    return;
+  }
+  const replacement = element.getAttribute("data-disable-with");
+  if (replacement != null) {
+    if (matches2(element, "button")) {
+      setData2(element, "ujs:enable-with", element.innerHTML);
+      element.innerHTML = replacement;
+    } else {
+      setData2(element, "ujs:enable-with", element.value);
+      element.value = replacement;
+    }
+  }
+  element.disabled = true;
+  return setData2(element, "ujs:disabled", true);
+};
+var enableFormElements2 = (form) => formElements2(form, formEnableSelector2).forEach((element) => enableFormElement2(element));
+var enableFormElement2 = function(element) {
+  const originalText = getData2(element, "ujs:enable-with");
+  if (originalText != null) {
+    if (matches2(element, "button")) {
+      element.innerHTML = originalText;
+    } else {
+      element.value = originalText;
+    }
+    setData2(element, "ujs:enable-with", null);
+  }
+  element.disabled = false;
+  return setData2(element, "ujs:disabled", null);
+};
+var isXhrRedirect2 = function(event) {
+  const xhr = event.detail ? event.detail[0] : void 0;
+  return xhr && xhr.getResponseHeader("X-Xhr-Redirect");
+};
+var handleMethodWithRails2 = (rails) => function(e) {
+  const link = this;
+  const method = link.getAttribute("data-method");
+  if (!method) {
+    return;
+  }
+  if (isContentEditable2(this)) {
+    return;
+  }
+  const href3 = rails.href(link);
+  const csrfToken$1 = csrfToken2();
+  const csrfParam$1 = csrfParam2();
+  const form = document.createElement("form");
+  let formContent = `<input name='_method' value='${method}' type='hidden' />`;
+  if (csrfParam$1 && csrfToken$1 && !isCrossDomain2(href3)) {
+    formContent += `<input name='${csrfParam$1}' value='${csrfToken$1}' type='hidden' />`;
+  }
+  formContent += '<input type="submit" />';
+  form.method = "post";
+  form.action = href3;
+  form.target = link.target;
+  form.innerHTML = formContent;
+  form.style.display = "none";
+  document.body.appendChild(form);
+  form.querySelector('[type="submit"]').click();
+  stopEverything2(e);
+};
+var isRemote2 = function(element) {
+  const value = element.getAttribute("data-remote");
+  return value != null && value !== "false";
+};
+var handleRemoteWithRails2 = (rails) => function(e) {
+  let data, method, url;
+  const element = this;
+  if (!isRemote2(element)) {
+    return true;
+  }
+  if (!fire2(element, "ajax:before")) {
+    fire2(element, "ajax:stopped");
+    return false;
+  }
+  if (isContentEditable2(element)) {
+    fire2(element, "ajax:stopped");
+    return false;
+  }
+  const withCredentials = element.getAttribute("data-with-credentials");
+  const dataType = element.getAttribute("data-type") || "script";
+  if (matches2(element, formSubmitSelector2)) {
+    const button = getData2(element, "ujs:submit-button");
+    method = getData2(element, "ujs:submit-button-formmethod") || element.getAttribute("method") || "get";
+    url = getData2(element, "ujs:submit-button-formaction") || element.getAttribute("action") || location.href;
+    if (method.toUpperCase() === "GET") {
+      url = url.replace(/\?.*$/, "");
+    }
+    if (element.enctype === "multipart/form-data") {
+      data = new FormData(element);
+      if (button != null) {
+        data.append(button.name, button.value);
+      }
+    } else {
+      data = serializeElement2(element, button);
+    }
+    setData2(element, "ujs:submit-button", null);
+    setData2(element, "ujs:submit-button-formmethod", null);
+    setData2(element, "ujs:submit-button-formaction", null);
+  } else if (matches2(element, buttonClickSelector2) || matches2(element, inputChangeSelector2)) {
+    method = element.getAttribute("data-method");
+    url = element.getAttribute("data-url");
+    data = serializeElement2(element, element.getAttribute("data-params"));
+  } else {
+    method = element.getAttribute("data-method");
+    url = rails.href(element);
+    data = element.getAttribute("data-params");
+  }
+  ajax2({
+    type: method || "GET",
+    url,
+    data,
+    dataType,
+    beforeSend(xhr, options) {
+      if (fire2(element, "ajax:beforeSend", [xhr, options])) {
+        return fire2(element, "ajax:send", [xhr]);
+      } else {
+        fire2(element, "ajax:stopped");
+        return false;
+      }
+    },
+    success(...args) {
+      return fire2(element, "ajax:success", args);
+    },
+    error(...args) {
+      return fire2(element, "ajax:error", args);
+    },
+    complete(...args) {
+      return fire2(element, "ajax:complete", args);
+    },
+    crossDomain: isCrossDomain2(url),
+    withCredentials: withCredentials != null && withCredentials !== "false"
+  });
+  stopEverything2(e);
+};
+var formSubmitButtonClick2 = function(e) {
+  const button = this;
+  const { form } = button;
+  if (!form) {
+    return;
+  }
+  if (button.name) {
+    setData2(form, "ujs:submit-button", {
+      name: button.name,
+      value: button.value
+    });
+  }
+  setData2(form, "ujs:formnovalidate-button", button.formNoValidate);
+  setData2(form, "ujs:submit-button-formaction", button.getAttribute("formaction"));
+  return setData2(form, "ujs:submit-button-formmethod", button.getAttribute("formmethod"));
+};
+var preventInsignificantClick2 = function(e) {
+  const link = this;
+  const method = (link.getAttribute("data-method") || "GET").toUpperCase();
+  const data = link.getAttribute("data-params");
+  const metaClick = e.metaKey || e.ctrlKey;
+  const insignificantMetaClick = metaClick && method === "GET" && !data;
+  const nonPrimaryMouseClick = e.button != null && e.button !== 0;
+  if (nonPrimaryMouseClick || insignificantMetaClick) {
+    e.stopImmediatePropagation();
+  }
+};
+var Rails2 = {
+  $: $2,
+  ajax: ajax2,
+  buttonClickSelector: buttonClickSelector2,
+  buttonDisableSelector: buttonDisableSelector2,
+  confirm: confirm2,
+  cspNonce: cspNonce2,
+  csrfToken: csrfToken2,
+  csrfParam: csrfParam2,
+  CSRFProtection: CSRFProtection2,
+  delegate: delegate2,
+  disableElement: disableElement2,
+  enableElement: enableElement2,
+  fileInputSelector: fileInputSelector2,
+  fire: fire2,
+  formElements: formElements2,
+  formEnableSelector: formEnableSelector2,
+  formDisableSelector: formDisableSelector2,
+  formInputClickSelector: formInputClickSelector2,
+  formSubmitButtonClick: formSubmitButtonClick2,
+  formSubmitSelector: formSubmitSelector2,
+  getData: getData2,
+  handleDisabledElement: handleDisabledElement2,
+  href: href2,
+  inputChangeSelector: inputChangeSelector2,
+  isCrossDomain: isCrossDomain2,
+  linkClickSelector: linkClickSelector2,
+  linkDisableSelector: linkDisableSelector2,
+  loadCSPNonce: loadCSPNonce2,
+  matches: matches2,
+  preventInsignificantClick: preventInsignificantClick2,
+  refreshCSRFTokens: refreshCSRFTokens2,
+  serializeElement: serializeElement2,
+  setData: setData2,
+  stopEverything: stopEverything2
+};
+var handleConfirm2 = handleConfirmWithRails2(Rails2);
+Rails2.handleConfirm = handleConfirm2;
+var handleMethod2 = handleMethodWithRails2(Rails2);
+Rails2.handleMethod = handleMethod2;
+var handleRemote2 = handleRemoteWithRails2(Rails2);
+Rails2.handleRemote = handleRemote2;
+var start2 = function() {
+  if (window._rails_loaded) {
+    throw new Error("rails-ujs has already been loaded!");
+  }
+  window.addEventListener("pageshow", function() {
+    $2(formEnableSelector2).forEach(function(el) {
+      if (getData2(el, "ujs:disabled")) {
+        enableElement2(el);
+      }
+    });
+    $2(linkDisableSelector2).forEach(function(el) {
+      if (getData2(el, "ujs:disabled")) {
+        enableElement2(el);
+      }
+    });
+  });
+  delegate2(document, linkDisableSelector2, "ajax:complete", enableElement2);
+  delegate2(document, linkDisableSelector2, "ajax:stopped", enableElement2);
+  delegate2(document, buttonDisableSelector2, "ajax:complete", enableElement2);
+  delegate2(document, buttonDisableSelector2, "ajax:stopped", enableElement2);
+  delegate2(document, linkClickSelector2, "click", preventInsignificantClick2);
+  delegate2(document, linkClickSelector2, "click", handleDisabledElement2);
+  delegate2(document, linkClickSelector2, "click", handleConfirm2);
+  delegate2(document, linkClickSelector2, "click", disableElement2);
+  delegate2(document, linkClickSelector2, "click", handleRemote2);
+  delegate2(document, linkClickSelector2, "click", handleMethod2);
+  delegate2(document, buttonClickSelector2, "click", preventInsignificantClick2);
+  delegate2(document, buttonClickSelector2, "click", handleDisabledElement2);
+  delegate2(document, buttonClickSelector2, "click", handleConfirm2);
+  delegate2(document, buttonClickSelector2, "click", disableElement2);
+  delegate2(document, buttonClickSelector2, "click", handleRemote2);
+  delegate2(document, inputChangeSelector2, "change", handleDisabledElement2);
+  delegate2(document, inputChangeSelector2, "change", handleConfirm2);
+  delegate2(document, inputChangeSelector2, "change", handleRemote2);
+  delegate2(document, formSubmitSelector2, "submit", handleDisabledElement2);
+  delegate2(document, formSubmitSelector2, "submit", handleConfirm2);
+  delegate2(document, formSubmitSelector2, "submit", handleRemote2);
+  delegate2(document, formSubmitSelector2, "submit", (e) => setTimeout(() => disableElement2(e), 13));
+  delegate2(document, formSubmitSelector2, "ajax:send", disableElement2);
+  delegate2(document, formSubmitSelector2, "ajax:complete", enableElement2);
+  delegate2(document, formInputClickSelector2, "click", preventInsignificantClick2);
+  delegate2(document, formInputClickSelector2, "click", handleDisabledElement2);
+  delegate2(document, formInputClickSelector2, "click", handleConfirm2);
+  delegate2(document, formInputClickSelector2, "click", formSubmitButtonClick2);
+  document.addEventListener("DOMContentLoaded", refreshCSRFTokens2);
+  document.addEventListener("DOMContentLoaded", loadCSPNonce2);
+  return window._rails_loaded = true;
+};
+Rails2.start = start2;
+if (typeof import_jquery2.default !== "undefined" && import_jquery2.default && import_jquery2.default.ajax) {
+  if (import_jquery2.default.rails) {
+    throw new Error("If you load both jquery_ujs and rails-ujs, use rails-ujs only.");
+  }
+  import_jquery2.default.rails = Rails2;
+  import_jquery2.default.ajaxPrefilter(function(options, originalOptions, xhr) {
+    if (!options.crossDomain) {
+      return CSRFProtection2(xhr);
+    }
+  });
+}
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/batch_actions.js
+var submitForm = function() {
+  let form = document.getElementById("collection_selection");
+  if (form) {
+    form.submit();
+  }
+};
+var batchActionClick = function(event) {
+  event.preventDefault();
+  let batchAction = document.getElementById("batch_action");
+  if (batchAction) {
+    batchAction.value = this.dataset.action;
+  }
+  if (!event.target.dataset.confirm) {
+    submitForm();
+  }
+};
+var batchActionConfirmComplete = function(event) {
+  event.preventDefault();
+  if (event.detail[0] === true) {
+    let batchAction = document.getElementById("batch_action");
+    if (batchAction) {
+      batchAction.value = this.dataset.action;
+    }
+    submitForm();
+  }
+};
+var batchActionFormSubmit = function(event) {
+  event.preventDefault();
+  let json = JSON.stringify(Object.fromEntries(new FormData(this).entries()));
+  let inputsField = document.getElementById("batch_action_inputs");
+  let form = document.getElementById("collection_selection");
+  if (json && inputsField && form) {
+    inputsField.value = json;
+    form.submit();
+  }
+};
+Rails2.delegate(document, "[data-batch-action-item]", "confirm:complete", batchActionConfirmComplete);
+Rails2.delegate(document, "[data-batch-action-item]", "click", batchActionClick);
+Rails2.delegate(document, "form[data-batch-action-form]", "submit", batchActionFormSubmit);
+var disableDropdown = function(condition) {
+  const button = document.querySelector(".batch-actions-dropdown-toggle");
+  if (button) {
+    button.disabled = condition;
+  }
+};
+var toggleAllChange = function(event) {
+  const checkboxes = document.querySelectorAll(".batch-actions-resource-selection");
+  for (const checkbox of checkboxes) {
+    checkbox.checked = this.checked;
+  }
+  const rows = document.querySelectorAll(".paginated-collection tbody tr");
+  for (const row of rows) {
+    row.classList.toggle("selected", this.checked);
+  }
+  disableDropdown(!this.checked);
+};
+Rails2.delegate(document, ".batch-actions-toggle-all", "change", toggleAllChange);
+var toggleCheckboxChange = function(event) {
+  const numChecked = document.querySelectorAll(".batch-actions-resource-selection:checked").length;
+  const allChecked = numChecked === document.querySelectorAll(".batch-actions-resource-selection").length;
+  const someChecked = numChecked > 0 && numChecked < document.querySelectorAll(".batch-actions-resource-selection").length;
+  const toggleAll = document.querySelector(".batch-actions-toggle-all");
+  if (toggleAll) {
+    toggleAll.checked = allChecked;
+    toggleAll.indeterminate = someChecked;
+  }
+  disableDropdown(numChecked === 0);
+};
+Rails2.delegate(document, ".batch-actions-resource-selection", "change", toggleCheckboxChange);
+var tableRowClick = function(event) {
+  const type = event.target.type;
+  if (typeof type === "undefined" || type !== "checkbox" && type !== "button" && type !== "") {
+    const checkbox = event.target.closest("tr").querySelector("input[type=checkbox]");
+    if (checkbox) {
+      checkbox.click();
+    }
+  }
+};
+Rails2.delegate(document, ".paginated-collection tbody td", "click", tableRowClick);
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/dark_mode_toggle.js
+init_inject_jquery();
+var THEME_KEY = "theme";
+var darkModeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+var setTheme = () => {
+  if (localStorage.getItem(THEME_KEY) === "dark" || !(THEME_KEY in localStorage) && darkModeMedia.matches) {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+};
+darkModeMedia.addEventListener("change", setTheme);
+document.addEventListener("DOMContentLoaded", setTheme);
+window.addEventListener("storage", (event) => {
+  if (event.key === THEME_KEY) {
+    setTheme();
+  }
+});
+var toggleTheme = () => {
+  if (localStorage.getItem(THEME_KEY) === "dark" || !(THEME_KEY in localStorage) && darkModeMedia.matches) {
+    localStorage.setItem(THEME_KEY, "light");
+  } else {
+    localStorage.setItem(THEME_KEY, "dark");
+  }
+  setTheme();
+};
+Rails2.delegate(document, ".dark-mode-toggle", "click", toggleTheme);
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/has_many.js
+init_inject_jquery();
+var hasManyRemoveClick = function(event) {
+  event.preventDefault();
+  const oldGroup = this.closest("fieldset");
+  if (oldGroup) {
+    oldGroup.remove();
+  }
+};
+Rails2.delegate(document, "form .has-many-remove", "click", hasManyRemoveClick);
+var hasManyAddClick = function(event) {
+  event.preventDefault();
+  const parent = this.closest(".has-many-container");
+  let index = parseInt(parent.dataset.has_many_index || parent.querySelectorAll("fieldset").length - 1, 10);
+  parent.dataset.has_many_index = ++index;
+  const regex = new RegExp(this.dataset.placeholder, "g");
+  const html = this.dataset.html.replace(regex, index);
+  const tempEl = document.createElement("div");
+  tempEl.innerHTML = html;
+  this.before(tempEl.firstChild);
+};
+Rails2.delegate(document, "form .has-many-add", "click", hasManyAddClick);
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/filters.js
+init_inject_jquery();
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/utils/dom.js
+init_inject_jquery();
+var nextSibling = function next(element, selector) {
+  let sibling = element.nextElementSibling;
+  while (sibling) {
+    if (sibling && sibling.matches(selector)) {
+      return sibling;
+    }
+    sibling = sibling.nextElementSibling;
+  }
+};
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/filters.js
+var disableEmptyFields = function(event) {
+  Array.from(this.querySelectorAll("input, select, textarea")).filter((el) => el.value === "").forEach((el) => el.disabled = true);
+};
+Rails2.delegate(document, ".filters-form", "submit", disableEmptyFields);
+var setSearchType = function(event) {
+  const input = nextSibling(this, "input");
+  if (input) {
+    input.name = `q[${this.value}]`;
+  }
+};
+Rails2.delegate(document, ".filters-form-field [data-search-methods]", "change", setSearchType);
+var clearFiltersForm = function(event) {
+  event.preventDefault();
+  const regex = /^(q\[|page|utf8|commit)/;
+  const params = new URLSearchParams(window.location.search);
+  Array.from(params.keys()).filter((k) => k.match(regex)).forEach((k) => params.delete(k));
+  window.location.search = params.toString();
+};
+Rails2.delegate(document, ".filters-form-clear", "click", clearFiltersForm);
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/main_menu.js
+init_inject_jquery();
+var toggleMenu = function(event) {
+  const parent = this.parentNode;
+  if (!("open" in parent.dataset)) {
+    parent.dataset.open = "";
+  } else {
+    delete parent.dataset.open;
+  }
+};
+Rails2.delegate(document, "#main-menu [data-menu-button]", "click", toggleMenu);
+
+// node_modules/@activeadmin/activeadmin/dist/active_admin/features/per_page.js
+init_inject_jquery();
+var setPerPage = function(event) {
+  const params = new URLSearchParams(window.location.search);
+  params.set("per_page", this.value);
+  window.location.search = params;
+};
+Rails2.delegate(document, ".pagination-per-page", "change", setPerPage);
+
 // app/js/active_admin.js
+Rails.start();
 window.$ = window.jQuery = import_jquery3.default;
+window.Rails = Rails;
 function initTrumbowygEditors() {
   (0, import_jquery3.default)("[data-aa-trumbowyg]").each(function() {
     if (!(0, import_jquery3.default)(this).hasClass("trumbowyg-textarea--active")) {

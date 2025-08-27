@@ -18,6 +18,7 @@ ActiveRecord::Schema.define do
   create_table :posts, force: true do |t|
     t.string :title
     t.text :description
+    t.text :summary
     t.text :body
     t.references :author
     t.timestamps

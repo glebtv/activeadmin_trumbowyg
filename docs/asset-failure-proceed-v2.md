@@ -1,6 +1,6 @@
 # ActiveAdmin 4 Asset Pipeline – Follow‑up Notes (v2)
 
-These are additional findings and fixes beyond the original instructions in `docs/asset-failure-proceed.md`.
+These are CSS/Tailwind-specific findings and fixes. For JavaScript issues and test failures, see `asset-failure-proceed-v3.md`.
 
 ## Build/Config
 - Tailwind config as ESM: use `spec/internal/tailwind.config.mjs` with `import activeAdminPlugin from '@activeadmin/activeadmin/plugin'` and `plugins: [activeAdminPlugin]`. Remove duplicate `tailwind.config.js` files.

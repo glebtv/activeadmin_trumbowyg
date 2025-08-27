@@ -5,7 +5,7 @@ using StringCleanMultiline
 RSpec.describe 'Trumbowyg editor' do
   let!(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe') }
   let!(:post) do
-    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', body: '<p>Post body</p>')
+    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', summary: '<p>Post summary</p>', body: '<p>Post body</p>')
   end
 
   let(:submit_button) { find('#post_submit_action [type="submit"]') }

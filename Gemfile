@@ -36,12 +36,12 @@ gem 'concurrent-ruby', '1.3.4'
 
 gem 'bigdecimal'
 gem 'csv'
+gem 'importmap-rails', '~> 2.0'
 gem 'jquery-rails'
 gem 'mutex_m'
 gem 'puma'
 gem 'sassc'
 gem 'sprockets-rails'
-gem 'importmap-rails', '~> 2.0'
 gem 'tailwindcss-rails'
 
 # Testing

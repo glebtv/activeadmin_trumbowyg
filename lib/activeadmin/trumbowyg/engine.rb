@@ -18,7 +18,7 @@ module ActiveAdmin
         require 'active_admin' if defined?(Rails.application) && Rails.application
         # Load the Formtastic input directly
         require 'formtastic/inputs/trumbowyg_input'
-        
+
         # Also hook into ActiveAdmin's load process
         ActiveSupport.on_load(:active_admin) do
           require 'formtastic/inputs/trumbowyg_input'

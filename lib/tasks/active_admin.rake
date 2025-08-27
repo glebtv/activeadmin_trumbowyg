@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 namespace :active_admin do
   desc 'Build Active Admin Tailwind stylesheets'
-  task :build do
+  task build: :environment do
     require 'fileutils'
-    
+
     input = File.expand_path('../../spec/internal/app/assets/stylesheets/active_admin.css', __dir__)
     output = File.expand_path('../../spec/internal/app/assets/builds/active_admin.css', __dir__)
     config = File.expand_path('../../spec/internal/config/tailwind-active_admin.config.js', __dir__)
-    
+
     # Ensure output directory exists
     FileUtils.mkdir_p(File.dirname(output))
-    
+
     command = [
       'bundle', 'exec', 'tailwindcss',
       '-i', input,
@@ -24,11 +26,11 @@ namespace :active_admin do
   end
 
   desc 'Watch Active Admin Tailwind stylesheets'
-  task :watch do
+  task watch: :environment do
     input = File.expand_path('../../spec/internal/app/assets/stylesheets/active_admin.css', __dir__)
     output = File.expand_path('../../spec/internal/app/assets/builds/active_admin.css', __dir__)
     config = File.expand_path('../../spec/internal/config/tailwind-active_admin.config.js', __dir__)
-    
+
     command = [
       'bundle', 'exec', 'tailwindcss',
       '--watch',

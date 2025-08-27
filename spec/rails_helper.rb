@@ -43,7 +43,7 @@ RSpec.configure do |config|
   # Database cleaner setup
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    
+
     intro = ('-' * 80)
     intro << "\n"
     intro << "- Ruby:        #{RUBY_VERSION}\n"
@@ -54,19 +54,19 @@ RSpec.configure do |config|
     RSpec.configuration.reporter.message(intro)
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each, js: true) do
+  config.before(:each, :js) do
     DatabaseCleaner.strategy = :truncation
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 

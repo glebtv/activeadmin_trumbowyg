@@ -13341,7 +13341,6 @@ window.addEventListener("storage", (event) => {
   initTrumbowygEditors();
   updateEditorsTheme();
 });
-console.log("Trumbowyg initialized with esbuild");
 /*! Bundled license information:
 
 jquery/dist/jquery.js:

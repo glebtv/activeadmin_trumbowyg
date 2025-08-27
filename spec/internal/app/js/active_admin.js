@@ -117,5 +117,3 @@ $(document).on('turbo:load turbolinks:load', function() {
   initTrumbowygEditors();
   updateEditorsTheme();
 });
-
-console.log('Trumbowyg initialized with esbuild');

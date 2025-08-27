@@ -25,4 +25,42 @@ export default {
     extend: {},
   },
   plugins: [activeAdminPlugin],
+  safelist: [
+    // Grid and layout
+    'grid', 'gap-4', 'gap-6', 'lg:grid-cols-3', 'md:grid-cols-2', 
+    'col-span-2', 'col-span-3', 'lg:col-span-2', 'lg:col-span-1',
+    // Flexbox
+    'flex', 'flex-col', 'flex-row', 'flex-wrap', 'items-center', 'justify-between',
+    'justify-center', 'items-start', 'items-end',
+    // Spacing
+    'p-4', 'p-6', 'px-4', 'px-6', 'py-2', 'py-4', 'm-0', 'mx-auto', 'mt-4', 'mb-4',
+    'ml-auto', 'mr-auto', 'space-y-4', 'space-x-4',
+    // Display
+    'block', 'inline-block', 'hidden', 'lg:hidden', 'lg:block', 'lg:flex',
+    // Width/Height
+    'w-full', 'w-auto', 'w-64', 'h-full', 'min-h-screen', 'max-w-7xl',
+    // Typography
+    'text-sm', 'text-base', 'text-lg', 'text-xl', 'font-medium', 'font-semibold',
+    // Colors
+    'bg-white', 'bg-gray-50', 'bg-gray-100', 'text-gray-900', 'text-gray-600',
+    'dark:bg-gray-800', 'dark:bg-gray-900', 'dark:text-white', 'dark:text-gray-300',
+    // Borders
+    'border', 'border-gray-200', 'dark:border-gray-700', 'rounded-lg', 'rounded-md',
+    // Forms
+    'form-input', 'form-select', 'form-checkbox',
+    // Buttons
+    'btn', 'btn-primary', 'btn-secondary',
+    // ActiveAdmin specific
+    'filters-form', 'main-content', 'sidebar', 'panel',
+    // Navigation
+    'nav', 'nav-link', 'breadcrumb',
+    // Tables
+    'table-auto', 'table-index',
+    // Shadows
+    'shadow', 'shadow-md', 'shadow-lg',
+    // Position
+    'relative', 'absolute', 'fixed', 'sticky', 'top-0', 'left-0', 'right-0',
+    // Z-index
+    'z-10', 'z-20', 'z-30', 'z-40', 'z-50'
+  ]
 }

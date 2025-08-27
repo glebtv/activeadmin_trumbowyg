@@ -13264,6 +13264,28 @@ Rails.start();
 
 // app/js/active_admin.js
 window.$ = window.jQuery = import_jquery3.default;
+var THEME_KEY2 = "theme";
+var darkModeMedia2 = window.matchMedia("(prefers-color-scheme: dark)");
+function isDarkMode() {
+  return document.documentElement.classList.contains("dark");
+}
+function updateEditorsTheme() {
+  const isDark = isDarkMode();
+  (0, import_jquery3.default)(".trumbowyg-box").each(function() {
+    if (isDark) {
+      (0, import_jquery3.default)(this).addClass("trumbowyg-dark");
+    } else {
+      (0, import_jquery3.default)(this).removeClass("trumbowyg-dark");
+    }
+  });
+  (0, import_jquery3.default)(".trumbowyg-wrapper").each(function() {
+    if (isDark) {
+      (0, import_jquery3.default)(this).addClass("trumbowyg-dark");
+    } else {
+      (0, import_jquery3.default)(this).removeClass("trumbowyg-dark");
+    }
+  });
+}
 function initTrumbowygEditors() {
   (0, import_jquery3.default)("[data-aa-trumbowyg]").each(function() {
     if (!(0, import_jquery3.default)(this).hasClass("trumbowyg-textarea--active")) {
@@ -13272,14 +13294,48 @@ function initTrumbowygEditors() {
         svgPath: "/assets/trumbowyg/icons.svg"
       };
       options = import_jquery3.default.extend({}, options, (0, import_jquery3.default)(this).data("options"));
+      const $wrapper = (0, import_jquery3.default)('<div class="trumbowyg-wrapper"></div>');
+      if (isDarkMode()) {
+        $wrapper.addClass("trumbowyg-dark");
+      }
+      (0, import_jquery3.default)(this).wrap($wrapper);
       (0, import_jquery3.default)(this).trumbowyg(options);
       (0, import_jquery3.default)(this).addClass("trumbowyg-textarea--active");
+      if (isDarkMode()) {
+        (0, import_jquery3.default)(this).closest(".trumbowyg-wrapper").find(".trumbowyg-box").addClass("trumbowyg-dark");
+      }
     }
   });
 }
-(0, import_jquery3.default)(document).ready(initTrumbowygEditors);
-(0, import_jquery3.default)(document).on("has_many_add:after", ".has_many_container", initTrumbowygEditors);
-(0, import_jquery3.default)(document).on("turbo:load turbolinks:load", initTrumbowygEditors);
+var observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    if (mutation.type === "attributes" && mutation.attributeName === "class") {
+      updateEditorsTheme();
+    }
+  });
+});
+observer.observe(document.documentElement, {
+  attributes: true,
+  attributeFilter: ["class"]
+});
+darkModeMedia2.addEventListener("change", updateEditorsTheme);
+window.addEventListener("storage", (event) => {
+  if (event.key === THEME_KEY2) {
+    updateEditorsTheme();
+  }
+});
+(0, import_jquery3.default)(document).ready(function() {
+  initTrumbowygEditors();
+  updateEditorsTheme();
+});
+(0, import_jquery3.default)(document).on("has_many_add:after", ".has_many_container", function() {
+  initTrumbowygEditors();
+  updateEditorsTheme();
+});
+(0, import_jquery3.default)(document).on("turbo:load turbolinks:load", function() {
+  initTrumbowygEditors();
+  updateEditorsTheme();
+});
 console.log("Trumbowyg initialized with esbuild");
 /*! Bundled license information:
 

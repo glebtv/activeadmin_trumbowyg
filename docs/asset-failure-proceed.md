@@ -87,19 +87,33 @@ export { default as jQuery } from 'jquery/dist/jquery.js'
 
 ### Step 1: Clean up Tailwind configs
 1. Delete duplicate configs
-2. Keep only one simple `tailwind.config.js` in `/spec/internal/`
+2. Keep only one `tailwind.config.mjs` (ESM) in `/spec/internal/` that loads the ActiveAdmin plugin
 
 ### Step 2: Fix CSS build output location
 1. Update `package.json` build:css script to output to `app/assets/builds/active_admin.css`
 2. Remove the intermediate `active_admin_compiled.css` reference
 
 ### Step 3: Include Trumbowyg CSS properly
-1. Update `active_admin_source.css` to import:
-   - `@import '../../../../node_modules/trumbowyg/dist/ui/trumbowyg.css';`
+1. Prefer importing from npm. If Tailwind CLI does not inline `@import` from `node_modules`, concatenate Trumbowyg’s CSS via a small build script so it lands inside `app/assets/builds/active_admin.css` (see Step 4.1 below).
+2. Keep gem overrides:
    - `@import '../../../../../app/assets/stylesheets/activeadmin/_trumbowyg_input.scss';`
 
 ### Step 4: Fix Sprockets manifest
-1. Update `/spec/internal/app/assets/stylesheets/active_admin.css` to point to the correct built file
+1. Leave `/spec/internal/app/assets/stylesheets/active_admin.css` empty; Rails serves `app/assets/builds/active_admin.css` via `app/assets/config/manifest.js`.
+2. Ensure `manifest.js` uses `//= link_tree ../builds` and does NOT directly link the empty `active_admin.css` file (to avoid serving a blank stylesheet).
+3. Add `//= link trumbowyg/icons.svg` so Trumbowyg toolbar icons are available at `/assets/trumbowyg/icons.svg`.
+
+### Step 4.1: Minimal build script to inline vendor CSS (when needed)
+`spec/internal/build_css.js` combines Tailwind directives, Trumbowyg CSS from npm, then our overrides, and calls Tailwind CLI with the ESM config.
+Use this `package.json` script:
+
+```json
+{
+  "scripts": {
+    "build:css": "node ./build_css.js"
+  }
+}
+```
 
 ### Step 5: Test the build
 ```bash
@@ -126,6 +140,12 @@ npm run build:css
 2. Trumbowyg editor styles are visible when rendered
 3. No duplicate Tailwind configs
 4. Clean, repeatable setup documented for other gems
+
+## Applied Fix Summary
+- Kept a single `tailwind.config.js` in `spec/internal/` and removed the ESM-based `config/tailwind-active_admin.config.js`.
+- Updated `build:css` to generate `app/assets/builds/active_admin.css` and inline Trumbowyg’s CSS from npm for reliability.
+- Emptied `app/assets/stylesheets/active_admin.css` (Sprockets manifest) to avoid pointing to intermediate files.
+- Added `//= link trumbowyg/icons.svg` so toolbar icons load from `/assets/trumbowyg/icons.svg`.
 
 ## User's Key Feedback Points
 - "we're not supposed to copy it, it's supposed to be properly used in asset pipeline from npm"

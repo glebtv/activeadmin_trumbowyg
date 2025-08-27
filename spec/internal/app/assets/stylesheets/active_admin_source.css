@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Trumbowyg CSS */
-@import '../../../../node_modules/trumbowyg/dist/ui/trumbowyg.css';
+/* Import Trumbowyg CSS via local symlink (to ensure Tailwind picks it up) */
+@import './trumbowyg.css';
 
 /* Import activeadmin_trumbowyg gem styles */
 @import '../../../../../app/assets/stylesheets/activeadmin/_trumbowyg_input.scss';

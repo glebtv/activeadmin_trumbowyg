@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build:js": "esbuild app/js/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --inject:./inject-jquery.js --public-path=/assets --loader:.css=file",
-    "build:css": "tailwindcss -c ./config/tailwind-active_admin.config.js -i ./app/assets/stylesheets/active_admin_source.css -o ./app/assets/builds/active_admin.css",
+    "build:css": "node ./build_css.js",
     "build": "npm run build:js && npm run build:css",
     "watch:js": "npm run build:js -- --watch",
     "watch:css": "npm run build:css -- --watch",

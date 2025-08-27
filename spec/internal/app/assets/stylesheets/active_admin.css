@@ -1,6 +1,3 @@
-/*
- * This imports the compiled Tailwind CSS with ActiveAdmin styles
- *= require ./active_admin_compiled
- *= require ./trumbowyg
- *= require activeadmin/_trumbowyg_input
- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

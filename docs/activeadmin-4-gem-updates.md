@@ -31,6 +31,48 @@ ActiveAdmin 4 moved away from the traditional Rails asset pipeline to modern Jav
 - No longer uses `register_stylesheet` or `register_javascript` methods
 - Requires explicit JavaScript module initialization
 
+#### CSS bundling pattern (Rails 7 cssbundling + Tailwind)
+
+- Build CSS to `app/assets/builds/active_admin.css` and expose it via `app/assets/config/manifest.js`:
+  - `//= link_tree ../builds`
+  - `//= link active_admin.css`
+  - `//= link active_admin.js`
+  - `//= link trumbowyg/icons.svg` (when using Trumbowyg)
+- Keep a single Tailwind config at the Rails app root (avoid duplicates). Using ESM works well:
+  - `tailwind.config.mjs` with `import activeAdminPlugin from '@activeadmin/activeadmin/plugin'`
+- Source file `app/assets/stylesheets/active_admin_source.css` contains Tailwind directives, gem overrides and imports.
+- If Tailwind CLI does not inline vendor `@import` from `node_modules`, concatenate vendor CSS before building. Example build script:
+
+```json
+// spec/internal/package.json
+{
+  "scripts": {
+    "build:css": "node ./build_css.js"
+  }
+}
+```
+
+```js
+// spec/internal/build_css.js
+const fs = require('fs');
+const path = require('path');
+const { spawnSync } = require('child_process');
+const root = __dirname;
+const inputPath = path.join(root, 'app/assets/stylesheets/active_admin_source.css');
+const vendorCssPath = path.join(root, 'node_modules/trumbowyg/dist/ui/trumbowyg.css');
+const tmpPath = path.join(root, 'app/assets/stylesheets/__aa_tmp.css');
+const outPath = path.join(root, 'app/assets/builds/active_admin.css');
+const src = fs.readFileSync(inputPath, 'utf8').split(/\r?\n/);
+const vendorCss = fs.readFileSync(vendorCssPath, 'utf8');
+const tailwind = ['@tailwind base;','@tailwind components;','@tailwind utilities;'].join('\n');
+const body = src.slice(3).filter(l => !l.includes('trumbowyg.css')).join('\n');
+fs.writeFileSync(tmpPath, `${tailwind}\n\n${vendorCss}\n\n${body}`);
+spawnSync('npx', ['tailwindcss','-c', path.join(root,'tailwind.config.mjs'),'-i', tmpPath,'-o', outPath], { stdio: 'inherit', cwd: root });
+fs.unlinkSync(tmpPath);
+```
+
+This ensures vendor CSS (e.g., Trumbowyg) ships inside the built `active_admin.css` while keeping Tailwind at the top of the cascade so overrides behave as expected.
+
 #### JavaScript Module Support
 
 Create multiple module formats to support different bundlers:

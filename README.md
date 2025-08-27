@@ -5,20 +5,21 @@
 > Production deployment with asset precompilation has not been fully tested yet.  
 > Use version 1.x for ActiveAdmin 3.x applications.
 
-[![gem version](https://badge.fury.io/rb/activeadmin_trumbowyg.svg)](https://badge.fury.io/rb/activeadmin_trumbowyg)
-[![gem downloads](https://badgen.net/rubygems/dt/activeadmin_trumbowyg)](https://rubygems.org/gems/activeadmin_trumbowyg)
-[![linters](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/linters.yml)
-[![specs Rails 7.x](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails7x.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails7x.yml)
-[![specs Rails 8.x](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails8x.yml/badge.svg)](https://github.com/blocknotes/activeadmin_trumbowyg/actions/workflows/specs_rails8x.yml)
+[![CI](https://github.com/glebtv/activeadmin_trumbowyg/actions/workflows/ci.yml/badge.svg)](https://github.com/glebtv/activeadmin_trumbowyg/actions/workflows/ci.yml)
 
 An *Active Admin* plugin to use [Trumbowyg](https://alex-d.github.io/Trumbowyg/) as WYSIWYG editor in form inputs.
 
 Features:
 - automatically includes a fast & lightweight rich editor in Active Admin;
 - customizable options via data attributes in the form input;
-- plugins included, like images upload.
+- plugins included, like images upload;
+- dark mode support for ActiveAdmin 4.
 
-![screenshot](extra/screenshot.png)
+### Light Mode
+![Light Mode](extra/light-mode.png)
+
+### Dark Mode
+![Dark Mode](extra/dark-mode.png)
 
 Please :star: if you like it.
 
@@ -270,7 +271,7 @@ The changelog is available [here](CHANGELOG.md).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/blocknotes/activeadmin_trumbowyg.
+Bug reports and pull requests are welcome on GitHub at https://github.com/glebtv/activeadmin_trumbowyg.
 
 ## Development
 

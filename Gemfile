@@ -44,25 +44,5 @@ gem 'sassc'
 gem 'sprockets-rails'
 gem 'tailwindcss-rails'
 
-# Testing
-gem 'capybara'
-gem 'capybara-playwright-driver'
-gem 'combustion'
-gem 'cuprite'
-gem 'database_cleaner-active_record'
-gem 'rspec_junit_formatter'
-gem 'rspec-rails'
-gem 'simplecov', require: false
-
-# Linters
+# Additional development dependencies not in gemspec
 gem 'fasterer'
-gem 'rubocop'
-gem 'rubocop-capybara'
-gem 'rubocop-packaging'
-gem 'rubocop-performance'
-gem 'rubocop-rails'
-gem 'rubocop-rspec'
-gem 'rubocop-rspec_rails'
-
-# Tools
-gem 'pry-rails'

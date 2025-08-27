@@ -437,7 +437,7 @@ DEPENDENCIES
   simplecov
   sprockets (~> 4.0)
   sprockets-rails
-  sqlite3 (~> 1.4)
+  sqlite3
   tailwindcss-rails
 
 BUNDLED WITH

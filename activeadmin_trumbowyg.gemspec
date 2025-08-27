@@ -26,27 +26,4 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'activeadmin', '~> 4.0.0.beta'
-
-  # Development dependencies
-  spec.add_development_dependency 'appraisal'
-  spec.add_development_dependency 'capybara'
-  spec.add_development_dependency 'capybara-playwright-driver'
-  spec.add_development_dependency 'combustion'
-  spec.add_development_dependency 'cuprite'
-  spec.add_development_dependency 'database_cleaner-active_record'
-  spec.add_development_dependency 'rspec_junit_formatter'
-  spec.add_development_dependency 'rspec-rails'
-  spec.add_development_dependency 'simplecov'
-  
-  # Linters
-  spec.add_development_dependency 'rubocop'
-  spec.add_development_dependency 'rubocop-capybara'
-  spec.add_development_dependency 'rubocop-packaging'
-  spec.add_development_dependency 'rubocop-performance'
-  spec.add_development_dependency 'rubocop-rails'
-  spec.add_development_dependency 'rubocop-rspec'
-  spec.add_development_dependency 'rubocop-rspec_rails'
-  
-  # Tools
-  spec.add_development_dependency 'pry-rails'
 end

@@ -44,5 +44,26 @@ gem 'sassc'
 gem 'sprockets-rails'
 gem 'tailwindcss-rails'
 
-# Additional development dependencies not in gemspec
+# Development dependencies (moved from gemspec per RuboCop best practices)
+gem 'appraisal'
+gem 'capybara'
+gem 'capybara-playwright-driver'
+gem 'combustion'
+gem 'cuprite'
+gem 'database_cleaner-active_record'
+gem 'rspec_junit_formatter'
+gem 'rspec-rails'
+gem 'simplecov'
+
+# Linters
+gem 'rubocop'
+gem 'rubocop-capybara'
+gem 'rubocop-packaging'
+gem 'rubocop-performance'
+gem 'rubocop-rails'
+gem 'rubocop-rspec'
+gem 'rubocop-rspec_rails'
+
+# Tools
 gem 'fasterer'
+gem 'pry-rails'

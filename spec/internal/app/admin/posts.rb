@@ -36,10 +36,14 @@ ActiveAdmin.register Post do
       row :title
       row :author
       row :description do |post|
+        # rubocop:todo Rails/OutputSafety -- TODO: Sanitize HTML content from Trumbowyg editor
         post.description&.html_safe
+        # rubocop:enable Rails/OutputSafety
       end
       row :body do |post|
+        # rubocop:todo Rails/OutputSafety -- TODO: Sanitize HTML content from Trumbowyg editor
         post.body&.html_safe
+        # rubocop:enable Rails/OutputSafety
       end
       row :created_at
       row :updated_at

@@ -7,6 +7,8 @@ RSpec.describe 'Trumbowyg JS', :js do
     expect(page.evaluate_script('typeof jQuery.trumbowyg')).to eq 'object'
   end
 
+  # rubocop:todo RSpec/ExampleLength, RSpec/MultipleExpectations
+  # TODO: Refactor this test to reduce complexity and split into smaller examples
   it 'allows entering text with bold and italics formatting' do
     # Create an author first so we can select it
     author = Author.create!(name: 'Test Author', email: 'test@example.com')
@@ -55,7 +57,10 @@ RSpec.describe 'Trumbowyg JS', :js do
     expect(page).to have_css('strong', text: 'This is bold text.')
     expect(page).to have_css('em', text: 'This is italic text.')
   end
+  # rubocop:enable RSpec/ExampleLength, RSpec/MultipleExpectations
 
+  # rubocop:todo RSpec/ExampleLength, RSpec/MultipleExpectations
+  # TODO: Refactor this test to reduce complexity and split into smaller examples
   it 'preserves formatting when editing an existing post' do
     # Create an author first
     author = Author.create!(name: 'Test Author', email: 'test@example.com')
@@ -99,4 +104,5 @@ RSpec.describe 'Trumbowyg JS', :js do
     expect(post.description).to include('Italic text.')
     expect(post.description).to include('Additional content.')
   end
+  # rubocop:enable RSpec/ExampleLength, RSpec/MultipleExpectations
 end

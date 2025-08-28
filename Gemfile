@@ -39,8 +39,8 @@ gem 'csv'
 gem 'importmap-rails', '~> 2.0'
 gem 'jquery-rails'
 gem 'mutex_m'
-gem 'puma'
 gem 'propshaft'
+gem 'puma'
 gem 'tailwindcss-rails'
 
 # Development dependencies (moved from gemspec per RuboCop best practices)

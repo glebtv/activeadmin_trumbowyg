@@ -4,11 +4,11 @@ module JavaScriptHelper
   def ensure_trumbowyg_loaded
     # Inject the compiled JavaScript bundle that includes jQuery and Trumbowyg
     inject_javascript_assets
-    
+
     # Wait for jQuery to be available
     wait_for_jquery
 
-    # Wait for Trumbowyg to be available 
+    # Wait for Trumbowyg to be available
     wait_for_trumbowyg
 
     # Initialize any existing Trumbowyg inputs
@@ -26,20 +26,20 @@ module JavaScriptHelper
     # Load jQuery first
     load_jquery
     wait_for_jquery
-    
+
     # Load Trumbowyg
     load_trumbowyg
     wait_for_trumbowyg
-    
+
     # Load ActiveAdmin Trumbowyg integration
     load_activeadmin_trumbowyg
   rescue StandardError => e
     raise "Failed to load JavaScript assets: #{e.message}"
   end
-  
+
   def load_jquery
     return if page.evaluate_script('typeof jQuery !== "undefined"')
-    
+
     # Load jQuery from CDN since it might conflict with Rails assets
     page.execute_script(<<~JS)
       if (typeof jQuery === 'undefined') {
@@ -52,11 +52,11 @@ module JavaScriptHelper
       }
     JS
   end
-  
+
   def load_trumbowyg
     # Don't check if jQuery is loaded - that's handled by wait_for_jquery
     return if page.evaluate_script('typeof jQuery !== "undefined" && typeof jQuery.fn.trumbowyg !== "undefined"')
-    
+
     # Load Trumbowyg CSS and JS from CDN
     page.execute_script(<<~JS)
       // Add Trumbowyg CSS
@@ -64,14 +64,14 @@ module JavaScriptHelper
       link.rel = 'stylesheet';
       link.href = 'https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css';
       document.head.appendChild(link);
-      
+
       // Add Trumbowyg JS
       var script = document.createElement('script');
       script.src = 'https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js';
       document.head.appendChild(script);
     JS
   end
-  
+
   def load_activeadmin_trumbowyg
     # Load the ActiveAdmin Trumbowyg integration code inline
     page.execute_script(<<~JS)
@@ -81,7 +81,7 @@ module JavaScriptHelper
           $('.trumbowyg-input').each(function() {
             var $this = $(this);
             if ($this.data('trumbowyg-initialized')) return;
-            
+      #{'      '}
             var options = $this.data('options') || {};
             var defaultOptions = {
               svgPath: 'https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/icons.svg',
@@ -89,23 +89,23 @@ module JavaScriptHelper
               removeformatPasted: true
             };
             var finalOptions = $.extend({}, defaultOptions, options);
-            
+      #{'      '}
             $this.trumbowyg(finalOptions);
             $this.data('trumbowyg-initialized', true);
           });
         }
-        
+      #{'  '}
         // Make available globally
         if (typeof window !== 'undefined') {
           window.ActiveAdminTrumbowyg = {
             init: initTrumbowygEditors
           };
         }
-        
+      #{'  '}
         // Initialize on DOM ready and ActiveAdmin events
         $(document).ready(function() {
           initTrumbowygEditors();
-          
+      #{'    '}
           $(document).on('has_many_add:after', '.has_many_container', function() {
             initTrumbowygEditors();
           });

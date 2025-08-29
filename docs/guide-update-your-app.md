@@ -32,41 +32,57 @@ Run `bundle update activeadmin_trumbowyg`
 
 **Remove from `app/assets/javascripts/active_admin.js`:**
 ```javascript
-//= require activeadmin/trumbowyg/trumbowyg
-//= require activeadmin/trumbowyg_input
+//= require active_admin/trumbowyg/trumbowyg
+//= require active_admin/trumbowyg_input
 ```
 
 **Remove from `app/assets/stylesheets/active_admin.scss`:**
 ```scss
-@import 'activeadmin/trumbowyg/trumbowyg';
-@import 'activeadmin/trumbowyg_input';
+@import 'active_admin/trumbowyg/trumbowyg';
+@import 'active_admin/trumbowyg_input';
 ```
 
-## Step 3: Run the Installation Generator
+## Step 3: Install and Configure Based on Your Bundler
 
 Based on your JavaScript bundler:
 
 ### For esbuild (recommended)
 
 ```bash
-rails generate active_admin:trumbowyg:install --bundler=esbuild
+# Install the NPM package
+npm install @rocket-sensei/activeadmin_trumbowyg
 ```
 
-This will:
-1. Install npm packages: `jquery`, `trumbowyg`, `activeadmin_trumbowyg`
-2. Add imports to your `app/javascript/active_admin.js`:
+Then add to your `app/javascript/active_admin.js`:
 ```javascript
 // ActiveAdmin Trumbowyg Editor
-import $ from 'jquery';
-import 'trumbowyg';
-
-// Ensure jQuery is globally available
-window.$ = window.jQuery = $;
-
-// Initialize Trumbowyg for ActiveAdmin
-import 'activeadmin_trumbowyg';
+import '@rocket-sensei/activeadmin_trumbowyg';
 ```
-3. Add Trumbowyg styles via CDN to your stylesheet
+
+Add Trumbowyg styles to your stylesheet (`app/assets/stylesheets/active_admin.scss`):
+```scss
+@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
+```
+
+**Note:** No generator needed for esbuild/webpack - just install the NPM package and import it!
+
+### For webpack
+
+```bash
+# Install the NPM package
+npm install @rocket-sensei/activeadmin_trumbowyg
+```
+
+Then add to your `app/javascript/packs/active_admin.js`:
+```javascript
+// ActiveAdmin Trumbowyg Editor
+import '@rocket-sensei/activeadmin_trumbowyg';
+```
+
+Add Trumbowyg styles to your stylesheet:
+```scss
+@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
+```
 
 ### For importmap
 
@@ -79,15 +95,11 @@ This will:
 ```ruby
 pin "jquery", to: "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
 pin "trumbowyg", to: "https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js"
-pin "activeadmin_trumbowyg", to: "activeadmin_trumbowyg.js"
+pin "active_admin_trumbowyg", to: "active_admin_trumbowyg.js"
 ```
 2. Add import to your JavaScript
 
-### For webpack
-
-```bash
-rails generate active_admin:trumbowyg:install --bundler=webpack
-```
+**Note:** The generator is still needed for importmap to properly configure the pins.
 
 ## Step 4: Build Your Assets
 
@@ -109,33 +121,30 @@ rails server
 
 ## Step 5: Production Setup
 
-For production environments with asset precompilation:
-
-```bash
-rails trumbowyg:nondigest
-```
-
-This ensures icon assets are available in production.
+No additional setup needed - all assets are handled automatically through the NPM package or CDN.
 
 ## What's Changed?
 
 ### Architecture Changes
 
 **Version 1.x (Old):**
-- Used Rails Asset Pipeline
+- Used Rails Asset Pipeline with Sprockets
 - Required manual asset includes
-- Code was copied to each app
+- JavaScript paths used `activeadmin/` prefix
+- Assets copied to each app
 
 **Version 2.0 (New):**
+- Distributed via NPM as `@rocket-sensei/activeadmin_trumbowyg`
 - Uses modern JavaScript modules (ESM)
-- Single import loads everything
-- Code lives in the gem, not your app
+- Single import loads everything (includes jQuery and Trumbowyg)
+- JavaScript paths use `active_admin/` prefix (Rails convention)
 - Automatic dark mode support
 - Better ActiveAdmin 4 integration
+- No generator needed for esbuild/webpack users
 
 ### JavaScript Changes
 
-The gem now provides a complete initialization module. You no longer need to write initialization code - just import the module:
+The gem now provides a complete initialization module via NPM. You no longer need to write initialization code - just import the module:
 
 ```javascript
 // Old way (1.x) - manual initialization
@@ -143,9 +152,11 @@ $('.trumbowyg-input').trumbowyg({
   // options
 });
 
-// New way (2.0) - automatic initialization
-import 'activeadmin_trumbowyg';  // That's it!
+// New way (2.0) - automatic initialization via NPM package
+import '@rocket-sensei/activeadmin_trumbowyg';  // That's it!
 ```
+
+For esbuild/webpack users, the package is now distributed via NPM as `@rocket-sensei/activeadmin_trumbowyg`, making installation and updates much simpler.
 
 ### Form Usage (Unchanged)
 
@@ -165,14 +176,18 @@ end
 
 ### Issue: "Trumbowyg library is required but not found"
 
-**Solution:** Ensure jQuery and Trumbowyg are imported BEFORE activeadmin_trumbowyg:
+**Solution:** For esbuild/webpack users, the NPM package handles dependencies automatically. Just ensure you have the package installed:
 
-```javascript
-import $ from 'jquery';
-import 'trumbowyg';
-window.$ = window.jQuery = $;
-import 'activeadmin_trumbowyg';  // Must be last
+```bash
+npm install @rocket-sensei/activeadmin_trumbowyg
 ```
+
+Then import it:
+```javascript
+import '@rocket-sensei/activeadmin_trumbowyg';
+```
+
+For importmap users, ensure jQuery and Trumbowyg are pinned before the ActiveAdmin Trumbowyg module.
 
 ### Issue: Styles not loading
 
@@ -190,16 +205,19 @@ Dark mode support is automatic in version 2.0. If it's not working:
 
 ### Issue: Custom plugins not working
 
-Add plugin imports after the main imports:
+For esbuild/webpack users with custom Trumbowyg plugins:
 
 ```javascript
-import $ from 'jquery';
-import 'trumbowyg';
-import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';  // Add plugins here
+// Import the main package first
+import '@rocket-sensei/activeadmin_trumbowyg';
 
-window.$ = window.jQuery = $;
-import 'activeadmin_trumbowyg';
+// Then import any additional Trumbowyg plugins
+import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';
+
+// Configure custom options via data attributes in your form
 ```
+
+Note: The NPM package includes jQuery and base Trumbowyg automatically.
 
 ## Manual Cleanup (Optional)
 
@@ -216,26 +234,28 @@ After successful upgrade, you can remove:
 
 ## Quick Reference
 
-### Generator Options
+### Installation Commands
 
 ```bash
-# For esbuild (recommended)
-rails generate active_admin:trumbowyg:install --bundler=esbuild
+# For esbuild/webpack - NPM package (no generator needed)
+npm install @rocket-sensei/activeadmin_trumbowyg
 
-# For importmap
+# For importmap - Use generator
 rails generate active_admin:trumbowyg:install --bundler=importmap
-
-# For webpack
-rails generate active_admin:trumbowyg:install --bundler=webpack
 ```
 
 ### Required Imports (esbuild/webpack)
 
 ```javascript
-import $ from 'jquery';
-import 'trumbowyg';
-window.$ = window.jQuery = $;
-import 'activeadmin_trumbowyg';
+// Single import - includes all dependencies
+import '@rocket-sensei/activeadmin_trumbowyg';
+```
+
+### Required Styles
+
+```scss
+// Add to your active_admin.scss
+@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
 ```
 
 ### Form Input

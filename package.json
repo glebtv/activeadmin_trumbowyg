@@ -1,44 +1,53 @@
 {
-  "name": "@activeadmin/trumbowyg",
+  "name": "@rocket-sensei/activeadmin_trumbowyg",
   "version": "2.0.0",
-  "description": "Trumbowyg WYSIWYG editor integration for ActiveAdmin",
-  "main": "app/assets/javascripts/activeadmin_trumbowyg.js",
-  "module": "app/assets/javascripts/activeadmin_trumbowyg.js",
+  "description": "Trumbowyg WYSIWYG editor integration for ActiveAdmin 4",
+  "main": "src/activeadmin_trumbowyg.js",
+  "module": "src/activeadmin_trumbowyg.js",
+  "style": "src/trumbowyg_input.scss",
   "exports": {
     ".": {
-      "import": "./app/assets/javascripts/activeadmin_trumbowyg.js",
-      "require": "./app/assets/javascripts/activeadmin_trumbowyg.js",
-      "default": "./app/assets/javascripts/activeadmin_trumbowyg.js"
-    }
+      "import": "./src/activeadmin_trumbowyg.js",
+      "require": "./src/activeadmin_trumbowyg.js",
+      "default": "./src/activeadmin_trumbowyg.js"
+    },
+    "./css": "./src/trumbowyg_input.scss",
+    "./style": "./src/trumbowyg_input.scss"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blocknotes/activeadmin_trumbowyg.git"
+    "url": "git+https://github.com/glebtv/activeadmin_trumbowyg.git"
   },
-  "author": "Mattia Roccoberton <mat@blocknot.es>",
+  "author": "Mattia Roccoberton <mat@blocknot.es> (Original), Gleb Tv <glebtv@gmail.com> (ActiveAdmin 4 port)",
   "license": "MIT",
   "private": false,
   "bugs": {
-    "url": "https://github.com/blocknotes/activeadmin_trumbowyg/issues"
+    "url": "https://github.com/glebtv/activeadmin_trumbowyg/issues"
   },
-  "homepage": "https://github.com/blocknotes/activeadmin_trumbowyg#readme",
+  "homepage": "https://github.com/glebtv/activeadmin_trumbowyg#readme",
   "keywords": [
     "activeadmin",
+    "active-admin",
     "rails",
+    "rails7",
+    "rails8",
     "trumbowyg",
     "wysiwyg",
     "editor",
-    "rich-text"
+    "rich-text",
+    "propshaft"
   ],
   "peerDependencies": {
     "jquery": ">= 3.0, < 5",
-    "trumbowyg": "^2.0.0"
+    "trumbowyg": "^2.25.0"
   },
   "files": [
-    "app/assets/**/*",
+    "src/**/*",
     "vendor/assets/**/*"
   ],
   "scripts": {
-    "prepublishOnly": "echo 'Ready to publish'"
+    "prepare_javascripts_src": "rm -rf src && cp -R app/assets/javascripts/ src && mv src/activeadmin_trumbowyg.js src/activeadmin_trumbowyg.js.tmp && mv src/active_admin/trumbowyg.esm.js src/activeadmin_trumbowyg.js && rm src/activeadmin_trumbowyg.js.tmp",
+    "prepare_stylesheets_src": "cp -R app/assets/stylesheets/active_admin/* src/",
+    "prepublishOnly": "npm run prepare_javascripts_src && npm run prepare_stylesheets_src"
   }
 }

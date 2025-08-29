@@ -19,8 +19,8 @@ module ActiveAdmin
         def install_npm_package
           return if options[:bundler] == 'importmap'
 
-          say 'Installing @activeadmin/trumbowyg npm package...', :green
-          run 'npm install @activeadmin/trumbowyg jquery trumbowyg'
+          say 'Installing @rocket-sensei/activeadmin_trumbowyg npm package...', :green
+          run 'npm install @rocket-sensei/activeadmin_trumbowyg jquery trumbowyg'
         end
 
         def setup_javascript
@@ -59,8 +59,7 @@ module ActiveAdmin
         end
 
         def copy_icons
-          say 'Setting up Trumbowyg icons...', :green
-          say 'Note: Icons will be handled via CDN or npm package', :yellow
+          say 'Icons are automatically included via the NPM package', :green
         end
 
         def show_post_install_message
@@ -114,9 +113,7 @@ module ActiveAdmin
             }
           RUBY
 
-          say "\n⚠️  Note: For production, run:", :yellow
-          say '  rails trumbowyg:nondigest', :cyan
-          say 'This will copy icon assets for production use.', :yellow
+          say "\n📦 Note: Icons and styles are included automatically.", :green
         end
 
         private
@@ -132,14 +129,8 @@ module ActiveAdmin
               <<~JS
 
                 // ActiveAdmin Trumbowyg Editor
-                import $ from 'jquery';
-                import 'trumbowyg';
-
-                // Ensure jQuery is globally available
-                window.$ = window.jQuery = $;
-
-                // Initialize Trumbowyg for ActiveAdmin
-                import 'activeadmin_trumbowyg';
+                // All dependencies and initialization are handled by the package
+                import '@rocket-sensei/activeadmin_trumbowyg';
               JS
             end
           else
@@ -149,14 +140,8 @@ module ActiveAdmin
                 import "@activeadmin/activeadmin";
 
                 // ActiveAdmin Trumbowyg Editor
-                import $ from 'jquery';
-                import 'trumbowyg';
-
-                // Ensure jQuery is globally available
-                window.$ = window.jQuery = $;
-
-                // Initialize Trumbowyg for ActiveAdmin
-                import 'activeadmin_trumbowyg';
+                // All dependencies and initialization are handled by the package
+                import '@rocket-sensei/activeadmin_trumbowyg';
               JS
             end
           end
@@ -204,12 +189,12 @@ module ActiveAdmin
               <<~JS
 
                 // ActiveAdmin Trumbowyg Editor - single import loads everything
-                import 'activeadmin_trumbowyg';
+                import '@rocket-sensei/activeadmin_trumbowyg';
               JS
             end
           else
             say 'Please manually add Trumbowyg import to your ActiveAdmin JavaScript pack', :yellow
-            say "Add this line: import 'activeadmin_trumbowyg';", :cyan
+            say "Add this line: import '@rocket-sensei/activeadmin_trumbowyg';", :cyan
           end
         end
 

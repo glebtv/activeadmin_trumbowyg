@@ -1,0 +1,49 @@
+# Development files
+*.gem
+*.rbc
+.bundle
+.config
+.yardoc
+Gemfile
+Gemfile.lock
+InstalledFiles
+_yardoc
+coverage
+doc/
+lib/bundler/man
+pkg
+rdoc
+spec
+tmp
+.rspec
+.rubocop.yml
+.ruby-version
+.ruby-gemset
+.rvmrc
+
+# Git files
+.git
+.gitignore
+
+# Documentation
+*.md
+LICENSE.txt
+extra/
+docs/
+examples/
+
+# CI/CD
+.github/
+.travis.yml
+
+# Ruby/Rails specific
+Rakefile
+*.gemspec
+app/
+config/
+lib/
+vendor/assets/fonts/
+vendor/assets/images/
+
+# Keep only the prepared src folder for NPM
+!src/

@@ -2,6 +2,48 @@
 
 Rails 7 brought with it an overhaul of the Asset Pipeline in the form of multiple new gems that either introduced a new way of handling assets (importmaps-rails), or broke down existing gems (propshaft, jsbundling-rails, cssbundling-rails) into smaller parts that make use of existing standalone tools and therefore support modern features that were previously unavailable.
 
+## ActiveAdmin Trumbowyg Integration
+
+**Important**: As of version 2.0, this gem **no longer supports Sprockets**. You must use a modern JavaScript bundler (esbuild, webpack, or similar) with Rails 7+.
+
+### Installation with Modern Bundlers (esbuild/webpack)
+
+1. Install the NPM package:
+   ```bash
+   npm install @rocket-sensei/activeadmin_trumbowyg
+   ```
+
+2. Import the package in your JavaScript entrypoint (e.g., `app/javascript/application.js`):
+   ```javascript
+   import '@rocket-sensei/activeadmin_trumbowyg'
+   ```
+
+3. The package automatically:
+   - Registers the Trumbowyg editor with ActiveAdmin
+   - Loads all required styles
+   - Configures the editor for `ActiveAdmin.FormBuilder`
+
+### JavaScript Module Structure
+
+The NPM package exports JavaScript modules from the `active_admin/` namespace:
+- `active_admin/trumbowyg.js` - Main editor initialization
+- `active_admin/init.js` - ActiveAdmin integration setup
+
+### Migration from Sprockets
+
+If you're upgrading from an older version that used Sprockets:
+
+1. Remove any Sprockets require directives:
+   ```javascript
+   // Remove these lines:
+   //= require activeadmin/trumbowyg
+   //= require activeadmin/init
+   ```
+
+2. Remove the gem's assets from your Sprockets manifest
+3. Install via NPM and import as shown above
+4. Ensure you're using jsbundling-rails, propshaft, or similar modern asset handling
+
 While a few of these gems are still in pre-release status, their maintainers, contributors and early adopters have already deployed them to production. However, widespread adoption is currently being hampered by the lack of detailed documentation and some missing features that would allow them to support more use cases.
 
 With the creation of the new Rails Discord channel for people interested in contributing to Rails, I think it’s a good time to coordinate with the community so we can pare down the rough edges. Therefore I’d like to start this thread so we can make a more visible demonstration that there are people working to improve things and provide central source of knowledge while all the related guides haven’t been updated.
@@ -27,18 +69,20 @@ I’m writing this not as maintainer of any of these gems, but as a regular cont
 
 ### [](https://discuss.rubyonrails.org/t/guide-to-rails-7-and-the-asset-pipeline/80851#sprockets-4)Sprockets
 
--   Status: Maintained
+-   Status: Maintained (but **NOT supported by activeadmin_trumbowyg**)
     
 -   Notes: Several fixes and updates are only available in the edge version.
     
 
-The original asset pipeline gem, Sprockets provides bundling and digesting for javascript, css and image files. Built before node was widely adopted, Sprocket’s “everything included” approach worked well for many years. However, as frontend programming became more complex, it started to fall behind dedicated tools like webpack. It was the only officially supported gem up to Rails 5.2, when Webpacker was introduced, and remained the default until Rails 7, when it was replaced by Import Maps.
+The original asset pipeline gem, Sprockets provides bundling and digesting for javascript, css and image files. Built before node was widely adopted, Sprocket's "everything included" approach worked well for many years. However, as frontend programming became more complex, it started to fall behind dedicated tools like webpack. It was the only officially supported gem up to Rails 5.2, when Webpacker was introduced, and remained the default until Rails 7, when it was replaced by Import Maps.
 
-**If you are learning Rails**: Don’t use it. Your time will be better spent learning one of the more modern approaches.
+**Important for activeadmin_trumbowyg users**: This gem no longer supports Sprockets. You must use a modern JavaScript bundler with the NPM package `@rocket-sensei/activeadmin_trumbowyg`.
 
-**If you are starting a new app**: Only if you absolutely do not want to deal with node/yarn and are not ready for import maps.
+**If you are learning Rails**: Don't use it. Your time will be better spent learning one of the more modern approaches.
 
-**If you have an existing app with Sprockets**: You can continue using it. Sprockets will receive maintenance updates at least until Propshaft reaches 1.0, and probably longer.
+**If you are starting a new app**: Only if you absolutely do not want to deal with node/yarn and are not ready for import maps. Note that activeadmin_trumbowyg will not work with Sprockets.
+
+**If you have an existing app with Sprockets**: You can continue using it for other assets, but you'll need to migrate to a modern bundler to use activeadmin_trumbowyg. Sprockets will receive maintenance updates at least until Propshaft reaches 1.0, and probably longer.
 
 ### [](https://discuss.rubyonrails.org/t/guide-to-rails-7-and-the-asset-pipeline/80851#webpacker-5)Webpacker
 
@@ -93,16 +137,18 @@ This means that any setup using propshaft will also be using one or more of the 
 
 -   Status: Released, in active development
     
--   Notes: -
+-   Notes: **Recommended for activeadmin_trumbowyg users**
     
 
 Provides javascript bundling features that were previously handled by Sprockets and Webpacker. Supports webpack, esbuild and rollup.
 
-**If you are learning Rails**:
+**For activeadmin_trumbowyg users**: This is the recommended approach. Install the NPM package with `npm install @rocket-sensei/activeadmin_trumbowyg` and import it in your JavaScript entrypoint.
 
-**If you are starting a new app**:
+**If you are learning Rails**: This is a good choice if you need npm packages or complex JavaScript features.
 
-**If you have an existing app**:
+**If you are starting a new app**: Excellent choice for apps that need npm packages, including activeadmin_trumbowyg.
+
+**If you have an existing app**: Great migration path from Webpacker or Sprockets, especially for activeadmin_trumbowyg integration.
 
 ### [](https://discuss.rubyonrails.org/t/guide-to-rails-7-and-the-asset-pipeline/80851#cssbundling-rails-9)cssbundling-rails
 
@@ -183,8 +229,51 @@ The alternative way (with node/yarn and your choice of bundler):
 -   [Introducing Propshaft](https://world.hey.com/dhh/introducing-propshaft-ee60f4f6)
     
 
+### Complete ActiveAdmin Trumbowyg Setup Example
+
+For a new Rails 7+ app with ActiveAdmin and Trumbowyg:
+
+1. **Setup Rails with jsbundling and cssbundling:**
+   ```bash
+   rails new myapp -j esbuild -c bootstrap
+   cd myapp
+   ```
+
+2. **Add ActiveAdmin and activeadmin_trumbowyg gems:**
+   ```ruby
+   # Gemfile
+   gem 'activeadmin'
+   gem 'activeadmin_trumbowyg'
+   ```
+
+3. **Install the NPM package:**
+   ```bash
+   npm install @rocket-sensei/activeadmin_trumbowyg
+   ```
+
+4. **Import in your JavaScript entrypoint:**
+   ```javascript
+   // app/javascript/application.js
+   import '@rocket-sensei/activeadmin_trumbowyg'
+   ```
+
+5. **Use in your ActiveAdmin forms:**
+   ```ruby
+   # app/admin/posts.rb
+   form do |f|
+     f.inputs do
+       f.input :title
+       f.input :content, as: :trumbowyg
+     end
+     f.actions
+   end
+   ```
+
+**Note**: The JavaScript modules are now under the `active_admin/` namespace, not `activeadmin/`. The NPM package handles all initialization automatically when imported.
+
 ### [](https://discuss.rubyonrails.org/t/guide-to-rails-7-and-the-asset-pipeline/80851#changelog-15)Changelog
 
 -   2022-06-17: First version
--   2022-06-18: Added the ‘Four approaches’ section. Rewrote some explanations
--   2022-06-28: Added “What will Rails recommend”.
+-   2022-06-18: Added the 'Four approaches' section. Rewrote some explanations
+-   2022-06-28: Added "What will Rails recommend".
+-   2024-XX-XX: Added activeadmin_trumbowyg NPM package instructions and Sprockets deprecation notice

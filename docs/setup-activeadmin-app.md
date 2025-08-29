@@ -2,6 +2,29 @@
 
 This guide shows how to create a new standalone ActiveAdmin 4 application with proper asset pipeline configuration.
 
+## Quick Start: ActiveAdmin Trumbowyg Installation
+
+### For esbuild/webpack users (Modern Setup)
+```bash
+# Install via NPM
+npm install @rocket-sensei/activeadmin_trumbowyg
+
+# Import in your JavaScript
+# app/javascript/application.js or app/javascript/active_admin.js
+import '@rocket-sensei/activeadmin_trumbowyg'
+
+# No generator needed! The package auto-initializes
+```
+
+### For Importmap/Propshaft users (Rails Default)
+```bash
+# Add gem to Gemfile
+gem 'activeadmin_trumbowyg'
+
+# Run generator
+rails generate activeadmin_trumbowyg:install
+```
+
 ## 1. Create Rails Application
 
 ```bash
@@ -58,8 +81,12 @@ npm install --save-dev @activeadmin/activeadmin@^3.3.0
 # If you need jQuery plugins
 npm install jquery
 
-# Install your vendor packages
-# npm install trumbowyg select2 etc.
+# Install vendor packages via NPM
+# For activeadmin_trumbowyg gem users with esbuild/webpack:
+npm install @rocket-sensei/activeadmin_trumbowyg
+
+# Or install Trumbowyg directly:
+# npm install trumbowyg
 ```
 
 ## 6. Configure Tailwind (CRITICAL!)
@@ -181,7 +208,8 @@ export { default as jQuery } from 'jquery/dist/jquery.js'
 }
 
 /* Import vendor CSS if needed */
-/* @import 'trumbowyg/dist/ui/trumbowyg.css'; */
+/* Note: @rocket-sensei/activeadmin_trumbowyg NPM package includes CSS automatically */
+/* For manual Trumbowyg setup: @import 'trumbowyg/dist/ui/trumbowyg.css'; */
 ```
 
 ## 10. Set Up Application JavaScript
@@ -195,11 +223,17 @@ import "./controllers"
 import $ from 'jquery'
 window.$ = window.jQuery = $
 
-// Import vendor libraries
-// import 'select2'
+// Import vendor libraries via NPM packages
+// For activeadmin_trumbowyg gem users with esbuild/webpack:
+// import '@rocket-sensei/activeadmin_trumbowyg'
+
+// Or import Trumbowyg directly:
 // import 'trumbowyg'
 
-// Initialize plugins
+// Note: No generator needed when using esbuild/webpack with NPM packages
+// The NPM package automatically handles initialization
+
+// For manual plugin initialization if needed:
 document.addEventListener('DOMContentLoaded', () => {
   initializePlugins()
 })
@@ -209,9 +243,9 @@ document.addEventListener('turbo:load', () => {
 })
 
 function initializePlugins() {
-  // Initialize your jQuery plugins
+  // Initialize your jQuery plugins if not auto-initialized
   // $('.select2').select2()
-  // $('[data-trumbowyg]').trumbowyg()
+  // $('[data-trumbowyg]').trumbowyg() // Only if not using NPM package auto-init
 }
 ```
 
@@ -348,6 +382,39 @@ heroku buildpacks:add heroku/ruby
 
 ## 16. Adding Vendor Packages (Example: Trumbowyg)
 
+### Method 1: Using the NPM Package (Recommended for esbuild/webpack)
+
+```bash
+# Install the official NPM package
+npm install @rocket-sensei/activeadmin_trumbowyg
+```
+
+```javascript
+// app/javascript/application.js or app/javascript/active_admin.js
+import '@rocket-sensei/activeadmin_trumbowyg'
+
+// That's it! The package auto-initializes Trumbowyg on elements with data-provider="trumbowyg"
+// No generator needed for esbuild/webpack setups
+```
+
+```ruby
+# app/admin/posts.rb
+ActiveAdmin.register Post do
+  form do |f|
+    f.inputs do
+      f.input :title
+      f.input :body, as: :text, input_html: { 
+        'data-provider': 'trumbowyg',
+        class: 'trumbowyg-editor' 
+      }
+    end
+    f.actions
+  end
+end
+```
+
+### Method 2: Using Trumbowyg Directly (Manual Setup)
+
 ```bash
 npm install trumbowyg jquery
 ```
@@ -374,23 +441,7 @@ document.addEventListener('DOMContentLoaded', initTrumbowyg)
 document.addEventListener('turbo:load', initTrumbowyg)
 ```
 
-```ruby
-# app/admin/posts.rb
-ActiveAdmin.register Post do
-  form do |f|
-    f.inputs do
-      f.input :title
-      f.input :body, as: :text, input_html: { 
-        'data-trumbowyg': true,
-        class: 'trumbowyg-editor' 
-      }
-    end
-    f.actions
-  end
-end
-```
-
-Copy icons:
+Copy icons (only needed for manual setup):
 ```bash
 cp node_modules/trumbowyg/dist/ui/icons.svg public/assets/trumbowyg/
 ```
@@ -455,17 +506,37 @@ my_admin_app/
 │   │   └── stylesheets/
 │   │       └── application.tailwind.css
 │   └── javascript/
-│       └── application.js
+│       ├── application.js
+│       └── active_admin.js  # Optional: ActiveAdmin-specific JS
 ├── config/
 │   └── initializers/
 │       └── active_admin.rb
 ├── node_modules/
+│   └── @rocket-sensei/
+│       └── activeadmin_trumbowyg/  # NPM package location
 ├── public/
 │   └── assets/          # Static vendor assets
 ├── package.json
 ├── tailwind.config.mjs  # ESM format!
 └── inject-jquery.js     # If using jQuery
 ```
+
+## Key Installation Differences
+
+### NPM Package (@rocket-sensei/activeadmin_trumbowyg)
+- **For**: esbuild/webpack users
+- **Installation**: `npm install @rocket-sensei/activeadmin_trumbowyg`
+- **Import**: `import '@rocket-sensei/activeadmin_trumbowyg'`
+- **Generator**: Not needed
+- **JavaScript paths**: Uses `active_admin/` prefix
+- **Auto-initialization**: Yes, handles Turbo events automatically
+
+### Ruby Gem (activeadmin_trumbowyg)
+- **For**: Importmap/Propshaft users
+- **Installation**: Add to Gemfile
+- **Generator**: Required (`rails g activeadmin_trumbowyg:install`)
+- **JavaScript paths**: Uses `active_admin/` prefix
+- **Asset handling**: Via Rails asset pipeline
 
 ## Success Checklist
 
@@ -477,4 +548,5 @@ my_admin_app/
 ✅ Dark mode toggle working  
 ✅ Forms properly styled  
 ✅ No JavaScript console errors  
-✅ Vendor packages integrated (if needed)
+✅ Vendor packages integrated (if using NPM: @rocket-sensei/activeadmin_trumbowyg)  
+✅ Trumbowyg editor rendering on forms with `data-provider="trumbowyg"`

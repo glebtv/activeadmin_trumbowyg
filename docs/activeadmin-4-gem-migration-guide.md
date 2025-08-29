@@ -1,357 +1,313 @@
-# ActiveAdmin 4 Extension Gem Migration Guide
+# ActiveAdmin Trumbowyg 2.x Migration Guide
 
 ## Overview
-This guide provides a proven pattern for migrating ActiveAdmin extension gems to support ActiveAdmin 4. Based on successful migration of activeadmin_trumbowyg and activeadmin-searchable_select gems.
+This guide covers migrating from activeadmin_trumbowyg 1.x to 2.x, which adds support for ActiveAdmin 4 and modern JavaScript build tools. Version 2.x introduces a new NPM package for easier integration with esbuild and webpack projects.
 
-## Quick Checklist
-- [ ] Update Ruby requirement to >= 3.2
-- [ ] Update Rails requirement to >= 7.0  
-- [ ] Update ActiveAdmin dependency to support 4.x
-- [ ] Replace Sprockets with Propshaft (required)
-- [ ] Set up Combustion test app with proper loading order
-- [ ] Configure Tailwind with ActiveAdmin plugin and safelist
-- [ ] Build vendor CSS into Tailwind output
-- [ ] Set up esbuild for JavaScript with jQuery injection
-- [ ] Update CSS selectors (`.filter_form` → `.filters-form`)
-- [ ] Test with both light and dark modes
+## What's New in Version 2.x
 
-## Step 1: Update Dependencies
+### NPM Package Support
+- Published on NPM as `@rocket-sensei/activeadmin_trumbowyg`
+- Direct integration with esbuild and webpack projects
+- No generator needed for modern JavaScript bundlers
+- Automatic jQuery dependency management
 
-### Gemspec
-```ruby
-spec.required_ruby_version = '>= 3.2'
-spec.add_runtime_dependency 'activeadmin', ['>= 1.x', '< 5']
-```
+### Path Changes
+- JavaScript module paths changed from `activeadmin/` to `active_admin/`
+- CSS paths updated to follow Rails conventions
 
-### Gemfile (for development)
-```ruby
-gem 'combustion'
-gem 'importmap-rails', '~> 2.0'  # Required for ActiveAdmin 4
-gem 'propshaft'  # Required - Sprockets is not supported
-```
+### Compatibility
+- ActiveAdmin 3.x and 4.x support
+- Rails 7.0+ required
+- Ruby 3.2+ required
+- Works with both Sprockets (legacy) and Propshaft
 
-## Step 2: Set Up Combustion Test App
+## Installation Methods
 
-### Critical: Loading Order in config.ru
-```ruby
-# config.ru - MUST control loading order for ActiveAdmin!
-require "rubygems"
-require "bundler"
+### Option 1: Modern JavaScript Bundlers (esbuild/webpack) - Recommended
 
-# DON'T use Bundler.require - it loads gems too early!
-Bundler.setup(:default, :development)
-
-# Load Rails and combustion first
-require 'combustion'
-
-# Initialize Combustion with Rails components
-Combustion.initialize! :active_record, :action_controller, :action_view do
-  config.load_defaults Rails::VERSION::STRING.to_f if Rails::VERSION::MAJOR >= 7
-end
-
-# NOW load ActiveAdmin after Rails is initialized
-require 'importmap-rails'
-require 'active_admin'
-require 'your_gem'
-
-# Critical: Explicitly require custom inputs after everything else
-require 'formtastic/inputs/your_custom_input' if defined?(Formtastic)
-
-run Combustion::Application
-```
-
-## Step 3: Asset Pipeline Configuration
-
-### Directory Structure
-```
-spec/internal/
-├── app/
-│   ├── assets/
-│   │   ├── builds/           # Output directory
-│   │   │   └── active_admin.css
-│   │   ├── config/
-│   │   │   └── manifest.js
-│   │   └── stylesheets/
-│   │       └── active_admin_source.css
-│   └── js/
-│       └── active_admin.js   # Source JavaScript
-├── package.json
-├── tailwind.config.mjs       # ESM format
-├── build_css.js              # Build script
-└── inject-jquery.js          # jQuery injection for esbuild
-```
-
-### Package.json
-```json
-{
-  "name": "internal",
-  "scripts": {
-    "build:css": "node ./build_css.js",
-    "build:js": "esbuild app/js/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --inject:./inject-jquery.js --public-path=/assets",
-    "build": "npm run build:js && npm run build:css"
-  },
-  "dependencies": {
-    "esbuild": "^0.24.2",
-    "jquery": "^3.7.1",
-    "your-vendor-package": "^x.x.x"
-  },
-  "devDependencies": {
-    "@activeadmin/activeadmin": "^3.3.0",
-    "tailwindcss": "^3.4.17"
-  }
-}
-```
-
-## Step 4: Tailwind Configuration (CRITICAL!)
-
-### tailwind.config.mjs with Safelist
-```javascript
-import activeAdminPlugin from '@activeadmin/activeadmin/plugin'
-import { execSync } from 'node:child_process'
-
-let activeAdminPath = null
-try {
-  activeAdminPath = execSync('bundle show activeadmin', { encoding: 'utf8' }).trim()
-} catch (e) {
-  // Build continues without scanning AA views if bundler unavailable
-}
-
-export default {
-  content: [
-    './app/admin/**/*.{arb,erb,html,rb}',
-    './app/views/**/*.{arb,erb,html,rb}',
-    './app/javascript/**/*.js',
-    './app/js/**/*.js',
-    ...(activeAdminPath ? [
-      `${activeAdminPath}/vendor/javascript/flowbite.js`,
-      `${activeAdminPath}/plugin.js`,
-      `${activeAdminPath}/app/views/**/*.{arb,erb,html,rb}`,
-    ] : [])
-  ],
-  darkMode: 'selector',
-  plugins: [activeAdminPlugin],
-  // CRITICAL: Without safelist, ActiveAdmin layout breaks!
-  safelist: [
-    // Grid and layout
-    'grid', 'gap-4', 'gap-6', 'lg:grid-cols-3', 'md:grid-cols-2',
-    'col-span-2', 'col-span-3', 'lg:col-span-2', 'lg:col-span-1',
-    // Flexbox
-    'flex', 'flex-col', 'flex-row', 'flex-wrap', 'items-center',
-    'justify-between', 'justify-center', 'items-start', 'items-end',
-    // Spacing
-    'p-4', 'p-6', 'px-4', 'px-6', 'py-2', 'py-4', 'm-0', 'mx-auto',
-    'mt-4', 'mb-4', 'ml-auto', 'mr-auto', 'space-y-4', 'space-x-4',
-    // Display
-    'block', 'inline-block', 'hidden', 'lg:hidden', 'lg:block', 'lg:flex',
-    // Width/Height
-    'w-full', 'w-auto', 'w-64', 'h-full', 'min-h-screen', 'max-w-7xl',
-    // Typography
-    'text-sm', 'text-base', 'text-lg', 'text-xl', 'font-medium', 'font-semibold',
-    // Colors
-    'bg-white', 'bg-gray-50', 'bg-gray-100', 'text-gray-900', 'text-gray-600',
-    'dark:bg-gray-800', 'dark:bg-gray-900', 'dark:text-white', 'dark:text-gray-300',
-    // Borders
-    'border', 'border-gray-200', 'dark:border-gray-700', 'rounded-lg', 'rounded-md',
-    // Position & Z-index
-    'relative', 'absolute', 'fixed', 'sticky', 'top-0', 'left-0', 'right-0',
-    'z-10', 'z-20', 'z-30', 'z-40', 'z-50',
-    // Shadows
-    'shadow', 'shadow-md', 'shadow-lg'
-  ]
-}
-```
-
-## Step 5: CSS Build Script (for vendor CSS)
-
-### build_css.js
-```javascript
-#!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-const { spawnSync } = require('child_process');
-
-const root = __dirname;
-const inputPath = path.join(root, 'app/assets/stylesheets/active_admin_source.css');
-const vendorCssPath = path.join(root, 'node_modules/your-package/dist/styles.css');
-const tmpPath = path.join(root, 'app/assets/stylesheets/__aa_tmp.css');
-const outPath = path.join(root, 'app/assets/builds/active_admin.css');
-
-function build() {
-  const src = fs.readFileSync(inputPath, 'utf8');
-  const vendorCss = fs.readFileSync(vendorCssPath, 'utf8');
-
-  // Ensure Tailwind directives are first
-  const tailwindDirectives = '@tailwind base;\n@tailwind components;\n@tailwind utilities;';
-  
-  // Remove any vendor imports from source
-  const cleanedSrc = src.replace(/@import.*your-package.*;/g, '');
-  
-  // Combine: Tailwind -> Vendor CSS -> Custom overrides
-  const tmpCss = `${tailwindDirectives}\n\n/* Vendor CSS */\n${vendorCss}\n\n/* Custom */\n${cleanedSrc}`;
-  
-  fs.writeFileSync(tmpPath, tmpCss, 'utf8');
-
-  // Run Tailwind
-  const res = spawnSync('npx', [
-    'tailwindcss',
-    '-c', 'tailwind.config.mjs',
-    '-i', tmpPath,
-    '-o', outPath
-  ], { stdio: 'inherit', cwd: root });
-
-  if (res.status !== 0) {
-    process.exit(res.status);
-  }
-
-  fs.unlinkSync(tmpPath);
-}
-
-build();
-```
-
-## Step 6: jQuery Plugin Pattern
-
-### inject-jquery.js (Critical for esbuild!)
-```javascript
-// https://github.com/evanw/esbuild/issues/1681
-export { default as $ } from 'jquery/dist/jquery.js'
-export { default as jQuery } from 'jquery/dist/jquery.js'
-```
-
-### JavaScript Entry Point
-```javascript
-// app/js/active_admin.js
-import $ from 'jquery';
-import 'your-jquery-plugin';
-
-// Ensure jQuery is global
-window.$ = window.jQuery = $;
-
-// Initialize your plugin
-function initPlugin() {
-  $('[data-your-plugin]').each(function () {
-    if (!$(this).hasClass('plugin-active')) {
-      const options = $(this).data('options') || {};
-      $(this).yourPlugin(options);
-      $(this).addClass('plugin-active');
-    }
-  });
-}
-
-// Initialize on various events
-$(document).ready(initPlugin);
-$(document).on('has_many_add:after', '.has_many_container', initPlugin);
-$(document).on('turbo:load turbolinks:load', initPlugin);
-```
-
-## Step 7: CSS Selector Updates
-
-| ActiveAdmin 3.x | ActiveAdmin 4.x |
-|----------------|-----------------|
-| `.filter_form` | `.filters-form` |
-| `.tabs` | Removed - use divs |
-| `.columns` | Use Tailwind grid |
-
-## Step 8: Testing Setup
-
-### ActiveAdmin Initializer
-```ruby
-# spec/internal/config/initializers/active_admin.rb
-ActiveAdmin.setup do |config|
-  config.site_title = "Test App"
-  config.authentication_method = false
-  config.current_user_method = false
-end
-```
-
-### Build and Test
+#### Install the NPM package:
 ```bash
-cd spec/internal
-npm install
-npm run build
-cd ../..
-bundle exec rackup
-# Visit http://localhost:9292/admin
+npm install @rocket-sensei/activeadmin_trumbowyg
+# or
+yarn add @rocket-sensei/activeadmin_trumbowyg
 ```
 
-## Success Indicators
-✅ CSS file > 100KB (with safelist + vendor CSS)  
-✅ No unstyled elements on admin pages
-✅ jQuery plugins working without console errors
-✅ Vendor CSS properly integrated
-✅ Dark mode working
-
-## Common Pitfalls & Solutions
-
-### Pitfall: ActiveAdmin layout broken
-**Solution**: Add safelist to tailwind.config.mjs
-
-### Pitfall: Vendor CSS not loading
-**Solution**: Use build_css.js to concatenate before Tailwind
-
-### Pitfall: jQuery not defined
-**Solution**: Use inject-jquery.js with esbuild
-
-### Pitfall: Formtastic input not found
-**Solution**: Explicitly require in config.ru after ActiveAdmin
-
-### Pitfall: CSS too small (<50KB)
-**Solution**: Check safelist and vendor CSS concatenation
-
-## CI/CD Configuration
-
-```yaml
-# .github/workflows/ci.yml
-name: CI
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby: ['3.2', '3.3']
-        rails: ['7.0', '7.1', '7.2', '8.0']
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - run: |
-          cd spec/internal
-          npm install
-          npm run build
-      - run: bundle exec rspec
+#### Import in your JavaScript entry point:
+```javascript
+// app/javascript/active_admin.js or similar
+import '@rocket-sensei/activeadmin_trumbowyg'
 ```
 
-## Publishing NPM Package (Optional)
+That's it! No generator needed. The package automatically handles jQuery dependencies and initialization.
 
-```json
-{
-  "name": "@activeadmin/your-gem",
-  "version": "1.0.0",
-  "main": "src/index.js",
-  "module": "src/index.js",
-  "exports": {
-    ".": "./src/index.js",
-    "./css": "./src/styles.css"
+### Option 2: Sprockets/Importmap (Legacy)
+
+#### Add to Gemfile:
+```ruby
+gem 'activeadmin_trumbowyg', '~> 2.0'
+```
+
+#### Run the generator:
+```bash
+rails generate activeadmin_trumbowyg:install
+```
+
+This will add the necessary JavaScript and CSS to your ActiveAdmin configuration.
+
+## Migration from Version 1.x to 2.x
+
+### Step 1: Update Your Gemfile
+```ruby
+# Old (1.x)
+gem 'activeadmin_trumbowyg', '~> 1.0'
+
+# New (2.x)
+gem 'activeadmin_trumbowyg', '~> 2.0'
+```
+
+### Step 2: Update JavaScript Paths
+
+If you're using esbuild or webpack, switch to the NPM package:
+
+```javascript
+// Old (1.x) - Using gem assets
+//= require activeadmin/trumbowyg/trumbowyg
+//= require activeadmin/trumbowyg_input
+
+// New (2.x) - Using NPM package
+import '@rocket-sensei/activeadmin_trumbowyg'
+```
+
+For Sprockets users, update the paths:
+
+```javascript
+// Old (1.x)
+//= require activeadmin/trumbowyg/trumbowyg
+//= require activeadmin/trumbowyg_input
+
+// New (2.x)
+//= require active_admin/trumbowyg/trumbowyg
+//= require active_admin/trumbowyg_input
+```
+
+### Step 3: Update CSS Imports
+
+```css
+/* Old (1.x) */
+@import "activeadmin/trumbowyg/trumbowyg";
+
+/* New (2.x) */
+@import "active_admin/trumbowyg/trumbowyg";
+```
+
+## Configuration Examples
+
+### esbuild Configuration
+
+```javascript
+// esbuild.config.js
+import esbuild from 'esbuild'
+
+esbuild.build({
+  entryPoints: ['app/javascript/active_admin.js'],
+  bundle: true,
+  sourcemap: true,
+  format: 'esm',
+  outdir: 'app/assets/builds',
+  loader: {
+    '.js': 'jsx',
   },
-  "peerDependencies": {
-    "jquery": ">= 3.0",
-    "your-vendor-dep": "^x.x.x"
+  external: [], // jQuery is bundled by the NPM package
+})
+```
+
+### webpack Configuration
+
+```javascript
+// webpack.config.js
+module.exports = {
+  entry: './app/javascript/active_admin.js',
+  output: {
+    path: path.resolve(__dirname, 'app/assets/builds'),
+    filename: 'active_admin.js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      }
+    ]
   }
 }
 ```
 
-## Summary
-The key to successful ActiveAdmin 4 migration is:
-1. Using Propshaft instead of Sprockets (mandatory)
-2. Proper Combustion loading order (config.ru)
-3. Tailwind safelist for dynamic classes
-4. Vendor CSS concatenation before Tailwind processing
-5. jQuery injection pattern for esbuild
-6. Updated CSS selectors
+### Package.json Example
 
-This pattern has been proven on multiple gems and provides a reliable foundation for the remaining ~20 gems to be updated. Note that Sprockets is no longer supported - all ActiveAdmin 4 gems must use Propshaft for asset management.
+```json
+{
+  "name": "your-app",
+  "dependencies": {
+    "@rocket-sensei/activeadmin_trumbowyg": "^2.0.0",
+    "jquery": "^3.7.1"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
+  }
+}
+```
+
+## Usage in ActiveAdmin
+
+After installation, use the Trumbowyg editor in your admin forms:
+
+```ruby
+# app/admin/posts.rb
+ActiveAdmin.register Post do
+  form do |f|
+    f.inputs do
+      f.input :title
+      f.input :content, as: :trumbowyg
+      # With options
+      f.input :description, as: :trumbowyg, input_html: {
+        data: {
+          trumbowyg_options: {
+            btns: [
+              ['viewHTML'],
+              ['formatting'],
+              ['strong', 'em', 'del'],
+              ['link'],
+              ['insertImage'],
+              ['unorderedList', 'orderedList'],
+              ['horizontalRule'],
+              ['removeformat'],
+              ['fullscreen']
+            ],
+            minimalLinks: true,
+            removeformatPasted: true
+          }
+        }
+      }
+    end
+    f.actions
+  end
+end
+```
+
+## Customizing Trumbowyg
+
+### Custom Buttons and Plugins
+
+The NPM package includes all Trumbowyg plugins. To use them:
+
+```javascript
+// app/javascript/active_admin.js
+import '@rocket-sensei/activeadmin_trumbowyg'
+
+// Custom initialization (optional)
+document.addEventListener('DOMContentLoaded', () => {
+  // Custom global defaults
+  $.trumbowyg.svgPath = '/assets/icons.svg'
+  
+  // Language settings
+  $.trumbowyg.langs.en.bold = 'Strong'
+})
+```
+
+### Styling the Editor
+
+Add custom styles in your ActiveAdmin stylesheet:
+
+```scss
+// app/assets/stylesheets/active_admin.scss
+@import "active_admin/trumbowyg/trumbowyg";
+
+// Custom overrides
+.trumbowyg-box {
+  margin: 0;
+  
+  .trumbowyg-editor {
+    min-height: 300px;
+  }
+}
+
+// Dark mode support
+.dark {
+  .trumbowyg-box {
+    background: #374151;
+    
+    .trumbowyg-editor {
+      background: #1f2937;
+      color: #f3f4f6;
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+### Common Issues and Solutions
+
+#### Issue: Trumbowyg not initializing
+**Solution**: Ensure jQuery is loaded before the Trumbowyg package:
+```javascript
+// Correct order
+import $ from 'jquery'
+window.$ = window.jQuery = $
+import '@rocket-sensei/activeadmin_trumbowyg'
+```
+
+#### Issue: Icons not displaying
+**Solution**: The SVG path might be incorrect. Set it explicitly:
+```javascript
+$.trumbowyg.svgPath = '/assets/trumbowyg/icons.svg'
+```
+
+#### Issue: Styles not loading with NPM package
+**Solution**: Import the CSS separately in your stylesheet:
+```css
+/* app/assets/stylesheets/active_admin.scss */
+@import "@rocket-sensei/activeadmin_trumbowyg/dist/trumbowyg.min.css";
+```
+
+#### Issue: Editor not working in nested forms
+**Solution**: Re-initialize after adding new fields:
+```javascript
+$(document).on('has_many_add:after', '.has_many_container', function() {
+  $(this).find('[data-trumbowyg]').each(function() {
+    if (!$(this).hasClass('trumbowyg-textarea-init')) {
+      const options = $(this).data('trumbowyg-options') || {}
+      $(this).trumbowyg(options)
+    }
+  })
+})
+```
+
+## Breaking Changes from 1.x
+
+1. **Path changes**: All paths changed from `activeadmin/` to `active_admin/`
+2. **NPM package**: New recommended installation method via NPM
+3. **No generator for modern bundlers**: esbuild/webpack users don't need the generator
+4. **jQuery handling**: NPM package bundles jQuery dependencies automatically
+
+## Version Compatibility
+
+| activeadmin_trumbowyg | ActiveAdmin | Rails | Ruby |
+|-----------------------|-------------|-------|------|
+| 2.x                   | 3.x - 4.x   | 7.0+  | 3.2+ |
+| 1.x                   | 1.x - 3.x   | 5.2+  | 2.5+ |
+
+## Resources
+
+- [NPM Package](https://www.npmjs.com/package/@rocket-sensei/activeadmin_trumbowyg)
+- [GitHub Repository](https://github.com/rocket-sensei/activeadmin_trumbowyg)
+- [Trumbowyg Documentation](https://alex-d.github.io/Trumbowyg/)
+- [ActiveAdmin Documentation](https://activeadmin.info/)
+
+## Support
+
+For issues or questions:
+1. Check the [GitHub Issues](https://github.com/rocket-sensei/activeadmin_trumbowyg/issues)
+2. Consult the [Trumbowyg documentation](https://alex-d.github.io/Trumbowyg/) for editor-specific questions
+3. For ActiveAdmin 4 specific issues, see the [ActiveAdmin upgrade guide](https://activeadmin.info/)

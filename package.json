@@ -2,14 +2,14 @@
   "name": "@rocket-sensei/activeadmin_trumbowyg",
   "version": "2.0.0",
   "description": "Trumbowyg WYSIWYG editor integration for ActiveAdmin 4",
-  "main": "src/activeadmin_trumbowyg.js",
-  "module": "src/activeadmin_trumbowyg.js",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "style": "src/trumbowyg_input.scss",
   "exports": {
     ".": {
-      "import": "./src/activeadmin_trumbowyg.js",
-      "require": "./src/activeadmin_trumbowyg.js",
-      "default": "./src/activeadmin_trumbowyg.js"
+      "import": "./src/index.js",
+      "require": "./src/index.js",
+      "default": "./src/index.js"
     },
     "./css": "./src/trumbowyg_input.scss",
     "./style": "./src/trumbowyg_input.scss"
@@ -42,12 +42,6 @@
     "trumbowyg": "^2.25.0"
   },
   "files": [
-    "src/**/*",
-    "vendor/assets/**/*"
-  ],
-  "scripts": {
-    "prepare_javascripts_src": "rm -rf src && cp -R app/assets/javascripts/ src && mv src/activeadmin_trumbowyg.js src/activeadmin_trumbowyg.js.tmp && mv src/active_admin/trumbowyg.esm.js src/activeadmin_trumbowyg.js && rm src/activeadmin_trumbowyg.js.tmp",
-    "prepare_stylesheets_src": "cp -R app/assets/stylesheets/active_admin/* src/",
-    "prepublishOnly": "npm run prepare_javascripts_src && npm run prepare_stylesheets_src"
-  }
+    "src/**/*"
+  ]
 }

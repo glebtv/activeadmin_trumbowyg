@@ -1,21 +1,26 @@
 name: Publish to NPM
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 jobs:
-  publish:
+  publish-npm:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    
     steps:
-      - uses: actions/checkout@v3
-      
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           registry-url: 'https://registry.npmjs.org'
-      
+          cache: 'npm'
+
       - name: Extract version from tag
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
@@ -23,8 +28,29 @@ jobs:
       - name: Update package version
         run: |
           npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
-      
+
+      - name: Verify package files
+        run: |
+          echo "Package files to be published:"
+          npm pack --dry-run
+          echo ""
+          echo "Package name: $(npm view . name)"
+          echo "Package version: $(npm view . version)"
+
       - name: Publish to NPM
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Add publish summary
+        run: |
+          echo "### NPM Package Published! 🎉" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Package: \`@rocket-sensei/activeadmin_trumbowyg@$(npm view . version)\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Install with:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "npm install @rocket-sensei/activeadmin_trumbowyg" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "View on NPM: https://www.npmjs.com/package/@rocket-sensei/activeadmin_trumbowyg" >> $GITHUB_STEP_SUMMARY

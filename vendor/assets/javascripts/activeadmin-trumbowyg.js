@@ -26,9 +26,8 @@
       return;
     }
 
-    $('.trumbowyg-input').each(function() {
+    $('[data-aa-trumbowyg], .trumbowyg-input').each(function() {
       const $this = $(this);
-      console.log("init input:", $this);
       
       if ($this.data('trumbowyg-initialized')) {
         return;
@@ -38,7 +37,7 @@
       
       // Default options
       const defaultOptions = {
-        svgPath: '/assets/trumbowyg/icons.svg',
+        svgPath: false, // Icons are embedded in Trumbowyg CSS from CDN
         autogrow: true,
         removeformatPasted: true
       };
@@ -73,7 +72,7 @@
 
     // Cleanup on Turbo before-cache
     $(document).on('turbo:before-cache', () => {
-      $('.trumbowyg-input').each(function() {
+      $('[data-aa-trumbowyg], .trumbowyg-input').each(function() {
         const $this = $(this);
         if ($this.data('trumbowyg')) {
           $this.trumbowyg('destroy');

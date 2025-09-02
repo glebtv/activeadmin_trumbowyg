@@ -160,7 +160,7 @@ module ActiveAdmin
                 # ActiveAdmin Trumbowyg Editor
                 pin "jquery", to: "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
                 pin "trumbowyg", to: "https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js"
-                pin "activeadmin_trumbowyg", to: "activeadmin_trumbowyg.js"
+                pin "activeadmin_trumbowyg", to: "activeadmin-trumbowyg.js"
               RUBY
             end
           end

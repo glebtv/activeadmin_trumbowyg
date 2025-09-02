@@ -1,272 +1,172 @@
-# ActiveAdmin Trumbowyg 4.0 - Installation and Upgrade Guide
+# Migration Guide: Updating to rs-activeadmin_trumbowyg
 
-This guide helps you install or upgrade to version 4.0 which supports ActiveAdmin 4 only.
+This guide will help you migrate from the original `activeadmin_trumbowyg` gem to our forked and updated version `rs-activeadmin_trumbowyg`.
 
-## Prerequisites
+## Why Update?
 
-Before installing, ensure you have:
-- Ruby >= 3.2
-- Rails >= 7.0 (with Propshaft) or Rails 8+
-- ActiveAdmin ~> 4.0.0.beta
-- Modern JavaScript bundler (esbuild, webpack, or Vite)
-- **Note:** Sprockets is NOT supported. ActiveAdmin 4 requires Propshaft.
+Our fork provides:
+- ✅ Full ActiveAdmin 4.0 support
+- ✅ Rails 8 and Propshaft compatibility
+- ✅ Modern JavaScript bundler support (esbuild/webpack)
+- ✅ Proper NPM package distribution
+- ✅ Fixed icon serving issues
+- ✅ No CDN dependencies - all assets served locally
 
-## Step 1: Install the Gem
+## Migration Steps
 
-Add to your Gemfile:
+### Step 1: Update your Gemfile
 
-```ruby
-# Ruby gem
-gem 'rs-activeadmin_trumbowyg', '~> 4.0'
-
-# For Rails 7, also add Propshaft (Rails 8 includes it by default):
-gem 'propshaft' # Required for Rails 7
-```
-
-Run `bundle update activeadmin_trumbowyg`
-
-## Step 2: Install the NPM Package
-
-```bash
-npm install @rocket-sensei/activeadmin_trumbowyg@^4.0.0
-# or
-yarn add @rocket-sensei/activeadmin_trumbowyg@^4.0.0
-```
-
-**Note:** If upgrading from an older version, remove any old Sprockets directives:
-- Remove `//= require` directives from JavaScript files
-- Remove `@import` directives for trumbowyg from SCSS files
-
-## Step 3: Install and Configure Based on Your Bundler
-
-Based on your JavaScript bundler:
-
-### For esbuild (recommended)
-
-```bash
-# Install the NPM package
-npm install @rocket-sensei/activeadmin_trumbowyg
-```
-
-Then add to your `app/javascript/active_admin.js`:
-```javascript
-// ActiveAdmin Trumbowyg Editor
-import '@rocket-sensei/activeadmin_trumbowyg';
-```
-
-Add Trumbowyg styles to your stylesheet (`app/assets/stylesheets/active_admin.scss`):
-```scss
-@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
-```
-
-**Note:** No generator needed for esbuild/webpack - just install the NPM package and import it!
-
-### For webpack
-
-```bash
-# Install the NPM package
-npm install @rocket-sensei/activeadmin_trumbowyg
-```
-
-Then add to your `app/javascript/packs/active_admin.js`:
-```javascript
-// ActiveAdmin Trumbowyg Editor
-import '@rocket-sensei/activeadmin_trumbowyg';
-```
-
-Add Trumbowyg styles to your stylesheet:
-```scss
-@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
-```
-
-### For importmap
-
-```bash
-rails generate active_admin:trumbowyg:install --bundler=importmap
-```
-
-This will:
-1. Add pins to `config/importmap.rb`:
-```ruby
-pin "jquery", to: "https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"
-pin "trumbowyg", to: "https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/trumbowyg.min.js"
-pin "active_admin_trumbowyg", to: "active_admin_trumbowyg.js"
-```
-2. Add import to your JavaScript
-
-**Note:** The generator is still needed for importmap to properly configure the pins.
-
-## Step 4: Build Your Assets
-
-For esbuild:
-```bash
-npm run build
-```
-
-For webpack:
-```bash
-bin/webpack
-```
-
-For importmap:
-```bash
-# Just restart your Rails server
-rails server
-```
-
-## Step 5: Production Setup
-
-No additional setup needed - all assets are handled automatically through the NPM package or CDN.
-
-## What's Changed?
-
-### Architecture Changes
-
-**Version 1.x (Old):**
-- Used Rails Asset Pipeline with Sprockets
-- Required manual asset includes
-- JavaScript paths used `activeadmin/` prefix
-- Assets copied to each app
-
-**Version 2.0 (New):**
-- Distributed via NPM as `@rocket-sensei/activeadmin_trumbowyg`
-- Uses modern JavaScript modules (ESM)
-- Single import loads everything (includes jQuery and Trumbowyg)
-- JavaScript paths use `active_admin/` prefix (Rails convention)
-- Automatic dark mode support
-- Better ActiveAdmin 4 integration
-- No generator needed for esbuild/webpack users
-
-### JavaScript Changes
-
-The gem now provides a complete initialization module via NPM. You no longer need to write initialization code - just import the module:
-
-```javascript
-// Old way (1.x) - manual initialization
-$('.trumbowyg-input').trumbowyg({
-  // options
-});
-
-// New way (2.0) - automatic initialization via NPM package
-import '@rocket-sensei/activeadmin_trumbowyg';  // That's it!
-```
-
-For esbuild/webpack users, the package is now distributed via NPM as `@rocket-sensei/activeadmin_trumbowyg`, making installation and updates much simpler.
-
-### Form Usage (Unchanged)
-
-The form usage remains the same:
+Replace the old gem with our fork:
 
 ```ruby
-form do |f|
-  f.inputs 'Article' do
-    f.input :title
-    f.input :description, as: :trumbowyg
-  end
-  f.actions
-end
+# Remove this:
+# gem 'activeadmin_trumbowyg'
+
+# Add this:
+gem 'rs-activeadmin_trumbowyg', '~> 4.0.3'
+
+# For Rails 7, also ensure you have Propshaft:
+gem 'propshaft' # Rails 8 includes this by default
+```
+
+Then run:
+```bash
+bundle install
+```
+
+### Step 2: Update JavaScript Dependencies
+
+Remove old packages and install the new ones:
+
+```bash
+# Remove old packages if present
+npm uninstall activeadmin_trumbowyg
+
+# Install new packages
+npm install @rocket-sensei/activeadmin_trumbowyg jquery trumbowyg
+```
+
+### Step 3: Update JavaScript Imports
+
+Update your `app/javascript/active_admin.js`:
+
+```javascript
+// Import jQuery and make it globally available (required by Trumbowyg)
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+// Import Trumbowyg
+import 'trumbowyg';
+
+// Import and setup ActiveAdmin Trumbowyg
+import { setupAutoInit } from '@rocket-sensei/activeadmin_trumbowyg';
+
+// Optional: Configure the SVG icons path (default is '/icons.svg')
+// window.TRUMBOWYG_SVG_PATH = '/assets/icons.svg';
+
+setupAutoInit();
+```
+
+### Step 4: Setup Asset Copying
+
+Add these scripts to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "copy:trumbowyg-icons": "mkdir -p app/assets/builds && cp node_modules/trumbowyg/dist/ui/icons.svg app/assets/builds/icons.svg",
+    "copy:trumbowyg-css": "cp node_modules/trumbowyg/dist/ui/trumbowyg.min.css app/assets/builds/trumbowyg.css",
+    "build:assets": "npm run copy:trumbowyg-icons && npm run copy:trumbowyg-css && esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
+  }
+}
+```
+
+Run the asset build:
+```bash
+npm run build:assets
+```
+
+### Step 5: Update Stylesheets
+
+In your `app/assets/stylesheets/active_admin.css`:
+
+```css
+/* Import Trumbowyg styles */
+@import 'trumbowyg.css';
+
+/* Custom Trumbowyg input styles */
+.trumbowyg-box {
+  margin: 0;
+}
+
+.trumbowyg-editor {
+  min-height: 200px;
+}
+```
+
+### Step 6: Add to .gitignore
+
+Add generated assets to `.gitignore`:
+
+```gitignore
+# Ignore generated Trumbowyg assets
+app/assets/builds/icons.svg
+app/assets/builds/trumbowyg.css
+```
+
+### Step 7: Configure Asset Pipeline (if needed)
+
+For development environments, you might need to copy icons to the public directory:
+
+```bash
+# For development only
+cp app/assets/builds/icons.svg public/icons.svg
+```
+
+Or add to your build script:
+```json
+"build:dev": "npm run build:assets && cp app/assets/builds/icons.svg public/icons.svg"
 ```
 
 ## Troubleshooting
 
-### Issue: "Trumbowyg library is required but not found"
+### Icons Not Showing
 
-**Solution:** For esbuild/webpack users, the NPM package handles dependencies automatically. Just ensure you have the package installed:
+If icons aren't displaying:
 
-```bash
-npm install @rocket-sensei/activeadmin_trumbowyg
-```
+1. Check that `icons.svg` is accessible at the configured path
+2. Try setting a custom path:
+   ```javascript
+   window.TRUMBOWYG_SVG_PATH = '/assets/icons.svg';
+   ```
+3. Ensure the file is copied during your build process
 
-Then import it:
-```javascript
-import '@rocket-sensei/activeadmin_trumbowyg';
-```
+### Styles Not Loading
 
-For importmap users, ensure jQuery and Trumbowyg are pinned before the ActiveAdmin Trumbowyg module.
+1. Verify that `trumbowyg.css` is in `app/assets/builds/`
+2. Check that your stylesheet includes the import
+3. Restart your Rails server after changes
 
-### Issue: Styles not loading
+### JavaScript Errors
 
-**Solution:** Check that the CDN link was added to your stylesheet:
-```scss
-@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
-```
+1. Ensure jQuery is loaded before Trumbowyg
+2. Check that all NPM packages are installed
+3. Verify your bundler configuration includes the correct paths
 
-### Issue: Dark mode not working
+## Version Compatibility
 
-Dark mode support is automatic in version 2.0. If it's not working:
-1. Ensure you're using the latest ActiveAdmin 4.x
-2. Check that the gem's JavaScript is properly loaded
-3. Verify dark mode toggle works for other ActiveAdmin elements
-
-### Issue: Custom plugins not working
-
-For esbuild/webpack users with custom Trumbowyg plugins:
-
-```javascript
-// Import the main package first
-import '@rocket-sensei/activeadmin_trumbowyg';
-
-// Then import any additional Trumbowyg plugins
-import 'trumbowyg/dist/plugins/upload/trumbowyg.upload.js';
-
-// Configure custom options via data attributes in your form
-```
-
-Note: The NPM package includes jQuery and base Trumbowyg automatically.
-
-## Manual Cleanup (Optional)
-
-After successful upgrade, you can remove:
-- Any custom Trumbowyg initialization code
-- Old vendor JavaScript files
-- Unused Trumbowyg-related assets
+- **Ruby**: >= 3.2
+- **Rails**: >= 7.0
+- **ActiveAdmin**: ~> 4.0.0.beta
+- **Node.js**: >= 18.0
 
 ## Need Help?
 
-- [Report issues](https://github.com/glebtv/activeadmin_trumbowyg/issues)
-- [View README](https://github.com/glebtv/activeadmin_trumbowyg#readme)
-- [See examples](https://github.com/glebtv/activeadmin_trumbowyg/tree/main/examples)
+If you encounter issues:
+1. Check that all build steps completed successfully
+2. Clear your browser cache
+3. Restart your Rails server
+4. Check the browser console for errors
 
-## Quick Reference
-
-### Installation Commands
-
-```bash
-# For esbuild/webpack - NPM package (no generator needed)
-npm install @rocket-sensei/activeadmin_trumbowyg
-
-# For importmap - Use generator
-rails generate active_admin:trumbowyg:install --bundler=importmap
-```
-
-### Required Imports (esbuild/webpack)
-
-```javascript
-// Single import - includes all dependencies
-import '@rocket-sensei/activeadmin_trumbowyg';
-```
-
-### Required Styles
-
-```scss
-// Add to your active_admin.scss
-@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
-```
-
-### Form Input
-
-```ruby
-f.input :content, as: :trumbowyg
-```
-
-### With Options
-
-```ruby
-f.input :content, as: :trumbowyg, input_html: { 
-  data: { 
-    options: { 
-      btns: [['bold', 'italic'], ['link']]
-    } 
-  } 
-}
-```
+For bug reports or questions, please visit:
+https://github.com/glebtv/activeadmin_trumbowyg/issues

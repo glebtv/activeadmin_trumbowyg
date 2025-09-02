@@ -2,13 +2,15 @@
 // DO NOT import Rails separately as it's already included and started in ActiveAdmin
 import '@activeadmin/activeadmin';
 
-// Import jQuery and Trumbowyg first (required by activeadmin_trumbowyg)
+// Import jQuery and make it globally available BEFORE loading Trumbowyg
 import $ from 'jquery';
-import 'trumbowyg';
-
-// Make jQuery globally available
 window.$ = window.jQuery = $;
 
-// Import ActiveAdmin Trumbowyg - single import loads everything
-// NOTE: In production apps, users would need jQuery and Trumbowyg available
-import 'activeadmin_trumbowyg';  // This is the exact import users should use
+// Now import Trumbowyg which depends on global jQuery
+import 'trumbowyg';
+
+// Import and setup ActiveAdmin Trumbowyg
+import { setupAutoInit } from '@rocket-sensei/activeadmin_trumbowyg';
+
+// Initialize the module after everything is loaded
+setupAutoInit();

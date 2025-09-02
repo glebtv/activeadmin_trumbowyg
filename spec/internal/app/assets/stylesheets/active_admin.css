@@ -1,3 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ActiveAdmin Test App Styles */
+
+/* Import Trumbowyg styles from local copy in builds */
+@import url('/assets/trumbowyg.css');
+
+/* Custom Trumbowyg input styles */
+.trumbowyg-box {
+  margin: 0;
+}
+
+.trumbowyg-editor {
+  min-height: 200px;
+}

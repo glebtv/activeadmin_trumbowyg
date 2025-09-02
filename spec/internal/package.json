@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "copy:icons": "cp node_modules/trumbowyg/dist/ui/icons.svg app/assets/builds/icons.svg && cp node_modules/trumbowyg/dist/ui/icons.svg public/icons.svg",
+    "copy:trumbowyg-css": "cp node_modules/trumbowyg/dist/ui/trumbowyg.min.css app/assets/builds/trumbowyg.css",
     "build:js": "node esbuild.config.js",
-    "build:css": "node ./build_css.js",
-    "build": "npm run build:js && npm run build:css",
+    "build:css": "npm run copy:trumbowyg-css",
+    "build:assets": "mkdir -p public && npm run copy:icons && npm run build:js && npm run build:css",
+    "build": "npm run build:assets",
     "watch:js": "node esbuild.config.js --watch",
-    "watch:css": "npm run build:css -- --watch",
-    "watch": "npm run watch:js & npm run build:css -- --watch",
+    "watch:css": "npm run build:css",
+    "watch": "npm run watch:js & npm run build:css",
     "start": "npm run watch"
   },
   "keywords": [],
@@ -18,11 +21,9 @@
   "dependencies": {
     "@activeadmin/activeadmin": "^4.0.0-beta10",
     "@rails/ujs": "^7.1.400",
+    "@rocket-sensei/activeadmin_trumbowyg": "file:../..",
     "esbuild": "^0.24.2",
     "jquery": "^3.7.1",
     "trumbowyg": "^2.28.0"
-  },
-  "devDependencies": {
-    "tailwindcss": "^3.4.17"
   }
 }

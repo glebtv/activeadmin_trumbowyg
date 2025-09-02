@@ -1,10 +1,14 @@
 {
   "name": "@rocket-sensei/activeadmin_trumbowyg",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "Trumbowyg WYSIWYG editor integration for ActiveAdmin 4",
   "main": "src/index.js",
   "module": "src/index.js",
   "style": "src/trumbowyg_input.scss",
+  "scripts": {
+    "postinstall": "echo 'Remember to copy Trumbowyg icons: npm run copy:trumbowyg-icons'",
+    "copy:trumbowyg-icons": "mkdir -p app/assets/builds && cp node_modules/trumbowyg/dist/ui/icons.svg app/assets/builds/icons.svg 2>/dev/null || echo 'Please ensure trumbowyg is installed'"
+  },
   "exports": {
     ".": {
       "import": "./src/index.js",

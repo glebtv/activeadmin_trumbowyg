@@ -1,7 +1,9 @@
-# Active Admin Trumbowyg
+# Active Admin Trumbowyg (Rocket Sensei Fork)
 
 [![CI](https://github.com/glebtv/activeadmin_trumbowyg/actions/workflows/ci.yml/badge.svg)](https://github.com/glebtv/activeadmin_trumbowyg/actions/workflows/ci.yml)
 [![NPM Version](https://img.shields.io/npm/v/@rocket-sensei/activeadmin_trumbowyg)](https://www.npmjs.com/package/@rocket-sensei/activeadmin_trumbowyg)
+
+**Note:** This is the Rocket Sensei fork of activeadmin_trumbowyg, providing full ActiveAdmin 4 and Rails 8 support.
 
 An *Active Admin* plugin to use [Trumbowyg](https://alex-d.github.io/Trumbowyg/) as WYSIWYG editor in form inputs.
 
@@ -44,7 +46,7 @@ This version is designed for **ActiveAdmin 4.x with modern JavaScript bundlers**
 Add to your Gemfile:
 
 ```ruby
-gem 'activeadmin_trumbowyg', '~> 2.0'
+gem 'rs-activeadmin_trumbowyg', '~> 4.0.3'
 
 # For Rails 7, also add Propshaft (Rails 8 includes it by default):
 gem 'propshaft' # Required for Rails 7
@@ -58,23 +60,65 @@ ActiveAdmin 4 uses modern JavaScript bundlers. Choose your setup:
 
 #### For esbuild or webpack (recommended)
 
-1. Install the NPM package:
+1. Install the NPM packages:
 ```bash
-npm install @rocket-sensei/activeadmin_trumbowyg
+npm install @rocket-sensei/activeadmin_trumbowyg jquery trumbowyg
 ```
 
-2. Import in your `app/javascript/active_admin.js`:
+2. Import and configure in your `app/javascript/active_admin.js`:
 ```javascript
-import '@rocket-sensei/activeadmin_trumbowyg'
+// Import jQuery and make it globally available (required by Trumbowyg)
+import $ from 'jquery';
+window.$ = window.jQuery = $;
+
+// Import Trumbowyg
+import 'trumbowyg';
+
+// Import and setup ActiveAdmin Trumbowyg
+import { setupAutoInit } from '@rocket-sensei/activeadmin_trumbowyg';
+
+// Optional: Configure the SVG icons path (default is '/icons.svg')
+// window.TRUMBOWYG_SVG_PATH = '/assets/icons.svg';
+
+setupAutoInit();
 ```
 
-3. Add Trumbowyg styles to `app/assets/stylesheets/active_admin.scss`:
-```scss
-// Trumbowyg Editor
-@import url('https://cdn.jsdelivr.net/npm/trumbowyg@2/dist/ui/trumbowyg.min.css');
+3. Copy Trumbowyg assets (icons and CSS) for Propshaft:
+```bash
+# Add these to your package.json scripts section:
+"copy:trumbowyg-icons": "mkdir -p app/assets/builds && cp node_modules/trumbowyg/dist/ui/icons.svg app/assets/builds/icons.svg",
+"copy:trumbowyg-css": "cp node_modules/trumbowyg/dist/ui/trumbowyg.min.css app/assets/builds/trumbowyg.css",
+"build:assets": "npm run copy:trumbowyg-icons && npm run copy:trumbowyg-css"
+
+# Then run:
+npm run build:assets
 ```
 
-That's it! The NPM package includes all necessary dependencies (jQuery and Trumbowyg).
+**Note for Rails with Propshaft:** The icons.svg file needs to be accessible via HTTP. The default path is `/icons.svg` but you can configure it by setting `window.TRUMBOWYG_SVG_PATH` before calling `setupAutoInit()`. In production, Propshaft will serve files from `app/assets/builds/` with digest paths. You may need to configure the path based on your deployment setup.
+
+4. Add Trumbowyg styles to `app/assets/stylesheets/active_admin.css`:
+```css
+/* Import Trumbowyg styles - the exact path depends on your asset pipeline setup */
+/* For Propshaft/esbuild, the CSS will be in app/assets/builds/ */
+@import 'trumbowyg.css';
+
+/* Custom Trumbowyg input styles */
+.trumbowyg-box {
+  margin: 0;
+}
+
+.trumbowyg-editor {
+  min-height: 200px;
+}
+```
+
+**Note:** The icons.svg and trumbowyg.css files are copied from the npm package to your assets/builds directory. These files should be added to .gitignore as they're generated during the build process:
+
+```gitignore
+# Ignore generated Trumbowyg assets
+app/assets/builds/icons.svg
+app/assets/builds/trumbowyg.css
+```
 
 #### For importmap
 
@@ -232,6 +276,10 @@ For development information please check [this document](extra/development.md).
 ### NPM Package Publishing
 
 The JavaScript portion of this gem is automatically published to NPM as `@rocket-sensei/activeadmin_trumbowyg` when a new version tag is created. This happens through GitHub Actions CI/CD pipeline.
+
+### Migration from Original Gem
+
+If you're using the original `activeadmin_trumbowyg` gem, please see our [Migration Guide](docs/guide-update-your-app.md) for detailed upgrade instructions.
 
 ## Do you like it? Star it!
 

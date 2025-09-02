@@ -1,21 +1,11 @@
 // ES Module version for ActiveAdmin 4+ with esbuild/webpack
-// Dependencies must be installed via NPM: npm install jquery trumbowyg
-import $ from 'jquery';
-import 'trumbowyg';
-import 'trumbowyg/dist/ui/trumbowyg.css';
-
-// Ensure jQuery is globally available (required by ActiveAdmin and Trumbowyg)
-if (!window.$) {
-  window.$ = $;
-}
-if (!window.jQuery) {
-  window.jQuery = $;
-}
+// The consuming app must import jQuery and Trumbowyg BEFORE importing this module
 
 // Core initialization function
-function initTrumbowygEditors() {
-  // Verify Trumbowyg is loaded
-  if (!$.fn.trumbowyg) {
+export function initTrumbowygEditors() {
+  const $ = window.jQuery || window.$;
+  
+  if (!$ || !$.fn || !$.fn.trumbowyg) {
     console.error('ActiveAdmin Trumbowyg: Trumbowyg plugin not found on jQuery');
     return;
   }
@@ -29,8 +19,11 @@ function initTrumbowygEditors() {
       return;
     }
 
+    // Default SVG path - can be overridden via data-options
+    // In production with Propshaft, this will be served from /assets/
+    // In development, you may need to copy to public/ or configure your asset pipeline
     let options = {
-      svgPath: false, // Icons are embedded in the CSS from NPM package
+      svgPath: window.TRUMBOWYG_SVG_PATH || '/icons.svg',
       autogrow: true,
       removeformatPasted: true
     };
@@ -67,7 +60,10 @@ function isDarkMode() {
 }
 
 // Update editors theme
-function updateEditorsTheme() {
+export function updateEditorsTheme() {
+  const $ = window.jQuery || window.$;
+  if (!$) return;
+  
   const isDark = isDarkMode();
   
   // Update existing editors
@@ -89,62 +85,68 @@ function updateEditorsTheme() {
   });
 }
 
-// Initialize on DOM ready
-$(function() {
-  initTrumbowygEditors();
-  updateEditorsTheme();
-});
+// Auto-initialize on common events
+export function setupAutoInit() {
+  const $ = window.jQuery || window.$;
+  if (!$) {
+    console.error('ActiveAdmin Trumbowyg: jQuery not found for auto-init');
+    return;
+  }
 
-// Support Turbo (Rails 7+) and Turbolinks (older Rails)
-document.addEventListener('turbo:load', function() {
-  initTrumbowygEditors();
-  updateEditorsTheme();
-});
-
-document.addEventListener('turbolinks:load', function() {
-  initTrumbowygEditors();
-  updateEditorsTheme();
-});
-
-// Support ActiveAdmin has_many fields
-$(document).on('has_many_add:after', '.has_many_container', function() {
-  initTrumbowygEditors();
-  updateEditorsTheme();
-});
-
-// Also listen for the has-many-add button click (ActiveAdmin 4)
-$(document).on('click', '.has-many-add', function() {
-  setTimeout(function() {
+  // Initialize on DOM ready
+  $(function() {
     initTrumbowygEditors();
     updateEditorsTheme();
-  }, 10);
-});
-
-// Cleanup on Turbo before-cache
-$(document).on('turbo:before-cache', function() {
-  $('.trumbowyg-textarea--active, .trumbowyg-input').each(function() {
-    const $this = $(this);
-    if ($this.data('trumbowyg')) {
-      $this.trumbowyg('destroy');
-      $this.removeClass('trumbowyg-textarea--active');
-    }
   });
-});
 
-// Listen for theme changes
-const observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+  // Support Turbo (Rails 7+) and Turbolinks (older Rails)
+  document.addEventListener('turbo:load', function() {
+    initTrumbowygEditors();
+    updateEditorsTheme();
+  });
+
+  document.addEventListener('turbolinks:load', function() {
+    initTrumbowygEditors();
+    updateEditorsTheme();
+  });
+
+  // Support ActiveAdmin has_many fields
+  $(document).on('has_many_add:after', '.has_many_container', function() {
+    initTrumbowygEditors();
+    updateEditorsTheme();
+  });
+
+  // Also listen for the has-many-add button click (ActiveAdmin 4)
+  $(document).on('click', '.has-many-add', function() {
+    setTimeout(function() {
+      initTrumbowygEditors();
       updateEditorsTheme();
-    }
+    }, 10);
   });
-});
 
-// Start observing the html element for class changes
-observer.observe(document.documentElement, {
-  attributes: true,
-  attributeFilter: ['class']
-});
+  // Cleanup on Turbo before-cache
+  $(document).on('turbo:before-cache', function() {
+    $('.trumbowyg-textarea--active, .trumbowyg-input').each(function() {
+      const $this = $(this);
+      if ($this.data('trumbowyg')) {
+        $this.trumbowyg('destroy');
+        $this.removeClass('trumbowyg-textarea--active');
+      }
+    });
+  });
 
-// Export for potential direct usage
-export { initTrumbowygEditors, updateEditorsTheme };
+  // Listen for theme changes
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+        updateEditorsTheme();
+      }
+    });
+  });
+
+  // Start observing the html element for class changes
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+}

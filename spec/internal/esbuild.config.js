@@ -11,11 +11,7 @@ const config = {
   outdir: 'app/assets/builds',
   publicPath: '/assets',
   loader: { '.css': 'file' },
-  inject: ['./inject-jquery.js'],
-  alias: {
-    // Map the gem's module name to the actual file in development
-    'activeadmin_trumbowyg': path.resolve(__dirname, '../../src/index.js')
-  }
+  inject: ['./inject-jquery.js']
 };
 
 // Check if we're in watch mode

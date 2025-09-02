@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    activeadmin_trumbowyg (2.0.0)
+    rs-activeadmin_trumbowyg (4.0.3)
       activeadmin (~> 4.0.0.beta)
 
 GEM
@@ -393,7 +393,6 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin (~> 4.0.0.beta)
-  activeadmin_trumbowyg!
   appraisal
   bigdecimal
   capybara
@@ -411,6 +410,7 @@ DEPENDENCIES
   pry-rails
   puma
   rails (~> 7.0)
+  rs-activeadmin_trumbowyg!
   rspec-rails
   rspec_junit_formatter
   rubocop

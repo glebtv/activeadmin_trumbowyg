@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 # This file is used to run the test app in development mode
-require 'bundler/setup'
 require 'combustion'
 
 ENV['RAILS_ENV'] ||= 'development'

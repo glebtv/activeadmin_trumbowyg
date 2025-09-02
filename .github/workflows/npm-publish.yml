@@ -27,7 +27,12 @@ jobs:
       
       - name: Update package version
         run: |
-          npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          if [ "$CURRENT_VERSION" != "${{ steps.version.outputs.VERSION }}" ]; then
+            npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+          else
+            echo "Package version already matches tag version: ${{ steps.version.outputs.VERSION }}"
+          fi
 
       - name: Verify package files
         run: |

@@ -14,7 +14,7 @@ const config = {
   inject: ['./inject-jquery.js'],
   alias: {
     // Map the gem's module name to the actual file in development
-    'activeadmin_trumbowyg': path.resolve(__dirname, '../../app/assets/javascripts/activeadmin_trumbowyg.js')
+    'activeadmin_trumbowyg': path.resolve(__dirname, '../../src/index.js')
   }
 };
 

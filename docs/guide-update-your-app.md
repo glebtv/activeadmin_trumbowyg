@@ -1,26 +1,23 @@
-# Upgrading from ActiveAdmin Trumbowyg 1.x to 2.0
+# ActiveAdmin Trumbowyg 4.0 - Installation and Upgrade Guide
 
-This guide helps you upgrade from version 1.x (ActiveAdmin 3) to version 2.0 (ActiveAdmin 4).
+This guide helps you install or upgrade to version 4.0 which supports ActiveAdmin 4 only.
 
 ## Prerequisites
 
-Before upgrading, ensure you have:
+Before installing, ensure you have:
 - Ruby >= 3.2
-- Rails >= 7.0
+- Rails >= 7.0 (with Propshaft) or Rails 8+
 - ActiveAdmin ~> 4.0.0.beta
-- Propshaft (Rails 7) or Rails 8 (includes Propshaft by default)
-- **Note:** Sprockets is not supported. This gem requires Propshaft for asset management.
+- Modern JavaScript bundler (esbuild, webpack, or Vite)
+- **Note:** Sprockets is NOT supported. ActiveAdmin 4 requires Propshaft.
 
-## Step 1: Update the Gem
+## Step 1: Install the Gem
 
-Update your Gemfile:
+Add to your Gemfile:
 
 ```ruby
-# Old
-gem 'activeadmin_trumbowyg', '~> 1.0'
-
-# New
-gem 'activeadmin_trumbowyg', '~> 2.0'
+# Ruby gem
+gem 'rs-activeadmin_trumbowyg', '~> 4.0'
 
 # For Rails 7, also add Propshaft (Rails 8 includes it by default):
 gem 'propshaft' # Required for Rails 7
@@ -28,19 +25,17 @@ gem 'propshaft' # Required for Rails 7
 
 Run `bundle update activeadmin_trumbowyg`
 
-## Step 2: Remove Old Asset Pipeline Code
+## Step 2: Install the NPM Package
 
-**Remove from `app/assets/javascripts/active_admin.js`:**
-```javascript
-//= require active_admin/trumbowyg/trumbowyg
-//= require active_admin/trumbowyg_input
+```bash
+npm install @rocket-sensei/activeadmin_trumbowyg@^4.0.0
+# or
+yarn add @rocket-sensei/activeadmin_trumbowyg@^4.0.0
 ```
 
-**Remove from `app/assets/stylesheets/active_admin.scss`:**
-```scss
-@import 'active_admin/trumbowyg/trumbowyg';
-@import 'active_admin/trumbowyg_input';
-```
+**Note:** If upgrading from an older version, remove any old Sprockets directives:
+- Remove `//= require` directives from JavaScript files
+- Remove `@import` directives for trumbowyg from SCSS files
 
 ## Step 3: Install and Configure Based on Your Bundler
 

@@ -3,6 +3,12 @@
 # SimpleCov configuration for code coverage
 # Must be started before any application code is loaded
 require 'simplecov'
+require 'simplecov_json_formatter'
+
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+                                                                  SimpleCov::Formatter::HTMLFormatter,
+                                                                  SimpleCov::Formatter::JSONFormatter
+                                                                ])
 
 SimpleCov.start do
   # Add filters to exclude non-application code
@@ -17,14 +23,6 @@ SimpleCov.start do
   add_group 'Generators', 'lib/generators/'
   add_group 'Inputs', 'lib/formtastic/'
   add_group 'Source', 'src/'
-
-  # Output formats for SonarQube
-  # JSON format for SonarQube Ruby analyzer
-  require 'simplecov-json'
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-                                                                   SimpleCov::Formatter::HTMLFormatter,
-                                                                   SimpleCov::Formatter::JSONFormatter
-                                                                 ])
 
   # Set the coverage output directory
   coverage_dir 'coverage'

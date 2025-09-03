@@ -5,7 +5,6 @@ appraise 'rails-7.x-active-admin-4.x' do
   gem 'activeadmin', '~> 4.0.0.beta'
   gem 'sqlite3', '~> 2.0'  # v2.0+ supports Ruby 3.4
   gem 'simplecov'
-  gem 'simplecov-json'
 end
 
 appraise 'rails-8.x-active-admin-4.x' do
@@ -13,5 +12,4 @@ appraise 'rails-8.x-active-admin-4.x' do
   gem 'activeadmin', '~> 4.0.0.beta'
   gem 'sqlite3', '~> 2.0'  # v2.0+ supports Ruby 3.4
   gem 'simplecov'
-  gem 'simplecov-json'
 end

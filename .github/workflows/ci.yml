@@ -82,7 +82,7 @@ jobs:
 
       - name: Run tests
         run: |
-          bundle exec rspec
+          bundle exec rspec --exclude-pattern "spec/internal/node_modules/**/*_spec.rb"
 
       - name: Upload coverage reports
         if: matrix.ruby == '3.4' && matrix.gemfile == 'rails_7.x_active_admin_4.x'

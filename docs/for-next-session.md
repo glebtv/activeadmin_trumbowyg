@@ -2,9 +2,11 @@
 
 ## Current Status
 Working on standardizing two ActiveAdmin gems:
-- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **CSS BUILD FIXED** ✅
+- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **FULLY WORKING** ✅
   - Fixed critical CSS bundling issue using Tailwind CLI
-  - 15/16 tests passing (1 CSS validation test remains)
+  - All CSS loading tests passing (4/4) ✅
+  - Updated tests to check for ActiveAdmin 4's actual HTML structure
+  - Fixed CI workflow to exclude vendor spec files
 - `/data/activeadmin-searchable_select` (rs-activeadmin-searchable_select) - Needs updates ⚠️
 
 ## Completed Tasks
@@ -23,10 +25,12 @@ Working on standardizing two ActiveAdmin gems:
 11. ✅ Removed Tailwind dependencies and simplified CSS build
 12. ✅ Fixed assets to be served locally via Propshaft (no CDN)
 13. ✅ **FIXED CSS BUILD** - Now using Tailwind CLI with ActiveAdmin plugin
-   - Created `tailwind-active_admin.config.js` based on production app
+   - Created `tailwind-active_admin.config.js` based on production app `/data/rslogin-ui/`
    - Created `build_activeadmin_css.js` to properly bundle CSS
    - CSS now includes: Tailwind base + Trumbowyg vendor CSS + custom styles
    - Build command: `npm run build:css:activeadmin`
+   - Updated CSS loading tests to check for ActiveAdmin 4's actual HTML structure
+   - All CSS loading tests now passing (was checking for old `#header` instead of new Tailwind classes)
 
 ## NEXT SESSION: Fix activeadmin-searchable_select
 
@@ -169,12 +173,14 @@ bundle exec rspec --fail-fast
 4. **Build Process**: `npm run build` now includes `copy:icons` step
 
 ### Version Info
-- activeadmin_trumbowyg: **4.0.3 COMPLETED** ✅
+- activeadmin_trumbowyg: **4.0.3 FULLY WORKING** ✅
   - Gem: `rs-activeadmin_trumbowyg`
   - NPM: `@rocket-sensei/activeadmin_trumbowyg`
-  - All tests passing
-  - Icons working correctly
+  - All CSS loading tests passing (4/4)
+  - Icons served correctly from `/trumbowyg/icons.svg`
+  - CSS properly bundled with Tailwind + ActiveAdmin plugin + Trumbowyg
   - Documentation updated
+  - CI workflow fixed to exclude vendor specs
 - activeadmin-searchable_select: 4.0.2 (needs update to 4.0.3)
   - Gem: `rs-activeadmin-searchable_select`
   - NPM: `@rocket-sensei/activeadmin-searchable_select`

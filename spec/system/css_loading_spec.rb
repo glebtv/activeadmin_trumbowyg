@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'CSS Loading', type: :system do
+RSpec.describe 'CSS Loading' do
   let!(:author) { Author.create!(email: 'test@example.com', name: 'Test Author') }
   let!(:post) { Post.create!(title: 'Test', author: author, description: '<p>Content</p>') }
 
@@ -12,11 +12,11 @@ RSpec.describe 'CSS Loading', type: :system do
     it 'loads Trumbowyg CSS from local assets' do
       # Check that Trumbowyg CSS is loaded from local assets, not CDN
       css_links = page.all('link[rel="stylesheet"]', visible: false).map { |link| link['href'] }
-      
+
       # Should have at least one CSS file from /assets/
       asset_css_links = css_links.select { |href| href&.include?('/assets/') }
       expect(asset_css_links).not_to be_empty, "No CSS files loaded from /assets/ - found: #{css_links.join(', ')}"
-      
+
       # At least one should contain Trumbowyg styles
       # We check for this by looking for the actual CSS content
       trumbowyg_css_loaded = page.evaluate_script(<<~JS)
@@ -51,7 +51,7 @@ RSpec.describe 'CSS Loading', type: :system do
           return false;
         })()
       JS
-      
+
       expect(trumbowyg_css_loaded).to be_truthy, "Trumbowyg CSS styles not found in loaded stylesheets"
     end
 
@@ -62,13 +62,13 @@ RSpec.describe 'CSS Loading', type: :system do
           // ActiveAdmin 4 uses different structure - check for the header bar
           var headerBar = document.querySelector('.border-b.border-gray-200');
           if (!headerBar) return false;
-          
+        #{'  '}
           var computed = window.getComputedStyle(headerBar);
           // Check that Tailwind styles are applied
           return computed.borderBottomWidth !== '0px' && computed.position === 'fixed';
         })()
       JS
-      
+
       expect(activeadmin_css_loaded).to be_truthy, "ActiveAdmin CSS styles not properly loaded"
     end
 
@@ -76,7 +76,7 @@ RSpec.describe 'CSS Loading', type: :system do
       # Ensure we're not loading from CDN
       css_links = page.all('link[rel="stylesheet"]', visible: false).map { |link| link['href'] }
       cdn_links = css_links.select { |href| href&.match?(/cdn\.|jsdelivr|unpkg|cdnjs/) }
-      
+
       expect(cdn_links).to be_empty, "CSS should not be loaded from CDN, but found: #{cdn_links.join(', ')}"
     end
 
@@ -87,9 +87,9 @@ RSpec.describe 'CSS Loading', type: :system do
           .map(link => link.href)
           .find(href => href.includes('/assets/active_admin'))
       JS
-      
+
       expect(main_css_href).not_to be_nil, "No active_admin CSS bundle found"
-      
+
       # Verify the bundled CSS contains expected content by checking applied styles
       bundle_contains_all = page.evaluate_script(<<~JS)
         (function() {
@@ -100,10 +100,10 @@ RSpec.describe 'CSS Loading', type: :system do
             var trumbowygStyles = window.getComputedStyle(trumbowygEditor);
             hasTrambowygStyles = trumbowygStyles.minHeight !== '0px' && trumbowygStyles.minHeight !== '';
           }
-          
+        #{'  '}
           // Check ActiveAdmin 4 Tailwind styles
           var hasAdminStyles = false;
-          
+        #{'  '}
           // Check if Tailwind utilities are working on the header bar
           var headerBar = document.querySelector('.border-b.border-gray-200');
           if (headerBar) {
@@ -111,7 +111,7 @@ RSpec.describe 'CSS Loading', type: :system do
             // Check for Tailwind border and position styles
             hasAdminStyles = headerStyles.borderBottomWidth !== '0px' && headerStyles.position === 'fixed';
           }
-          
+        #{'  '}
           // Also check for proper page styling
           if (!hasAdminStyles) {
             var pageHeader = document.querySelector('[data-test-page-header]');
@@ -120,16 +120,17 @@ RSpec.describe 'CSS Loading', type: :system do
               hasAdminStyles = pageStyles.padding !== '0px';
             }
           }
-          
+        #{'  '}
           return {
             trumbowyg: hasTrambowygStyles,
             activeadmin: hasAdminStyles
           };
         })()
       JS
-      
+
       expect(bundle_contains_all['trumbowyg']).to be_truthy, "CSS bundle missing Trumbowyg styles"
       expect(bundle_contains_all['activeadmin']).to be_truthy, "CSS bundle missing ActiveAdmin styles"
     end
   end
 end
+

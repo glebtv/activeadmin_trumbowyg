@@ -82,7 +82,12 @@ jobs:
 
       - name: Run tests
         run: |
-          bundle exec rspec
+          # IMPORTANT: We specify ./spec explicitly to prevent RSpec from discovering
+          # and loading specs from vendor/bundle or node_modules directories.
+          # The npm package uses "file:../.." which creates a symlink that includes
+          # the entire gem directory, potentially exposing vendor bundle specs that
+          # cause loading errors in CI.
+          bundle exec rspec ./spec
 
       - name: Upload coverage reports
         if: matrix.ruby == '3.4' && matrix.gemfile == 'rails_7.x_active_admin_4.x'

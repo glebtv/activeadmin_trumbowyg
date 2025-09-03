@@ -2,19 +2,19 @@
 
 ## Current Status
 Working on standardizing two ActiveAdmin gems:
-- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **FULLY WORKING** ✅
+- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **FULLY WORKING v4.0.4** ✅
   - Fixed critical CSS bundling issue using Tailwind CLI
   - All CSS loading tests passing (4/4) ✅
   - Updated tests to check for ActiveAdmin 4's actual HTML structure
-  - Fixed CI workflow to exclude vendor spec files
+  - Fixed CI workflow to build and extract npm package (avoids vendor symlink issues)
 - `/data/activeadmin-searchable_select` (rs-activeadmin-searchable_select) - Needs updates ⚠️
 
 ## Completed Tasks
 1. ✅ Fixed CI failures for both gems
-2. ✅ Standardized NPM package structure to v4.0.3
+2. ✅ Standardized NPM package structure
 3. ✅ Forked both gems with new names (rs- prefix)
 4. ✅ Published NPM packages:
-   - `@rocket-sensei/activeadmin_trumbowyg@4.0.3`
+   - `@rocket-sensei/activeadmin_trumbowyg@4.0.4`
    - `@rocket-sensei/activeadmin-searchable_select@4.0.2`
 5. ✅ Updated documentation for ActiveAdmin 4 and Propshaft
 6. ✅ Both gems support ActiveAdmin 4.0.0.beta only
@@ -31,6 +31,11 @@ Working on standardizing two ActiveAdmin gems:
    - Build command: `npm run build:css:activeadmin`
    - Updated CSS loading tests to check for ActiveAdmin 4's actual HTML structure
    - All CSS loading tests now passing (was checking for old `#header` instead of new Tailwind classes)
+14. ✅ **FIXED CI WORKFLOW** - Build and extract npm package to avoid vendor symlink issues
+   - Build npm package with `npm pack`
+   - Extract to `/tmp/npm-package`
+   - Install from extracted package instead of `file:../..`
+   - Completely avoids RSpec discovering vendor/bundle specs through symlinks
 
 ## NEXT SESSION: Fix activeadmin-searchable_select
 
@@ -71,7 +76,14 @@ spec/internal/
 └── (no package.json, no esbuild config)
 ```
 
-#### What searchable_select needs (adapt from trumbowyg):
+#### CI Workflow Fix for searchable_select
+**CRITICAL**: Must use same approach as trumbowyg to avoid vendor/bundle symlink issues:
+1. Build npm package with `npm pack`
+2. Extract to `/tmp/npm-package`  
+3. Install from extracted package in test app
+4. See: `/data/activeadmin_trumbowyg/.github/workflows/ci.yml` lines 68-87
+
+### What searchable_select needs (adapt from trumbowyg):
 1. **esbuild.config.js** - Create based on `/data/activeadmin_trumbowyg/spec/internal/esbuild.config.js`
    - Change alias from `'activeadmin_trumbowyg'` to `'activeadmin-searchable_select'`
    - Point to `'../../src/index.js'`
@@ -173,14 +185,15 @@ bundle exec rspec --fail-fast
 4. **Build Process**: `npm run build` now includes `copy:icons` step
 
 ### Version Info
-- activeadmin_trumbowyg: **4.0.3 FULLY WORKING** ✅
+- activeadmin_trumbowyg: **4.0.4 FULLY WORKING** ✅
   - Gem: `rs-activeadmin_trumbowyg`
   - NPM: `@rocket-sensei/activeadmin_trumbowyg`
   - All CSS loading tests passing (4/4)
   - Icons served correctly from `/trumbowyg/icons.svg`
   - CSS properly bundled with Tailwind + ActiveAdmin plugin + Trumbowyg
   - Documentation updated
-  - CI workflow fixed to exclude vendor specs
-- activeadmin-searchable_select: 4.0.2 (needs update to 4.0.3)
+  - CI workflow fixed to build/extract npm package (avoids vendor symlinks)
+- activeadmin-searchable_select: 4.0.2 (needs similar updates)
   - Gem: `rs-activeadmin-searchable_select`
   - NPM: `@rocket-sensei/activeadmin-searchable_select`
+  - Needs: Tailwind CSS build, CI workflow fix, test app setup

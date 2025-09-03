@@ -26,7 +26,7 @@ Replace the old gem with our fork:
 # gem 'activeadmin_trumbowyg'
 
 # Add this:
-gem 'rs-activeadmin_trumbowyg', '~> 4.0.4'
+gem 'rs-activeadmin_trumbowyg', '~> 4.0.5'
 
 # For Rails 7, also ensure you have Propshaft:
 gem 'propshaft' # Rails 8 includes this by default
@@ -163,7 +163,7 @@ If icons aren't displaying:
 - **ActiveAdmin**: ~> 4.0.0.beta
 - **Node.js**: >= 18.0
 
-## Recent Improvements (v4.0.4)
+## Recent Improvements (v4.0.5)
 
 - Fixed SonarQube code quality issues
 - Implemented proper HTML sanitization for security

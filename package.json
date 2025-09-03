@@ -1,6 +1,6 @@
 {
   "name": "@rocket-sensei/activeadmin_trumbowyg",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "Trumbowyg WYSIWYG editor integration for ActiveAdmin 4",
   "main": "src/index.js",
   "module": "src/index.js",

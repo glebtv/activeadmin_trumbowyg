@@ -2,7 +2,7 @@
 
 ## Current Status
 Working on standardizing two ActiveAdmin gems:
-- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **FULLY WORKING v4.0.4** ✅
+- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **FULLY WORKING v4.0.5** ✅
   - Fixed critical CSS bundling issue using Tailwind CLI
   - All CSS loading tests passing (4/4) ✅
   - Updated tests to check for ActiveAdmin 4's actual HTML structure
@@ -14,7 +14,7 @@ Working on standardizing two ActiveAdmin gems:
 2. ✅ Standardized NPM package structure
 3. ✅ Forked both gems with new names (rs- prefix)
 4. ✅ Published NPM packages:
-   - `@rocket-sensei/activeadmin_trumbowyg@4.0.4`
+   - `@rocket-sensei/activeadmin_trumbowyg@4.0.5`
    - `@rocket-sensei/activeadmin-searchable_select@4.0.2`
 5. ✅ Updated documentation for ActiveAdmin 4 and Propshaft
 6. ✅ Both gems support ActiveAdmin 4.0.0.beta only
@@ -185,7 +185,7 @@ bundle exec rspec --fail-fast
 4. **Build Process**: `npm run build` now includes `copy:icons` step
 
 ### Version Info
-- activeadmin_trumbowyg: **4.0.4 FULLY WORKING** ✅
+- activeadmin_trumbowyg: **4.0.5 FULLY WORKING** ✅
   - Gem: `rs-activeadmin_trumbowyg`
   - NPM: `@rocket-sensei/activeadmin_trumbowyg`
   - All CSS loading tests passing (4/4)

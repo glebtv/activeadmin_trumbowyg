@@ -17,13 +17,12 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists/*
 
 ARG BUNDLER_VERSION
-RUN gem install bundler -v ${BUNDLER_VERSION} && \
-    echo 'gem: --no-document' > /etc/gemrc
-
 ARG UID
-RUN useradd -u "${UID}" --shell /bin/bash app 
-
-RUN mkdir -p /home/app && chown -R app:app /home/app
+RUN gem install bundler -v "${BUNDLER_VERSION}" && \
+    echo 'gem: --no-document' > /etc/gemrc && \
+    useradd -u "${UID}" --shell /bin/bash app && \
+    mkdir -p /home/app && \
+    chown -R app:app /home/app
 
 ARG RAILS_VERSION
 ENV RAILS_VERSION=$RAILS_VERSION
@@ -34,6 +33,5 @@ ENV ACTIVEADMIN_VERSION=$ACTIVEADMIN_VERSION
 WORKDIR /app
 COPY . /app
 RUN bundle install && \
-    chown -R app:app /usr/local/bundle
-
-RUN ln -s /app/extra/.bashrc /home/app/.bashrc
+    chown -R app:app /usr/local/bundle && \
+    ln -s /app/extra/.bashrc /home/app/.bashrc

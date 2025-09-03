@@ -3,6 +3,15 @@
 # Ensure the Trumbowyg input is available
 require 'formtastic/inputs/trumbowyg_input'
 
+# Allowed HTML tags and attributes for Trumbowyg content sanitization
+TRUMBOWYG_ALLOWED_TAGS = %w[
+  p br strong em u s del ins a ul ol li
+  h1 h2 h3 h4 h5 h6
+  blockquote pre code img hr
+  table thead tbody tr td th
+].freeze
+TRUMBOWYG_ALLOWED_ATTRIBUTES = %w[href src alt title class style].freeze
+
 ActiveAdmin.register Post do
   permit_params :title, :description, :summary, :body, :author_id
 
@@ -36,14 +45,13 @@ ActiveAdmin.register Post do
       row :title
       row :author
       row :description do |post|
-        # rubocop:todo Rails/OutputSafety -- TODO: Sanitize HTML content from Trumbowyg editor
-        post.description&.html_safe
-        # rubocop:enable Rails/OutputSafety
+        sanitize(post.description, tags: TRUMBOWYG_ALLOWED_TAGS, attributes: TRUMBOWYG_ALLOWED_ATTRIBUTES)
+      end
+      row :summary do |post|
+        sanitize(post.summary, tags: TRUMBOWYG_ALLOWED_TAGS, attributes: TRUMBOWYG_ALLOWED_ATTRIBUTES)
       end
       row :body do |post|
-        # rubocop:todo Rails/OutputSafety -- TODO: Sanitize HTML content from Trumbowyg editor
-        post.body&.html_safe
-        # rubocop:enable Rails/OutputSafety
+        sanitize(post.body, tags: TRUMBOWYG_ALLOWED_TAGS, attributes: TRUMBOWYG_ALLOWED_ATTRIBUTES)
       end
       row :created_at
       row :updated_at

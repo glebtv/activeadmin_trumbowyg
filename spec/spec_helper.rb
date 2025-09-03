@@ -5,7 +5,7 @@ RSpec.configure do |config|
   # This prevents RSpec from loading specs from symlinked npm packages
   # Must be set BEFORE other configurations
   config.exclude_pattern = '**/vendor/**/*_spec.rb,**/node_modules/**/*_spec.rb'
-  
+
   config.disable_monkey_patching!
   config.filter_run focus: true
   config.filter_run_excluding changes_filesystem: true

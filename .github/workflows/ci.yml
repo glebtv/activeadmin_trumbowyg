@@ -65,10 +65,25 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
-      - name: Build test app assets
+      - name: Build and install npm package
         run: |
+          # Build the npm package
+          npm pack
+          
+          # Extract it to a temporary location
+          mkdir -p /tmp/npm-package
+          tar -xzf rocket-sensei-activeadmin_trumbowyg-*.tgz -C /tmp/npm-package
+          
+          # Update spec/internal to use the extracted package instead of file:../..
           cd spec/internal
+          # Remove the symlink if it exists
+          rm -rf node_modules/@rocket-sensei/activeadmin_trumbowyg
           npm install
+          
+          # Install from the extracted package
+          npm install /tmp/npm-package/package
+          
+          # Build assets
           npm run build
 
       - name: Install Playwright browsers
@@ -81,20 +96,7 @@ jobs:
           echo "Database setup will be handled by test suite"
 
       - name: Run tests
-        run: |
-          # IMPORTANT: The npm package creates a symlink at spec/internal/node_modules/@rocket-sensei/activeadmin_trumbowyg
-          # that points to the root gem directory. In CI, bundler installs gems to vendor/bundle,
-          # which then becomes accessible through the symlink, causing RSpec to discover and attempt
-          # to load specs from vendor/bundle. We use ./spec to limit discovery to our actual specs.
-          # Additionally, we configure RSpec to explicitly exclude these problematic paths.
-          
-          # Create temporary .rspec with stronger exclusions for CI
-          echo "--require rails_helper" > .rspec.ci
-          echo "--format documentation" >> .rspec.ci
-          echo "--exclude-pattern '**/vendor/**/*_spec.rb,**/node_modules/**/*_spec.rb'" >> .rspec.ci
-          
-          # Run with CI-specific config
-          bundle exec rspec --options .rspec.ci ./spec
+        run: bundle exec rspec
 
       - name: Upload coverage reports
         if: matrix.ruby == '3.4' && matrix.gemfile == 'rails_7.x_active_admin_4.x'

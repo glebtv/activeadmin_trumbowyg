@@ -1,5 +1,42 @@
 # frozen_string_literal: true
 
+# SimpleCov configuration for code coverage
+# Must be started before any application code is loaded
+require 'simplecov'
+
+SimpleCov.start do
+  # Add filters to exclude non-application code
+  add_filter '/spec/'
+  add_filter '/config/'
+  add_filter '/vendor/'
+  add_filter '/spec/internal/'
+  add_filter '/.bundle/'
+
+  # Group files for better organization in the coverage report
+  add_group 'Library', 'lib/'
+  add_group 'Generators', 'lib/generators/'
+  add_group 'Inputs', 'lib/formtastic/'
+  add_group 'Source', 'src/'
+
+  # Output formats for SonarQube
+  # JSON format for SonarQube Ruby analyzer
+  require 'simplecov-json'
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                   SimpleCov::Formatter::HTMLFormatter,
+                                                                   SimpleCov::Formatter::JSONFormatter
+                                                                 ])
+
+  # Set the coverage output directory
+  coverage_dir 'coverage'
+
+  # Track all files, including those not loaded during tests
+  track_files 'lib/**/*.rb'
+
+  # Set minimum coverage threshold (optional)
+  # TODO: Increase this threshold as test coverage improves
+  minimum_coverage 4
+end
+
 RSpec.configure do |config|
   # IMPORTANT: Exclude vendor and node_modules paths from spec discovery
   # This prevents RSpec from loading specs from symlinked npm packages

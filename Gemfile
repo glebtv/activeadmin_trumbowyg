@@ -53,6 +53,7 @@ gem 'database_cleaner-active_record'
 gem 'rspec_junit_formatter'
 gem 'rspec-rails'
 gem 'simplecov'
+gem 'simplecov-json'
 
 # Linters
 gem 'rubocop'

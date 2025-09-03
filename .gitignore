@@ -4,6 +4,7 @@
 /.rspec_failures
 /.rubocop-*
 /Gemfile.lock
+/rspec-results.xml
 
 /_misc/
 /coverage/

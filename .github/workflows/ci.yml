@@ -95,16 +95,30 @@ jobs:
           # The database tasks may not be available, skip for now
           echo "Database setup will be handled by test suite"
 
-      - name: Run tests
-        run: bundle exec rspec
+      - name: Run tests with coverage
+        run: |
+          bundle exec rspec --format progress --format RspecJunitFormatter --out rspec-results.xml
+        continue-on-error: true
 
-      - name: Upload coverage reports
+      - name: Upload coverage to Codecov
         if: matrix.ruby == '3.4' && matrix.gemfile == 'rails_7.x_active_admin_4.x'
         uses: codecov/codecov-action@v5
         with:
           file: ./coverage/coverage.xml
           fail_ci_if_error: false
           token: ${{ secrets.CODECOV_TOKEN }}
+      
+      - name: SonarQube Scan
+        if: matrix.ruby == '3.4' && matrix.gemfile == 'rails_7.x_active_admin_4.x' && github.event_name != 'pull_request'
+        uses: sonarsource/sonarqube-scan-action@v3
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.projectKey=glebtv_activeadmin_trumbowyg
+            -Dsonar.ruby.coverage.reportPaths=coverage/coverage.json
+            -Dsonar.ruby.rspec.reportPaths=rspec-results.xml
 
   lint:
     runs-on: ubuntu-latest

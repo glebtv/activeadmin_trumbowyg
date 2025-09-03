@@ -67,13 +67,9 @@ jobs:
 
       - name: Build test app assets
         run: |
-          echo "Starting in directory: $(pwd)"
           cd spec/internal
-          echo "Changed to directory: $(pwd)"
           npm install
           npm run build
-          cd ../..
-          echo "Back to directory: $(pwd)"
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
@@ -86,10 +82,6 @@ jobs:
 
       - name: Run tests
         run: |
-          echo "Current directory: $(pwd)"
-          echo "Contents of current directory:"
-          ls -la
-          echo "Running rspec..."
           bundle exec rspec
 
       - name: Upload coverage reports

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+DESCRIPTION_EDITOR_SELECTOR = '#post_description_input .trumbowyg-editor'
+
 RSpec.describe 'Trumbowyg JS', :js do
   it 'defines a Javascript object for the editor' do
     visit '/admin/posts'
@@ -23,7 +25,7 @@ RSpec.describe 'Trumbowyg JS', :js do
     select author.name, from: 'Author'
 
     # Find the Trumbowyg editor for description field
-    editor = find('#post_description_input .trumbowyg-editor')
+    editor = find(DESCRIPTION_EDITOR_SELECTOR)
 
     # Click into the editor to focus it
     editor.click

@@ -5,15 +5,23 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV DEVEL=1
 ENV LANG=C.UTF-8
 
-RUN apt-get update -qq
-RUN apt-get install -yqq --no-install-recommends build-essential chromium less libyaml-dev nano netcat-traditional pkg-config
+RUN apt-get update -qq && \
+    apt-get install -yqq --no-install-recommends \
+    build-essential \
+    chromium \
+    less \
+    libyaml-dev \
+    nano \
+    netcat-traditional \
+    pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG BUNDLER_VERSION
-RUN gem install bundler -v ${BUNDLER_VERSION}
-RUN echo 'gem: --no-document' > /etc/gemrc
+RUN gem install bundler -v ${BUNDLER_VERSION} && \
+    echo 'gem: --no-document' > /etc/gemrc
 
 ARG UID
-RUN useradd -u $UID --shell /bin/bash app 
+RUN useradd -u "${UID}" --shell /bin/bash app 
 
 RUN mkdir -p /home/app && chown -R app:app /home/app
 
@@ -25,7 +33,7 @@ ENV ACTIVEADMIN_VERSION=$ACTIVEADMIN_VERSION
 
 WORKDIR /app
 COPY . /app
-RUN bundle install
-RUN chown -R app:app /usr/local/bundle
+RUN bundle install && \
+    chown -R app:app /usr/local/bundle
 
 RUN ln -s /app/extra/.bashrc /home/app/.bashrc

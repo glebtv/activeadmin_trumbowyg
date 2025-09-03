@@ -5,7 +5,7 @@
 export function initTrumbowygEditors() {
   const $ = window.jQuery || window.$;
   
-  if (!$ || !$.fn || !$.fn.trumbowyg) {
+  if (!$?.fn?.trumbowyg) {
     console.error('ActiveAdmin Trumbowyg: Trumbowyg plugin not found on jQuery');
     return;
   }

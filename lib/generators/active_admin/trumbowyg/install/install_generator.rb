@@ -6,6 +6,8 @@ module ActiveAdmin
   module Trumbowyg
     module Generators
       class InstallGenerator < Rails::Generators::Base
+        PACKAGE_JSON_FILE = 'package.json'
+
         source_root File.expand_path('templates', __dir__)
 
         desc 'Installs ActiveAdmin Trumbowyg for ActiveAdmin 4.x'
@@ -31,6 +33,8 @@ module ActiveAdmin
             setup_importmap
           when 'webpack'
             setup_webpack
+          else
+            say "Unknown bundler: #{options[:bundler]}", :red
           end
         end
 
@@ -76,6 +80,8 @@ module ActiveAdmin
           when 'webpack'
             say "\nRecompile your webpack bundles:", :yellow
             say '  bin/webpack', :cyan
+          else
+            say "\nPlease rebuild your assets according to your bundler.", :yellow
           end
 
           say "\n📚 Usage example:", :green
@@ -199,18 +205,18 @@ module ActiveAdmin
         end
 
         def update_package_json_scripts
-          return unless File.exist?('package.json')
+          return unless File.exist?(PACKAGE_JSON_FILE)
 
-          package_json = JSON.parse(File.read('package.json'))
+          package_json = JSON.parse(File.read(PACKAGE_JSON_FILE))
           return if package_json['scripts'] && package_json['scripts']['build']
 
-          say 'Adding build script to package.json...', :green
+          say "Adding build script to #{PACKAGE_JSON_FILE}...", :green
           package_json['scripts'] ||= {}
           package_json['scripts']['build'] =
             'esbuild app/javascript/*.* --bundle --sourcemap --format=esm ' \
             '--outdir=app/assets/builds --public-path=/assets'
 
-          File.write('package.json', JSON.pretty_generate(package_json))
+          File.write(PACKAGE_JSON_FILE, JSON.pretty_generate(package_json))
         end
       end
     end

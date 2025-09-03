@@ -2,10 +2,14 @@
 
 using StringCleanMultiline
 
+SAMPLE_CONTENT = '<p>Some content</p>'
+SAMPLE_SUMMARY = '<p>Post summary</p>'
+TRUMBOWYG_INPUT_CLASS = 'trumbowyg-input'
+
 RSpec.describe 'Trumbowyg editor' do
   let!(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe') }
   let!(:post) do
-    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', summary: '<p>Post summary</p>', body: '<p>Post body</p>')
+    Post.create!(title: 'Test', author: author, description: SAMPLE_CONTENT, summary: SAMPLE_SUMMARY, body: '<p>Post body</p>')
   end
 
   let(:submit_button) { find('#post_submit_action [type="submit"]') }
@@ -16,7 +20,7 @@ RSpec.describe 'Trumbowyg editor' do
       Admin::Posts::EditPage.new(path: path)
     end
     let(:editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
-    let(:input_field) { find_by_id('post_description', class: 'trumbowyg-input', visible: :hidden) }
+    let(:input_field) { find_by_id('post_description', class: TRUMBOWYG_INPUT_CLASS, visible: :hidden) }
 
     before do
       edit_page.load
@@ -25,8 +29,8 @@ RSpec.describe 'Trumbowyg editor' do
 
     it 'initializes the editor', :aggregate_failures do
       expect(editor.content_element).to be_present
-      expect(editor.content).to eq('<p>Some content</p>')
-      expect(input_field.value).to eq('<p>Some content</p>')
+      expect(editor.content).to eq(SAMPLE_CONTENT)
+      expect(input_field.value).to eq(SAMPLE_CONTENT)
     end
 
     it 'edits some content using the editor' do
@@ -48,7 +52,7 @@ RSpec.describe 'Trumbowyg editor' do
       editor.toggle_bold
       editor << 'More content'
 
-      before = '<p>Some content</p>'
+      before = SAMPLE_CONTENT
       after = '<p><strong>More content</strong>Some content</p>'
       expect { submit_button.click }.to change { post.reload.description }.from(before).to(after)
 
@@ -63,8 +67,8 @@ RSpec.describe 'Trumbowyg editor' do
     end
     let(:first_editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
     let(:second_editor) { edit_page.lookup_editor(editor_container: '#post_summary_input') }
-    let(:first_field) { find_by_id('post_description', class: 'trumbowyg-input', visible: :hidden) }
-    let(:second_field) { find_by_id('post_summary', class: 'trumbowyg-input', visible: :hidden) }
+    let(:first_field) { find_by_id('post_description', class: TRUMBOWYG_INPUT_CLASS, visible: :hidden) }
+    let(:second_field) { find_by_id('post_summary', class: TRUMBOWYG_INPUT_CLASS, visible: :hidden) }
 
     before do
       edit_page.load
@@ -73,11 +77,11 @@ RSpec.describe 'Trumbowyg editor' do
 
     it 'updates some HTML content for 2 fields', :aggregate_failures do
       # Check the initial states
-      expect(first_editor.content).to eq('<p>Some content</p>')
-      expect(second_editor.content).to eq('<p>Post summary</p>')
+      expect(first_editor.content).to eq(SAMPLE_CONTENT)
+      expect(second_editor.content).to eq(SAMPLE_SUMMARY)
 
-      expect(first_field.value).to eq('<p>Some content</p>')
-      expect(second_field.value).to eq('<p>Post summary</p>')
+      expect(first_field.value).to eq(SAMPLE_CONTENT)
+      expect(second_field.value).to eq(SAMPLE_SUMMARY)
 
       # Add some content to both the editors
       first_editor.toggle_bold
@@ -87,7 +91,7 @@ RSpec.describe 'Trumbowyg editor' do
       second_editor << 'Some italic'
 
       # Check that both the fields change
-      before = '<p>Some content</p>'
+      before = SAMPLE_CONTENT
       after = '<p><strong>Some bold</strong>Some content</p>'
       expect { submit_button.click }.to change { post.reload.description }.from(before).to(after)
 
@@ -113,7 +117,7 @@ RSpec.describe 'Trumbowyg editor' do
       ensure_trumbowyg_loaded # Re-initialize for dynamically added fields
 
       first_editor = edit_page.lookup_editor(editor_container: '#author_posts_attributes_0_description_input')
-      expect(first_editor.content).to eq('<p>Some content</p>')
+      expect(first_editor.content).to eq(SAMPLE_CONTENT)
 
       fill_in('author[posts_attributes][1][title]', with: 'Some title')
       second_editor = edit_page.lookup_editor(editor_container: '#author_posts_attributes_1_description_input')

@@ -67,9 +67,13 @@ jobs:
 
       - name: Build test app assets
         run: |
+          echo "Starting in directory: $(pwd)"
           cd spec/internal
+          echo "Changed to directory: $(pwd)"
           npm install
           npm run build
+          cd ../..
+          echo "Back to directory: $(pwd)"
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
@@ -82,7 +86,11 @@ jobs:
 
       - name: Run tests
         run: |
-          bundle exec rspec --exclude-pattern "spec/internal/node_modules/**/*_spec.rb"
+          echo "Current directory: $(pwd)"
+          echo "Contents of current directory:"
+          ls -la
+          echo "Running rspec..."
+          bundle exec rspec
 
       - name: Upload coverage reports
         if: matrix.ruby == '3.4' && matrix.gemfile == 'rails_7.x_active_admin_4.x'

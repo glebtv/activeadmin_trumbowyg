@@ -99,24 +99,13 @@ export function setupAutoInit() {
     updateEditorsTheme();
   });
 
-  // Support Turbo (Rails 7+) and Turbolinks (older Rails)
+  // Support Turbo (Rails 7+)
   document.addEventListener('turbo:load', function() {
     initTrumbowygEditors();
     updateEditorsTheme();
   });
 
-  document.addEventListener('turbolinks:load', function() {
-    initTrumbowygEditors();
-    updateEditorsTheme();
-  });
-
-  // Support ActiveAdmin has_many fields
-  $(document).on('has_many_add:after', '.has_many_container', function() {
-    initTrumbowygEditors();
-    updateEditorsTheme();
-  });
-
-  // Also listen for the has-many-add button click (ActiveAdmin 4)
+  // ActiveAdmin 4 uses .has-many-add button click
   $(document).on('click', '.has-many-add', function() {
     setTimeout(function() {
       initTrumbowygEditors();

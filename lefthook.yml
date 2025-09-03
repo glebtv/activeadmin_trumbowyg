@@ -1,0 +1,17 @@
+# Lefthook configuration
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  commands:
+    rubocop:
+      tags: style ruby
+      glob: "*.{rb,rake}"
+      run: bundle exec rubocop --force-exclusion {staged_files}
+    
+pre-push:
+  parallel: true
+  commands:
+    rspec:
+      tags: test ruby
+      run: bundle exec rspec --format progress

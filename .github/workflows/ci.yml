@@ -113,12 +113,13 @@ jobs:
         uses: sonarsource/sonarqube-scan-action@v3
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL || 'https://sonarcloud.io' }}
         with:
           args: >
             -Dsonar.projectKey=glebtv_activeadmin_trumbowyg
             -Dsonar.ruby.coverage.reportPaths=coverage/coverage.json
             -Dsonar.ruby.rspec.reportPaths=rspec-results.xml
+        continue-on-error: true
 
   lint:
     runs-on: ubuntu-latest

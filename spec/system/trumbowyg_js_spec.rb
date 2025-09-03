@@ -79,11 +79,11 @@ RSpec.describe 'Trumbowyg JS', :js do
     ensure_trumbowyg_loaded
 
     # Verify the editor loaded with the formatted content
-    editor = find('#post_description_input .trumbowyg-editor')
+    editor = find(DESCRIPTION_EDITOR_SELECTOR)
     expect(editor).to have_content('Normal text. Bold text. Italic text.')
 
     # Check that bold and italic formatting is visible in the editor
-    within('#post_description_input .trumbowyg-editor') do
+    within(DESCRIPTION_EDITOR_SELECTOR) do
       expect(page).to have_css('strong', text: 'Bold text.')
       expect(page).to have_css('em', text: 'Italic text.')
     end

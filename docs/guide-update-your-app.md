@@ -11,6 +11,9 @@ Our fork provides:
 - ✅ Proper NPM package distribution
 - ✅ Fixed icon serving issues
 - ✅ No CDN dependencies - all assets served locally
+- ✅ Code quality monitoring with SonarQube/SonarCloud integration
+- ✅ Test coverage tracking with SimpleCov
+- ✅ Improved code maintainability and security
 
 ## Migration Steps
 
@@ -23,7 +26,7 @@ Replace the old gem with our fork:
 # gem 'activeadmin_trumbowyg'
 
 # Add this:
-gem 'rs-activeadmin_trumbowyg', '~> 4.0.3'
+gem 'rs-activeadmin_trumbowyg', '~> 4.0.4'
 
 # For Rails 7, also ensure you have Propshaft:
 gem 'propshaft' # Rails 8 includes this by default
@@ -159,6 +162,15 @@ If icons aren't displaying:
 - **Rails**: >= 7.0
 - **ActiveAdmin**: ~> 4.0.0.beta
 - **Node.js**: >= 18.0
+
+## Recent Improvements (v4.0.4)
+
+- Fixed SonarQube code quality issues
+- Implemented proper HTML sanitization for security
+- Added SimpleCov code coverage tracking
+- Optimized Dockerfile for better layer caching
+- Improved code maintainability by removing duplications
+- Enhanced CI/CD pipeline with quality metrics
 
 ## Need Help?
 

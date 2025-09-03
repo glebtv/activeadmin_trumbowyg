@@ -2,7 +2,9 @@
 
 ## Current Status
 Working on standardizing two ActiveAdmin gems:
-- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **COMPLETED** ✅
+- `/data/activeadmin_trumbowyg` (rs-activeadmin_trumbowyg) - **CSS BUILD FIXED** ✅
+  - Fixed critical CSS bundling issue using Tailwind CLI
+  - 15/16 tests passing (1 CSS validation test remains)
 - `/data/activeadmin-searchable_select` (rs-activeadmin-searchable_select) - Needs updates ⚠️
 
 ## Completed Tasks
@@ -20,6 +22,11 @@ Working on standardizing two ActiveAdmin gems:
 10. ✅ Added generated assets to .gitignore
 11. ✅ Removed Tailwind dependencies and simplified CSS build
 12. ✅ Fixed assets to be served locally via Propshaft (no CDN)
+13. ✅ **FIXED CSS BUILD** - Now using Tailwind CLI with ActiveAdmin plugin
+   - Created `tailwind-active_admin.config.js` based on production app
+   - Created `build_activeadmin_css.js` to properly bundle CSS
+   - CSS now includes: Tailwind base + Trumbowyg vendor CSS + custom styles
+   - Build command: `npm run build:css:activeadmin`
 
 ## NEXT SESSION: Fix activeadmin-searchable_select
 
@@ -105,6 +112,8 @@ spec/internal/
 - `/data/activeadmin_trumbowyg/spec/internal/package.json` - Package dependencies for test app
 - `/data/activeadmin_trumbowyg/spec/internal/inject-jquery.js` - jQuery injection helper
 - `/data/activeadmin_trumbowyg/spec/internal/app/js/active_admin.js` - Working JS entry point
+- **NEW**: `/data/activeadmin_trumbowyg/spec/internal/tailwind-active_admin.config.js` - Tailwind config with ActiveAdmin plugin
+- **NEW**: `/data/activeadmin_trumbowyg/spec/internal/build_activeadmin_css.js` - CSS build script
 - `/data/activeadmin_trumbowyg/spec/rails_helper.rb` - Test configuration
 - `/data/activeadmin_trumbowyg/spec/internal/config/initializers/active_admin.rb` - ActiveAdmin config
 - `/data/activeadmin_trumbowyg/spec/internal/config/initializers/assets.rb` - Asset configuration

@@ -23,7 +23,7 @@ export function initTrumbowygEditors() {
     // In production with Propshaft, this will be served from /assets/
     // In development, you may need to copy to public/ or configure your asset pipeline
     let options = {
-      svgPath: window.TRUMBOWYG_SVG_PATH || '/icons.svg',
+      svgPath: window.TRUMBOWYG_SVG_PATH || '/trumbowyg/icons.svg',
       autogrow: true,
       removeformatPasted: true
     };

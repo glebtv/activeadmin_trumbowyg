@@ -10,7 +10,6 @@ const config = {
   format: 'iife',
   outdir: 'app/assets/builds',
   publicPath: '/assets',
-  loader: { '.css': 'file' },
   inject: ['./inject-jquery.js']
 };
 

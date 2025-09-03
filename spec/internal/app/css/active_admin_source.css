@@ -2,17 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import Trumbowyg CSS via local symlink (to ensure Tailwind picks it up) */
-@import './trumbowyg.css';
-
-/* Import activeadmin_trumbowyg gem styles */
-@import '../../../../../app/assets/stylesheets/activeadmin/_trumbowyg_input.scss';
-
-/* Trumbowyg overrides for Tailwind compatibility */
-
-/* Ensure Trumbowyg editor has proper styling in Tailwind environment */
+/* Custom Trumbowyg overrides for ActiveAdmin */
 .trumbowyg-box {
-  @apply border border-gray-300 rounded-md;
+  @apply border border-gray-300 rounded-md m-0;
 }
 
 .trumbowyg-editor {
@@ -34,7 +26,11 @@
 
 /* Fix button styles */
 .trumbowyg-button-pane button {
-  @apply hover:bg-gray-100 dark:hover:bg-gray-700;
+  @apply hover:bg-gray-100;
+}
+
+.dark .trumbowyg-button-pane button {
+  @apply hover:bg-gray-700;
 }
 
 /* Ensure icons are visible */

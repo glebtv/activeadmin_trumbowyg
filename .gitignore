@@ -22,3 +22,4 @@ spec/internal/app/assets/builds/
 app/assets/images/icons.svg
 spec/internal/app/assets/images/trumbowyg/icons.svg
 spec/internal/node_modules
+spec/internal/tmp

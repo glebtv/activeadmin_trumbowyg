@@ -9,9 +9,9 @@ RSpec.describe 'CSS Loading' do
       visit edit_admin_post_path(post)
     end
 
-    it 'loads Trumbowyg CSS from local assets' do
+    it 'loads Trumbowyg CSS from local assets' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations
       # Check that Trumbowyg CSS is loaded from local assets, not CDN
-      css_links = page.all('link[rel="stylesheet"]', visible: false).map { |link| link['href'] }
+      css_links = page.all('link[rel="stylesheet"]', visible: false).pluck('href')
 
       # Should have at least one CSS file from /assets/
       asset_css_links = css_links.select { |href| href&.include?('/assets/') }
@@ -74,13 +74,13 @@ RSpec.describe 'CSS Loading' do
 
     it 'does not load CSS from CDN' do
       # Ensure we're not loading from CDN
-      css_links = page.all('link[rel="stylesheet"]', visible: false).map { |link| link['href'] }
+      css_links = page.all('link[rel="stylesheet"]', visible: false).pluck('href')
       cdn_links = css_links.select { |href| href&.match?(/cdn\.|jsdelivr|unpkg|cdnjs/) }
 
       expect(cdn_links).to be_empty, "CSS should not be loaded from CDN, but found: #{cdn_links.join(', ')}"
     end
 
-    it 'has properly bundled CSS with all required styles' do
+    it 'has properly bundled CSS with all required styles' do # rubocop:disable RSpec/ExampleLength, RSpec/MultipleExpectations
       # Check that the main CSS bundle includes both ActiveAdmin and Trumbowyg styles
       main_css_href = page.evaluate_script(<<~JS)
         Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
@@ -133,4 +133,3 @@ RSpec.describe 'CSS Loading' do
     end
   end
 end
-

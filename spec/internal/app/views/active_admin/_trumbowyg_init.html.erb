@@ -1,0 +1,37 @@
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Wait for jQuery and ActiveAdminTrumbowyg to be available
+    function waitForDependencies(callback) {
+      if (typeof window.jQuery !== 'undefined' && 
+          window.jQuery.fn && 
+          window.jQuery.fn.trumbowyg && 
+          typeof window.ActiveAdminTrumbowyg !== 'undefined') {
+        callback(window.jQuery);
+      } else {
+        setTimeout(function() { waitForDependencies(callback); }, 50);
+      }
+    }
+    
+    function initEditors() {
+      // Use the ActiveAdminTrumbowyg global object to initialize editors
+      if (typeof window.ActiveAdminTrumbowyg !== 'undefined') {
+        window.ActiveAdminTrumbowyg.init();
+      }
+    }
+    
+    waitForDependencies(function($) {
+      // Initialize on page load
+      initEditors();
+      
+      // Initialize on ActiveAdmin has_many events
+      $(document).on('has_many_add:after', '.has_many_container', function() {
+        initEditors();
+      });
+      
+      // Initialize on Turbo/Turbolinks events
+      $(document).on('turbo:load turbolinks:load', function() {
+        initEditors();
+      });
+    });
+  });
+</script>

@@ -36,20 +36,25 @@ gem 'concurrent-ruby', '1.3.4'
 
 gem 'bigdecimal'
 gem 'csv'
+gem 'importmap-rails', '~> 2.0'
+gem 'jquery-rails'
 gem 'mutex_m'
+gem 'propshaft'
 gem 'puma'
-gem 'sassc'
-gem 'sprockets-rails'
+gem 'tailwindcss-rails'
 
-# Testing
+# Development dependencies (moved from gemspec per RuboCop best practices)
+gem 'appraisal'
 gem 'capybara'
+gem 'capybara-playwright-driver'
+gem 'combustion'
 gem 'cuprite'
+gem 'database_cleaner-active_record'
 gem 'rspec_junit_formatter'
 gem 'rspec-rails'
-gem 'simplecov', require: false
+gem 'simplecov'
 
 # Linters
-gem 'fasterer'
 gem 'rubocop'
 gem 'rubocop-capybara'
 gem 'rubocop-packaging'
@@ -59,4 +64,5 @@ gem 'rubocop-rspec'
 gem 'rubocop-rspec_rails'
 
 # Tools
+gem 'fasterer'
 gem 'pry-rails'

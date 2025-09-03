@@ -1,0 +1,51 @@
+/* ActiveAdmin Test App Styles */
+
+/* Include ActiveAdmin framework styles from npm package */
+@import '../../node_modules/@activeadmin/activeadmin/app/assets/stylesheets/active_admin.css';
+
+/* Include Trumbowyg styles */
+@import '../../node_modules/trumbowyg/dist/ui/trumbowyg.css';
+
+/* Custom Trumbowyg input styles for ActiveAdmin */
+.trumbowyg-box {
+  margin: 0;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  border-color: rgb(209 213 219 / 1);
+}
+
+.trumbowyg-editor {
+  min-height: 200px;
+  padding: 0.75rem;
+}
+
+/* Dark mode support */
+.dark .trumbowyg-box {
+  border-color: rgb(75 85 99 / 1);
+}
+
+.dark .trumbowyg-button-pane {
+  border-color: rgb(75 85 99 / 1);
+  background-color: rgb(31 41 55 / 1);
+}
+
+.dark .trumbowyg-editor {
+  background-color: rgb(17 24 39 / 1);
+  color: rgb(243 244 246 / 1);
+}
+
+/* Fix button styles */
+.trumbowyg-button-pane button:hover {
+  background-color: rgb(243 244 246 / 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .trumbowyg-button-pane button:hover {
+    background-color: rgb(55 65 81 / 1);
+  }
+}
+
+/* Ensure icons are visible */
+.trumbowyg-button-pane button svg {
+  fill: currentColor !important;
+}

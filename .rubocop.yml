@@ -17,7 +17,7 @@ AllCops:
     - spec/dummy/**/*
     - vendor/**/*
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
 
 RSpec/ExampleLength:
   # default 5

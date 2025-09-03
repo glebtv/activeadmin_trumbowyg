@@ -7,41 +7,43 @@ loader = Zeitwerk::Loader.new
 loader.push_dir("#{__dir__}/page_objects")
 loader.setup
 
-ENV['RAILS_ENV'] = 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
-require File.expand_path('dummy/config/environment.rb', __dir__)
+require 'combustion'
 
-abort('The Rails environment is running in production mode!') if Rails.env.production?
+# Fix for FrozenError - initialize Combustion with proper configuration
+Combustion.path = 'spec/internal'
+Combustion.initialize!(:active_record, :action_controller, :action_view) do
+  config.load_defaults Rails::VERSION::STRING.to_f if Rails::VERSION::MAJOR >= 7
+end
 
 require 'rspec/rails'
 require 'capybara/rails'
+require 'capybara-playwright-driver'
+require 'database_cleaner/active_record'
 
 Dir[File.expand_path('support/**/*.rb', __dir__)].each { |f| require_relative f }
 
-# Checks for pending migrations and applies them before tests are run.
-# If you are not using ActiveRecord, you can remove these lines.
-begin
-  ActiveRecord::Migration.maintain_test_schema!
-rescue ActiveRecord::PendingMigrationError => e
-  puts e.to_s.strip
-  exit 1
+# Configure Capybara with Playwright for modern browser testing
+Capybara.register_driver :playwright do |app|
+  Capybara::Playwright::Driver.new(app,
+                                   browser_type: :chromium,
+                                   headless: ENV['HEADLESS'] != 'false')
 end
 
-RSpec.configure do |config|
-  if Gem::Version.new(Rails.version) >= Gem::Version.new('7.1')
-    config.fixture_paths = [Rails.root.join('spec/fixtures')]
-  else
-    config.fixture_path = Rails.root.join('spec/fixtures')
-  end
+Capybara.default_driver = :rack_test
+Capybara.javascript_driver = :playwright
+Capybara.default_max_wait_time = 5
 
+RSpec.configure do |config|
+  config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
 
-  config.use_transactional_fixtures = true
-  config.use_instantiated_fixtures = false
-  config.render_views = false
-
+  # Database cleaner setup
   config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+
     intro = ('-' * 80)
     intro << "\n"
     intro << "- Ruby:        #{RUBY_VERSION}\n"
@@ -51,4 +53,23 @@ RSpec.configure do |config|
 
     RSpec.configuration.reporter.message(intro)
   end
+
+  config.before do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, :js) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before do
+    DatabaseCleaner.start
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
+
+  # Include Capybara DSL in feature specs
+  config.include Capybara::DSL, type: :feature
 end

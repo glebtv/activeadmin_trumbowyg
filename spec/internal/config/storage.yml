@@ -1,0 +1,3 @@
+test:
+  service: Disk
+  root: /data/activeadmin_trumbowyg/tmp/storage

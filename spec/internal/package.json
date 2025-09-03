@@ -1,0 +1,30 @@
+{
+  "name": "internal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "copy:icons": "mkdir -p public/trumbowyg && cp node_modules/trumbowyg/dist/ui/icons.svg public/trumbowyg/icons.svg",
+    "build:js": "node esbuild.config.js",
+    "build:css:activeadmin": "node build_activeadmin_css.js",
+    "build:assets": "npm run copy:icons && npm run build:js && npm run build:css:activeadmin",
+    "build": "npm run build:assets",
+    "watch:js": "node esbuild.config.js --watch",
+    "watch": "npm run watch:js",
+    "start": "npm run watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@activeadmin/activeadmin": "^4.0.0-beta10",
+    "@rails/ujs": "^7.1.400",
+    "@rocket-sensei/activeadmin_trumbowyg": "file:../..",
+    "esbuild": "^0.24.2",
+    "jquery": "^3.7.1",
+    "trumbowyg": "^2.28.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

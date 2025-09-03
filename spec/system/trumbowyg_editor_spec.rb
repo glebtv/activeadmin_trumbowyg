@@ -3,23 +3,24 @@
 using StringCleanMultiline
 
 RSpec.describe 'Trumbowyg editor' do
-  let(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe', age: 30) }
-  let(:post) do
-    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', summary: '<p>Post summary</p>')
+  let!(:author) { Author.create!(email: 'some_email@example.com', name: 'John Doe') }
+  let!(:post) do
+    Post.create!(title: 'Test', author: author, description: '<p>Some content</p>', summary: '<p>Post summary</p>', body: '<p>Post body</p>')
   end
 
   let(:submit_button) { find('#post_submit_action [type="submit"]') }
 
-  context 'with a Trumbowyg editor' do
+  context 'with a Trumbowyg editor', :js do
     let(:edit_page) do
       path = edit_admin_post_path(post)
       Admin::Posts::EditPage.new(path: path)
     end
     let(:editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
-    let(:input_field) { find('#post_description[data-aa-trumbowyg]', visible: :hidden) }
+    let(:input_field) { find_by_id('post_description', class: 'trumbowyg-input', visible: :hidden) }
 
     before do
       edit_page.load
+      ensure_trumbowyg_loaded
     end
 
     it 'initializes the editor', :aggregate_failures do
@@ -34,12 +35,12 @@ RSpec.describe 'Trumbowyg editor' do
       editor << 'Some bold'
       editor.toggle_italic
       editor << 'Some italic'
-      editor.toggle_underline
-      editor << 'Some underline'
+      editor.toggle_strikethrough
+      editor << 'Some strikethrough'
 
       expect(editor.content).to eq <<~HTML.clean_multiline
-        <p>Some content</p>
-        <p>More content<strong>Some bold<em>Some italic<u>Some underline</u></em></strong></p>
+        <p><br></p>
+        <p>More content<strong>Some bold<em>Some italic<del>Some strikethrough</del></em></strong>Some content</p>
       HTML
     end
 
@@ -55,18 +56,19 @@ RSpec.describe 'Trumbowyg editor' do
     end
   end
 
-  context 'with 2 Trumbowyg editors' do
+  context 'with 2 Trumbowyg editors', :js do
     let(:edit_page) do
       path = edit_admin_post_path(post)
       Admin::Posts::EditPage.new(path: path)
     end
     let(:first_editor) { edit_page.lookup_editor(editor_container: '#post_description_input') }
     let(:second_editor) { edit_page.lookup_editor(editor_container: '#post_summary_input') }
-    let(:first_field) { find('#post_description[data-aa-trumbowyg]', visible: :hidden) }
-    let(:second_field) { find('#post_summary[data-aa-trumbowyg]', visible: :hidden) }
+    let(:first_field) { find_by_id('post_description', class: 'trumbowyg-input', visible: :hidden) }
+    let(:second_field) { find_by_id('post_summary', class: 'trumbowyg-input', visible: :hidden) }
 
     before do
       edit_page.load
+      ensure_trumbowyg_loaded
     end
 
     it 'updates some HTML content for 2 fields', :aggregate_failures do
@@ -93,7 +95,7 @@ RSpec.describe 'Trumbowyg editor' do
     end
   end
 
-  context 'with a Trumbowyg editor in a nested resource' do
+  context 'with a Trumbowyg editor in a nested resource', :js do
     let(:edit_page) do
       path = edit_admin_author_path(author)
       Admin::Authors::EditPage.new(path: path)
@@ -103,10 +105,12 @@ RSpec.describe 'Trumbowyg editor' do
     before do
       post
       edit_page.load
+      ensure_trumbowyg_loaded
     end
 
     it 'updates some HTML content of a new nested resource', :aggregate_failures do
       click_on 'Add New Post'
+      ensure_trumbowyg_loaded # Re-initialize for dynamically added fields
 
       first_editor = edit_page.lookup_editor(editor_container: '#author_posts_attributes_0_description_input')
       expect(first_editor.content).to eq('<p>Some content</p>')

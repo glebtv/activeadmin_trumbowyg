@@ -6,10 +6,10 @@ rescue LoadError
   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-APP_RAKEFILE = File.expand_path("spec/dummy/Rakefile", __dir__)
-load 'rails/tasks/engine.rake'
+APP_RAKEFILE = File.expand_path("spec/internal/Rakefile", __dir__)
+load 'rails/tasks/engine.rake' if File.exist?(APP_RAKEFILE)
 
-load 'rails/tasks/statistics.rake'
+# load 'rails/tasks/statistics.rake' # Commented out - causes issues with Rails 8
 
 require 'bundler/gem_tasks'
 

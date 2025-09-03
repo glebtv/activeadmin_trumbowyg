@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Trumbowyg overrides for ActiveAdmin */
+.trumbowyg-box {
+  @apply border border-gray-300 rounded-md m-0;
+}
+
+.trumbowyg-editor {
+  @apply min-h-[200px] p-3;
+}
+
+/* Dark mode support */
+.dark .trumbowyg-box {
+  @apply border-gray-600;
+}
+
+.dark .trumbowyg-button-pane {
+  @apply bg-gray-800 border-gray-600;
+}
+
+.dark .trumbowyg-editor {
+  @apply bg-gray-900 text-gray-100;
+}
+
+/* Fix button styles */
+.trumbowyg-button-pane button {
+  @apply hover:bg-gray-100;
+}
+
+.dark .trumbowyg-button-pane button {
+  @apply hover:bg-gray-700;
+}
+
+/* Ensure icons are visible */
+.trumbowyg-button-pane button svg {
+  fill: currentColor !important;
+}

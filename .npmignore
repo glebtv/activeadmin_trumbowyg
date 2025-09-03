@@ -1,0 +1,15 @@
+# Ignore everything except src/
+/*
+!/src/
+
+# But still ignore these everywhere
+*.gem
+*.log
+.DS_Store
+.ruby-version
+.ruby-gemset
+.rvmrc
+
+# Explicitly exclude vendor directory (CI installs gems here)
+vendor/
+node_modules/
